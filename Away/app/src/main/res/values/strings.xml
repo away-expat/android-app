@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Away</string>
+
+    <string name="connexion_title">Connection</string>
+    <string name="connexion_email">E-mail</string>
+    <string name="connexion_password">Password</string>
+    <string name="connexion_create_account">Create account</string>
+
+    <string name="wronglog">Wrong login</string>
+    <string name="wrongpwd">Wrong password</string>
+    <string name="required">Required field</string>
+    <string name="connect">You are connected</string>
+    <string name="subscribe">You are registered</string>
+    <string name="fail">Connection issue</string>
+    <string name="save">Modification done</string>
+</resources>

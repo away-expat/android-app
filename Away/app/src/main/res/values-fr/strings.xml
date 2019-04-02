@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Away</string>
+
+    <string name="connexion_title">Connexion</string>
+    <string name="connexion_email">E-mail</string>
+    <string name="connexion_password">Mot de passe</string>
+    <string name="connexion_create_account">Créer un compte</string>
+
+    <string name="wronglog">Mauvais e-mail</string>
+    <string name="wrongpwd">Mauvais mot de passe</string>
+    <string name="required">Ce champs est requis</string>
+    <string name="connect">Vous êtes connecté</string>
+    <string name="subscribe">Vous êtes bien inscrit</string>
+    <string name="fail">Problème de connexion</string>
+    <string name="save">Modification effectuée</string>
+</resources>
