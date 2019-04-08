@@ -2,12 +2,23 @@
     <string name="app_name">Away</string>
 
     <string name="connexion_title">Connexion</string>
-    <string name="connexion_email">E-mail</string>
-    <string name="connexion_password">Mot de passe</string>
     <string name="connexion_create_account">Créer un compte</string>
+    <string name="next">Suivant</string>
+    <string name="previous">Précédent</string>
 
-    <string name="wronglog">Mauvais e-mail</string>
-    <string name="wrongpwd">Mauvais mot de passe</string>
+    <string name="email">E-mail</string>
+    <string name="password">Mot de passe</string>
+    <string name="first_name">Prénom</string>
+    <string name="last_name">Nom</string>
+    <string name="birth_date">Date de naissance</string>
+    <string name="country_from">Pays d\'origine</string>
+
+    <string name="email_account">E-mail*</string>
+    <string name="password_account">Mot de passe*</string>
+    <string name="mandatory">* Obligatoire</string>
+
+    <string name="wrong_email">Mauvais e-mail</string>
+    <string name="wrong_pwd">Mauvais mot de passe</string>
     <string name="required">Ce champs est requis</string>
     <string name="connect">Vous êtes connecté</string>
     <string name="subscribe">Vous êtes bien inscrit</string>

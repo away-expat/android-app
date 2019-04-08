@@ -2,15 +2,29 @@
     <string name="app_name">Away</string>
 
     <string name="connexion_title">Connection</string>
-    <string name="connexion_email">E-mail</string>
-    <string name="connexion_password">Password</string>
     <string name="connexion_create_account">Create account</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 
-    <string name="wronglog">Wrong login</string>
-    <string name="wrongpwd">Wrong password</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="birth_date">Birth date</string>
+    <string name="country_from">Country of origin</string>
+
+    <string name="email_account">E-mail*</string>
+    <string name="password_account">Password*</string>
+    <string name="mandatory">* Mandatory</string>
+
+    <string name="wrong_email">Wrong e-mail</string>
+    <string name="wrong_pwd">Wrong password</string>
     <string name="required">Required field</string>
     <string name="connect">You are connected</string>
     <string name="subscribe">You are registered</string>
     <string name="fail">Connection issue</string>
     <string name="save">Modification done</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
