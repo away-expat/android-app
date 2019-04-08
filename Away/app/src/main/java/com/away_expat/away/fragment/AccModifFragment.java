@@ -40,6 +40,7 @@ public class AccModifFragment extends Fragment {
     }
 
     private void setCountrySpinner() {
+        //raw data to remove
         List<String> spinnerArray = new ArrayList<>();
         spinnerArray.add("France");
         spinnerArray.add("England");

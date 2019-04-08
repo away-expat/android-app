@@ -5,6 +5,7 @@
     <string name="connexion_create_account">Create account</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="create">Create</string>
 
     <string name="email">E-mail</string>
     <string name="password">Password</string>
@@ -24,7 +25,4 @@
     <string name="subscribe">You are registered</string>
     <string name="fail">Connection issue</string>
     <string name="save">Modification done</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

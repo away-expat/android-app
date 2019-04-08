@@ -1,6 +1,8 @@
 package com.away_expat.away.classes;
 
-public class Account {
+import java.io.Serializable;
+
+public class Account implements Serializable {
     private String email;
     private String password;
     private String firstname;

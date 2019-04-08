@@ -1,9 +1,8 @@
 package com.away_expat.away;
 
-import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,6 +18,7 @@ public class CreateAccountActivity extends FragmentActivity {
     private AccModifFragment accModifFrag;
     private AccCountryFragment accCountryFrag;
     private AccTagFragment accTagFrag;
+    private Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +60,7 @@ public class CreateAccountActivity extends FragmentActivity {
 
                     case 3:
                         step--;
+                        nextBtn.setText(R.string.next);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, accCountryFrag).commit();
                         break;
                 }
@@ -71,11 +72,9 @@ public class CreateAccountActivity extends FragmentActivity {
             public void onClick(View v) {
                 switch (step) {
                     case 1:
-                        Account acc = accModifFrag.checkAndGetAccountInfo();
-                        if (acc != null) {
-                            Log.d("Info", "Acc : " + acc.getEmail());
+                        account = accModifFrag.checkAndGetAccountInfo();
+                        if (account != null) {
                             step++;
-
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, accCountryFrag).commit();
                             return;
                         } else {
@@ -84,8 +83,23 @@ public class CreateAccountActivity extends FragmentActivity {
 
                     case 2:
                         step++;
-
+                        nextBtn.setText(R.string.create);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, accTagFrag).commit();
+                        break;
+
+                    case 3:
+                        step++;
+                        //create account
+                        //TODO
+
+                        //connect
+                        //TODO
+
+                        Intent home = new Intent(CreateAccountActivity.this, HomeActivity.class);
+                        home.putExtra("connected_user", account);
+
+                        startActivity(home);
+                        finish();
                         break;
                 }
             }

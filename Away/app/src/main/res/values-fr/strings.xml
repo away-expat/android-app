@@ -5,6 +5,7 @@
     <string name="connexion_create_account">Créer un compte</string>
     <string name="next">Suivant</string>
     <string name="previous">Précédent</string>
+    <string name="create">Créer</string>
 
     <string name="email">E-mail</string>
     <string name="password">Mot de passe</string>

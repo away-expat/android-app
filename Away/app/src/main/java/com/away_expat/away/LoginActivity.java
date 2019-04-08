@@ -7,10 +7,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.away_expat.away.classes.Account;
+
+import java.io.Serializable;
+
 public class LoginActivity extends AppCompatActivity {
 
     private Button loginBtn, createAccountBtn;
     private EditText emailET, passwordET;
+    private Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +51,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        Intent Home = new Intent(LoginActivity.this, HomeActivity.class);
-        startActivity(Home);
+        //check user & get the connected user
+        //TODO
+        account = new Account(emailET.getText().toString(), passwordET.getText().toString());
+
+        Intent home = new Intent(LoginActivity.this, HomeActivity.class);
+        home.putExtra("connected_user", account);
+        startActivity(home);
         finish();
     }
 
