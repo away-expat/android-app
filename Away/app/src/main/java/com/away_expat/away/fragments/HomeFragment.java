@@ -1,4 +1,4 @@
-package com.away_expat.away.fragment;
+package com.away_expat.away.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.away_expat.away.R;
+import com.away_expat.away.adapters.HomeListViewAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends ListFragment {
 
@@ -24,11 +28,14 @@ public class HomeFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final String[] items = {"1", "2", "3"};
-        final ArrayAdapter<String> aa = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, items);
+        final List<Integer> items = new ArrayList<>();
+        items.add(R.string.default_lorem);
+        items.add(R.string.default_lorem);
+        items.add(R.string.default_lorem);
+        final HomeListViewAdapter adapter = new HomeListViewAdapter(getActivity());
+        adapter.bind(items);
 
-        setListAdapter(aa);
+        setListAdapter(adapter);
     }
 
 }

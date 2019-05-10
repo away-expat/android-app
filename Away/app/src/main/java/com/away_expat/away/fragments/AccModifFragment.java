@@ -1,4 +1,4 @@
-package com.away_expat.away.fragment;
+package com.away_expat.away.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

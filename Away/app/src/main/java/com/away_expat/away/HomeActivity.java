@@ -1,15 +1,15 @@
 package com.away_expat.away;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 
 import com.away_expat.away.classes.Account;
-import com.away_expat.away.fragment.AccountFragment;
-import com.away_expat.away.fragment.CountryFragment;
-import com.away_expat.away.fragment.CreationFragment;
-import com.away_expat.away.fragment.HomeFragment;
-import com.away_expat.away.fragment.SearchFragment;
+import com.away_expat.away.fragments.AccountFragment;
+import com.away_expat.away.fragments.CountryFragment;
+import com.away_expat.away.fragments.CreationFragment;
+import com.away_expat.away.fragments.HomeFragment;
+import com.away_expat.away.fragments.SearchFragment;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 public class HomeActivity extends AppCompatActivity {
@@ -27,6 +27,11 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.custom_action_bar);
+
         bottom_bar = (BottomNavigationViewEx) findViewById(R.id.bottom_bar);
 
         connectedUser = (Account) getIntent().getSerializableExtra("connected_user");

@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.away_expat.away.classes.Account;
-import com.away_expat.away.fragment.AccCountryFragment;
-import com.away_expat.away.fragment.AccModifFragment;
-import com.away_expat.away.fragment.AccTagFragment;
+import com.away_expat.away.fragments.AccCountryFragment;
+import com.away_expat.away.fragments.AccModifFragment;
+import com.away_expat.away.fragments.AccTagFragment;
 
 public class CreateAccountActivity extends FragmentActivity {
 
