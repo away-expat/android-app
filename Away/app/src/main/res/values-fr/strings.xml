@@ -25,4 +25,9 @@
     <string name="subscribe">Vous êtes bien inscrit</string>
     <string name="fail">Problème de connexion</string>
     <string name="save">Modification effectuée</string>
+    <string name="home">Accueil</string>
+    <string name="event">Evenement</string>
+    <string name="account">Compte</string>
+    <string name="country">Pays</string>
+    <string name="search">Recherche</string>
 </resources>
