@@ -27,33 +27,25 @@ public class LoginActivity extends AppCompatActivity {
         emailET = (EditText) findViewById(R.id.login_input_email);
         passwordET = (EditText) findViewById(R.id.login_input_password);
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!emailET.getText().toString().equals("")) {
-                    if (!passwordET.getText().equals("")) {
-                        login();
-                    } else {
-                        passwordET.setError(getApplicationContext().getString(R.string.required));
-                    }
+        loginBtn.setOnClickListener(view -> {
+            if (!emailET.getText().toString().equals("")) {
+                if (!passwordET.getText().equals("")) {
+                    login();
                 } else {
-                    emailET.setError(getApplicationContext().getString(R.string.required));
+                    passwordET.setError(getApplicationContext().getString(R.string.required));
                 }
+            } else {
+                emailET.setError(getApplicationContext().getString(R.string.required));
             }
         });
 
-        createAccountBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createAccount();
-            }
-        });
+        createAccountBtn.setOnClickListener(v -> createAccount());
     }
 
     private void login() {
         //check user & get the connected user
         //TODO
-        account = new Account(emailET.getText().toString(), passwordET.getText().toString());
+        account = new Account("fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France");
 
         Intent home = new Intent(LoginActivity.this, HomeActivity.class);
         home.putExtra("connected_user", account);

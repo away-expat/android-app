@@ -1,6 +1,7 @@
 package com.away_expat.away;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
@@ -72,13 +73,14 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.homeFragmentMenu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, homeFragment).commit();
                 break;
-            case R.id.eventsFragmentMenu:
+            case R.id.searchFragmentMenu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, searchFragment).commit();
                 break;
             case R.id.createFragmentMenu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, creationFragment).commit();
                 break;
             case R.id.accountFragmentMenu:
+                accountFragment.setUser(connectedUser, true);
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, accountFragment).commit();
                 break;
             case R.id.countryFragmentMenu:
@@ -86,5 +88,14 @@ public class HomeActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    public void replaceFragment(Fragment fragment) {
+        if (fragment == null) {
+            return;
+        }
+        fragment.setArguments(getIntent().getExtras());
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, fragment).commit();
     }
 }

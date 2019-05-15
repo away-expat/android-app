@@ -5,18 +5,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.away_expat.away.classes.Event;
-import com.away_expat.away.views.ListViewHomeView;
+import com.away_expat.away.views.ListViewAccountView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeListViewAdapter extends BaseAdapter {
+public class AccountListViewAdapter extends BaseAdapter {
 
-    private List<Event> mModel = new ArrayList<>();
+    private List<Integer> mModel = new ArrayList<Integer>();
     private Context mContext;
 
-    public HomeListViewAdapter(Context context) {
+    public AccountListViewAdapter(Context context) {
         mContext = context;
     }
 
@@ -26,7 +25,7 @@ public class HomeListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public Event getItem(int position) {
+    public Integer getItem(int position) {
         return mModel.get(position);
     }
 
@@ -37,17 +36,17 @@ public class HomeListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ListViewHomeView v = null;
+        ListViewAccountView v = null;
         if (convertView == null) {
-            v = new ListViewHomeView(mContext);
+            v = new ListViewAccountView(mContext);
         } else {
-            v = (ListViewHomeView) convertView;
+            v = (ListViewAccountView) convertView;
         }
         v.bind(getItem(position));
         return v;
     }
 
-    public void bind(List<Event> model) {
+    public void bind(List<Integer> model) {
         mModel = model;
     }
 }

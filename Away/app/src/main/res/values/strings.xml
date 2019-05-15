@@ -11,6 +11,7 @@
     <string name="event">Event</string>
     <string name="account">Account</string>
     <string name="country">Country</string>
+    <string name="search">Search</string>
 
     <string name="email">E-mail</string>
     <string name="password">Password</string>
@@ -30,7 +31,11 @@
     <string name="subscribe">You are registered</string>
     <string name="fail">Connection issue</string>
     <string name="save">Modification done</string>
+    <string name="update">Update</string>
+    <string name="friends">Friends</string>
+    <string name="event_passed">Event passed :</string>
 
-    <string name="search">Search</string>
     <string name="default_lorem">Lorem ipsum dolor sit amet, tortor vestibulum facilisi risus in, phasellus wisi donec in tempus adipisci, diam vitae rutrum viverra in luctus, adipiscing erat non mollis nunc nam nulla. Justo in. Dui sem aliquam nulla vitae nec fringilla. Velit mauris vestibulum eget, vestibulum maecenas, sed pede etiam cras porta pharetra nullam, donec dui integer. Malesuada laoreet lacus interdum, suspendisse erat nec non blandit mauris. Suscipit molestie. Maecenas lorem pulvinar elementum semper quisque, integer ac pede dignissim metus venenatis, gravida mauris donec lorem faucibus orci, commodo nam convallis platea accumsan morbi.</string>
+    <string name="little_lorem">Lorem ipsum dolor sit amet, tortor vestibulum facilisi risus in, phasellus wisi donec in tempus adipisci, diam vitae rutrum viverra in luctus, adipiscing erat non mollis nunc nam nulla. </string>
+
 </resources>

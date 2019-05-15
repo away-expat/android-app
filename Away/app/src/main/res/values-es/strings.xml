@@ -30,4 +30,7 @@
     <string name="account">Cuenta</string>
     <string name="country">País</string>
     <string name="search">Búsqueda</string>
+    <string name="update">Actualizar</string>
+    <string name="friends">Amigos</string>
+    <string name="event_passed">Eventos pasados :</string>
 </resources>
