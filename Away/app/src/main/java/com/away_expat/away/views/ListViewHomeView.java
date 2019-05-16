@@ -1,14 +1,11 @@
 package com.away_expat.away.views;
 
 import android.content.Context;
-import android.renderscript.RenderScript;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.away_expat.away.R;
 import com.away_expat.away.classes.Event;

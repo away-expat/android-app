@@ -58,7 +58,7 @@
         android:layout_marginTop="365dp"
         android:layout_marginEnd="80dp"
         android:layout_marginRight="80dp"
-        android:text="Button"
+        android:text="Facebook"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,7 +69,7 @@
         android:layout_marginStart="80dp"
         android:layout_marginLeft="80dp"
         android:layout_marginTop="365dp"
-        android:text="Button"
+        android:text="Google"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

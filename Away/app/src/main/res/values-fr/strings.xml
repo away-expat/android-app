@@ -33,4 +33,8 @@
     <string name="update">Modifier</string>
     <string name="friends">Amis</string>
     <string name="event_passed">Evenements passés :</string>
+    <string name="event_participants">Participant(s) :</string>
+    <string name="join">Rejoindre</string>
+    <string name="invite">Inviter</string>
+    <string name="by">Par :</string>
 </resources>

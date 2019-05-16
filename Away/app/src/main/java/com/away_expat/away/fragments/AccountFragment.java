@@ -74,7 +74,7 @@ public class AccountFragment extends ListFragment {
     }
 
     private void followUser() {
-
+        //TODO
     }
 
     public void setUser(Account user, boolean isUserAcc) {
