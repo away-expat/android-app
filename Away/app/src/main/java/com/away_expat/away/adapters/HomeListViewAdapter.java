@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.away_expat.away.classes.Event;
+import com.away_expat.away.classes.User;
 import com.away_expat.away.views.ListViewHomeView;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class HomeListViewAdapter extends BaseAdapter {
 
     private List<Event> mModel = new ArrayList<>();
     private Context mContext;
+    private User connectedUser;
 
     public HomeListViewAdapter(Context context) {
         mContext = context;
@@ -43,11 +45,12 @@ public class HomeListViewAdapter extends BaseAdapter {
         } else {
             v = (ListViewHomeView) convertView;
         }
-        v.bind(getItem(position));
+        v.bind(connectedUser, getItem(position));
         return v;
     }
 
-    public void bind(List<Event> model) {
+    public void bind(User connectedUser, List<Event> model) {
+        this.connectedUser = connectedUser;
         mModel = model;
     }
 }

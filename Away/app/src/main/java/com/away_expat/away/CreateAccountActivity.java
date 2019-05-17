@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.away_expat.away.classes.Account;
+import com.away_expat.away.classes.User;
 import com.away_expat.away.fragments.AccCountryFragment;
 import com.away_expat.away.fragments.AccModifFragment;
 import com.away_expat.away.fragments.AccTagFragment;
@@ -18,7 +18,7 @@ public class CreateAccountActivity extends FragmentActivity {
     private AccModifFragment accModifFrag;
     private AccCountryFragment accCountryFrag;
     private AccTagFragment accTagFrag;
-    private Account account;
+    private User account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

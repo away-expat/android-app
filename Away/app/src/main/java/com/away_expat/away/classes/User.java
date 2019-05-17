@@ -2,7 +2,8 @@ package com.away_expat.away.classes;
 
 import java.io.Serializable;
 
-public class Account implements Serializable {
+public class User implements Serializable {
+    private String id;
     private String email;
     private String password;
     private String firstname;
@@ -10,18 +11,27 @@ public class Account implements Serializable {
     private String birthdate;
     private String country;
 
-    public  Account(String email, String password) {
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public Account(String email, String password, String firstname, String lastname, String birthdate, String country) {
+    public User(String id, String email, String password, String firstname, String lastname, String birthdate, String country) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthdate = birthdate;
         this.country = country;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEmail() {

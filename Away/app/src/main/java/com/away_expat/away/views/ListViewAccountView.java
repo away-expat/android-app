@@ -6,9 +6,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.away_expat.away.R;
+import com.away_expat.away.classes.Event;
 
 public class ListViewAccountView extends LinearLayout {
-    private TextView mTextView;
+    private Event event;
+    private TextView eventNameTextView, eventDateTextView;
 
     public ListViewAccountView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -27,10 +29,14 @@ public class ListViewAccountView extends LinearLayout {
 
     private void init() {
         inflate(getContext(), R.layout.listview_account, this);
-        mTextView = (TextView) findViewById(R.id.textView);
+        eventNameTextView = (TextView) findViewById(R.id.account_event_title);
+        eventDateTextView = (TextView) findViewById(R.id.account_event_date);
     }
 
-    public void bind(int text) {
-        mTextView.setText(getResources().getString(text));
+    public void bind(Event event) {
+        this.event = event;
+
+        eventNameTextView.setText(event.getActivityName());
+        eventDateTextView.setText(event.getDate().toString());
     }
 }

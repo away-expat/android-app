@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.away_expat.away.R;
-import com.away_expat.away.classes.Account;
+import com.away_expat.away.classes.User;
 
 public class ListViewUserView extends LinearLayout {
     private TextView mTextView;
@@ -31,7 +31,7 @@ public class ListViewUserView extends LinearLayout {
         mTextView = (TextView) findViewById(R.id.userlist_username);
     }
 
-    public void bind(Account user) {
+    public void bind(User user) {
         mTextView.setText(user.getFirstname()+" "+user.getLastname());
     }
 }

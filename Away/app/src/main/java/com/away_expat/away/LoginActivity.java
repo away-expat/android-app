@@ -3,19 +3,16 @@ package com.away_expat.away;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.away_expat.away.classes.Account;
-
-import java.io.Serializable;
+import com.away_expat.away.classes.User;
 
 public class LoginActivity extends AppCompatActivity {
 
     private Button loginBtn, createAccountBtn;
     private EditText emailET, passwordET;
-    private Account account;
+    private User account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private void login() {
         //check user & get the connected user
         //TODO
-        account = new Account("fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France");
+        account = new User("000", "fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France");
 
         Intent home = new Intent(LoginActivity.this, HomeActivity.class);
         home.putExtra("connected_user", account);

@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
-import com.away_expat.away.classes.Account;
+import com.away_expat.away.classes.User;
 import com.away_expat.away.fragments.AccountFragment;
 import com.away_expat.away.fragments.CountryFragment;
 import com.away_expat.away.fragments.CreationFragment;
@@ -15,7 +15,7 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private Account connectedUser;
+    private User connectedUser;
     private BottomNavigationViewEx bottom_bar;
 
     private HomeFragment homeFragment;
@@ -35,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
 
         bottom_bar = (BottomNavigationViewEx) findViewById(R.id.bottom_bar);
 
-        connectedUser = (Account) getIntent().getSerializableExtra("connected_user");
+        connectedUser = (User) getIntent().getSerializableExtra("connected_user");
 
         //home
         homeFragment = new HomeFragment();

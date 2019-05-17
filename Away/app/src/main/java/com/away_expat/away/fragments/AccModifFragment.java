@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.away_expat.away.R;
-import com.away_expat.away.classes.Account;
+import com.away_expat.away.classes.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,12 +55,12 @@ public class AccModifFragment extends Fragment {
         countryET.setAdapter(adapter);
     }
 
-    public Account checkAndGetAccountInfo () {
-        Account acc = null;
+    public User checkAndGetAccountInfo () {
+        User acc = null;
 
         if (!emailET.getText().toString().equals("")) {
             if (!passwordET.getText().toString().equals("")) {
-                acc = new Account(emailET.getText().toString(), passwordET.getText().toString());
+                acc = new User(emailET.getText().toString(), passwordET.getText().toString());
             } else {
                 passwordET.setError(getActivity().getResources().getString(R.string.required));
                 return null;

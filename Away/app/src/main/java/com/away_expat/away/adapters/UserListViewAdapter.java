@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.away_expat.away.classes.Account;
+import com.away_expat.away.classes.User;
 import com.away_expat.away.views.ListViewUserView;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class UserListViewAdapter extends BaseAdapter {
 
-    private List<Account> mModel = new ArrayList<Account>();
+    private List<User> mModel = new ArrayList<User>();
     private Context mContext;
 
     public UserListViewAdapter(Context context) {
@@ -26,7 +26,7 @@ public class UserListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public Account getItem(int position) {
+    public User getItem(int position) {
         return mModel.get(position);
     }
 
@@ -47,7 +47,7 @@ public class UserListViewAdapter extends BaseAdapter {
         return v;
     }
 
-    public void bind(List<Account> model) {
+    public void bind(List<User> model) {
         mModel = model;
     }
 }
