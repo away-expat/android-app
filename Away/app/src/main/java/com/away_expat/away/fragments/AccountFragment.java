@@ -52,7 +52,6 @@ public class AccountFragment extends ListFragment {
             });
         }
 
-
         return view;
     }
 

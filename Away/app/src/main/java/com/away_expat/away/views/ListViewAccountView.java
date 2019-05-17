@@ -1,14 +1,14 @@
 package com.away_expat.away.views;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.away_expat.away.R;
 import com.away_expat.away.classes.Event;
 
-public class ListViewAccountView extends LinearLayout {
+public class ListViewAccountView extends ConstraintLayout {
     private Event event;
     private TextView eventNameTextView, eventDateTextView;
 

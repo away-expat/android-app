@@ -29,6 +29,7 @@
     <string name="event">Evenement</string>
     <string name="account">Compte</string>
     <string name="country">Pays</string>
+    <string name="country_text">Où voulez vous aller ?</string>
     <string name="search">Recherche</string>
     <string name="update">Modifier</string>
     <string name="friends">Amis</string>

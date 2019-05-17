@@ -1,14 +1,14 @@
 package com.away_expat.away.views;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.away_expat.away.R;
 import com.away_expat.away.classes.User;
 
-public class ListViewUserView extends LinearLayout {
+public class ListViewUserView extends ConstraintLayout {
     private TextView mTextView;
 
     public ListViewUserView(Context context, AttributeSet attrs, int defStyle) {
