@@ -6,17 +6,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.away_expat.away.classes.Event;
-import com.away_expat.away.views.ListViewAccountView;
+import com.away_expat.away.views.ListViewEventView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountListViewAdapter extends BaseAdapter {
+public class EventListViewAdapter extends BaseAdapter {
 
     private List<Event> mModel = new ArrayList<>();
     private Context mContext;
 
-    public AccountListViewAdapter(Context context) {
+    public EventListViewAdapter(Context context) {
         mContext = context;
     }
 
@@ -37,11 +37,11 @@ public class AccountListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ListViewAccountView v = null;
+        ListViewEventView v = null;
         if (convertView == null) {
-            v = new ListViewAccountView(mContext);
+            v = new ListViewEventView(mContext);
         } else {
-            v = (ListViewAccountView) convertView;
+            v = (ListViewEventView) convertView;
         }
         v.bind(getItem(position));
         return v;

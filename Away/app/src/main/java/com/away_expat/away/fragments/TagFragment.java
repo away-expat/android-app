@@ -8,15 +8,16 @@ import android.view.ViewGroup;
 
 import com.away_expat.away.R;
 
-public class AccCountryFragment extends Fragment {
+public class TagFragment extends Fragment {
 
-    public AccCountryFragment() {
+    public TagFragment() {
+        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_acc_country, container, false);
+        return inflater.inflate(R.layout.fragment_acc_tag, container, false);
     }
 
 }

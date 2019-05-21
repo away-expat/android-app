@@ -1,11 +1,15 @@
 package com.away_expat.away.fragments;
 
+import android.content.Intent;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,38 +24,40 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AccountFragment extends ListFragment {
+public class ActivityFragment extends ListFragment {
 
-    private TextView nameTextview;
-    private Button actionBtn;
+    private TextView activity_name, activity_description, activity_address;
     private EventListViewAdapter adapter;
+    private User connectedUser;
+    private Activity activity;
 
-    private User user;
-    private boolean isUserAccount;
-
-    public AccountFragment() {
-        // Required empty public constructor
+    public ActivityFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_account, container, false);
-        actionBtn = (Button) view.findViewById(R.id.account_btn_action);
-        nameTextview = (TextView) view.findViewById(R.id.account_textview_username);
+        View view = inflater.inflate(R.layout.fragment_activity, container, false);
+        connectedUser = (User) getActivity().getIntent().getSerializableExtra("connected_user");
 
-        nameTextview.setText(user.getFirstname()+" "+user.getLastname());
+        activity_name = (TextView) view.findViewById(R.id.activity_name);
+        activity_name.setText(activity.getName());
 
-        if (isUserAccount) {
-            actionBtn.setText(R.string.update);
-            actionBtn.setOnClickListener(v -> {
-                updateAccount();
-            });
-        } else {
-            actionBtn.setText("Follow");
-            actionBtn.setOnClickListener(v -> {
-                followUser();
-            });
-        }
+        activity_description = (TextView) view.findViewById(R.id.activity_description);
+        activity_description.setText(activity.getDescription());
+
+        activity_address = (TextView) view.findViewById(R.id.activity_address);
+        activity_address.setText(activity.getAddress());
+        activity_address.setPaintFlags(activity_address.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        activity_address.setTextColor(ContextCompat.getColor(getContext(), R.color.colorMenu));
+
+        activity_address.setOnClickListener(
+                v -> new Handler().postDelayed(() -> {
+                    Uri gmmIntentUri = Uri.parse("geo:0,0?q="+activity.getAddress());
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    startActivity(mapIntent);
+                }, 1000)
+        );
 
         return view;
     }
@@ -60,7 +66,7 @@ public class AccountFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Activity louvre = new Activity("Louvre", "Musée du Louvre. 75058 Paris", "Louvre possède une longue histoire de conservation artistique et historique, depuis l'Ancien Régime jusqu'à nos jours");
+        Activity louvre = new Activity("Louvre", "Musée du Louvre. 75058 Paris","Louvre possède une longue histoire de conservation artistique et historique, depuis l'Ancien Régime jusqu'à nos jours");
 
         List<User> participants = new ArrayList<>();
         //participants.add(new User("fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"));
@@ -77,19 +83,6 @@ public class AccountFragment extends ListFragment {
         setListAdapter(adapter);
     }
 
-    private void updateAccount() {
-        //TODO
-    }
-
-    private void followUser() {
-        //TODO
-    }
-
-    public void setUser(User user, boolean isUserAcc) {
-        this.user = user;
-        this.isUserAccount = isUserAcc;
-    }
-
     @Override
     public void onListItemClick(ListView l, View v, int pos, long id) {
         super.onListItemClick(l, v, pos, id);
@@ -99,4 +92,9 @@ public class AccountFragment extends ListFragment {
 
         ((HomeActivity) getActivity()).replaceFragment(fragment);
     }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
 }

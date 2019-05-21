@@ -5,34 +5,44 @@ import java.util.List;
 
 public class Event {
 
-    private String activityName;
-    private String activityDescription;
+    private String name;
+    private String description;
     private Date date;
     private User creator;
+    private Activity activity;
     private List<User> participant;
 
-    public Event(String activityName, String activityDescription, Date date, User creator, List<User> participant) {
-        this.activityName = activityName;
-        this.activityDescription = activityDescription;
+    public Event(String name, String description, Date date, User creator, Activity activity, List<User> participant) {
+        this.name = name;
+        this.description = description;
         this.date = date;
         this.creator = creator;
+        this.activity = activity;
         this.participant = participant;
     }
 
-    public String getActivityName() {
-        return activityName;
+    public String getName() {
+        return name;
     }
 
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getActivityDescription() {
-        return activityDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setActivityDescription(String activityDescription) {
-        this.activityDescription = activityDescription;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     public Date getDate() {

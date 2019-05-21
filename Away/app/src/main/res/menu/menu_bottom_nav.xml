@@ -16,7 +16,7 @@
 
     <item
         android:id="@+id/countryFragmentMenu"
-        android:icon="@drawable/flag"
+        android:icon="@drawable/earth"
         android:title="@string/country"/>
 
     <item

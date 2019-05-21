@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        //check user & get the connected user
+        //check account & get the connected account
         //TODO
         account = new User("000", "fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France");
 

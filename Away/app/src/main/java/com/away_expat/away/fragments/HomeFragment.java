@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.HomeListViewAdapter;
+import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.classes.Event;
 
@@ -35,19 +36,22 @@ public class HomeFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        Activity louvre = new Activity("Louvre", "Musée du Louvre. 75058 Paris","Louvre possède une longue histoire de conservation artistique et historique, depuis l'Ancien Régime jusqu'à nos jours");
+
         List<User> participants = new ArrayList<>();
         //participants.add(new User("fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"));
         participants.add(new User("001","testtest@test.com", "******", "test", "test", "01/01/1111", "USA"));
         participants.add(new User("002","helloworld@yahou.com", "*****", "Hello", "World", "00/00/0000", "Espana"));
 
         final List<Event> items = new ArrayList<>();
-        items.add(new Event("Super Cool", "Ptite aprem chill au vre-lou. On va faire le tour du baille, mater la Joconde et manger un pti domac des mifas. Si tu kiff la vibes rejoint nous rouilla.", new Date(), new User("000","fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"), participants));
-        items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User("00", "testtest@test.com", "******", "test", "test", "01/01/1111", "USA"), participants));
+        items.add(new Event("Super Cool", "Ptite aprem chill au vre-lou. On va faire le tour du baille, mater la Joconde et manger un pti domac des mifas. Si tu kiff la vibes rejoint nous rouilla.", new Date(), new User("000","fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"), louvre, participants));
+        items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User("00", "testtest@test.com", "******", "test", "test", "01/01/1111", "USA"), louvre, participants));
 
         List<User> p = new ArrayList<>();
         p.add(connectedUser);
         p.add(new User("001","testtest@test.com", "******", "test", "test", "01/01/1111", "USA"));
-        items.add(new Event("Ahwa Cool", getContext().getString(R.string.little_lorem), new Date(), new User("01","helloworld@yahou.com", "*****", "Hello", "World", "00/00/0000", "Espana"), p));
+        items.add(new Event("Ahwa Cool", getContext().getString(R.string.little_lorem), new Date(), new User("01","helloworld@yahou.com", "*****", "Hello", "World", "00/00/0000", "Espana"), louvre, p));
 
         adapter = new HomeListViewAdapter(getActivity());
         adapter.bind(connectedUser, items);

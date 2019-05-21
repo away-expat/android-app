@@ -3,7 +3,6 @@ package com.away_expat.away.views;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,7 +47,7 @@ public class ListViewHomeView extends ConstraintLayout {
         this.connectedUser = connectedUser;
         this.event = event;
 
-        activityNameTextView.setText(event.getActivityName());
+        activityNameTextView.setText(event.getName());
 
         for (User u : event.getParticipant()) {
             if (u.getId().equals(connectedUser.getId())) {

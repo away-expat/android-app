@@ -15,12 +15,12 @@ import com.away_expat.away.classes.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccModifFragment extends Fragment {
+public class ModifFragment extends Fragment {
 
     private EditText emailET, passwordET, firstnameET, lastnameET, birthdateET;
     private Spinner countryET;
 
-    public AccModifFragment() {
+    public ModifFragment() {
     }
 
     @Override

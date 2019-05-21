@@ -42,5 +42,7 @@
     <string name="little_lorem">Lorem ipsum dolor sit amet, tortor vestibulum facilisi risus in, phasellus wisi donec in tempus adipisci, diam vitae rutrum viverra in luctus, adipiscing erat non mollis nunc nam nulla. </string>
     <string name="by">By :</string>
     <string name="country_text">Where want to go you?</string>
+    <string name="activity">Activity</string>
+    <string name="date">Date</string>
 
 </resources>

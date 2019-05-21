@@ -7,17 +7,17 @@ import android.view.View;
 import android.widget.Button;
 
 import com.away_expat.away.classes.User;
-import com.away_expat.away.fragments.AccCountryFragment;
-import com.away_expat.away.fragments.AccModifFragment;
-import com.away_expat.away.fragments.AccTagFragment;
+import com.away_expat.away.fragments.ModifFragment;
+import com.away_expat.away.fragments.TagFragment;
+import com.away_expat.away.fragments.CountryFragment;
 
 public class CreateAccountActivity extends FragmentActivity {
 
     private Button previousBtn, nextBtn;
     private int step;
-    private AccModifFragment accModifFrag;
-    private AccCountryFragment accCountryFrag;
-    private AccTagFragment accTagFrag;
+    private ModifFragment accModifFrag;
+    private CountryFragment accCountryFrag;
+    private TagFragment accTagFrag;
     private User account;
 
     @Override
@@ -31,14 +31,14 @@ public class CreateAccountActivity extends FragmentActivity {
                 return;
             }
 
-            accModifFrag = new AccModifFragment();
+            accModifFrag = new ModifFragment();
             accModifFrag.setArguments(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, accModifFrag).commit();
 
-            accCountryFrag = new AccCountryFragment();
+            accCountryFrag = new CountryFragment();
             accCountryFrag.setArguments(getIntent().getExtras());
 
-            accTagFrag = new AccTagFragment();
+            accTagFrag = new TagFragment();
             accTagFrag.setArguments(getIntent().getExtras());
         }
 

@@ -38,4 +38,6 @@
     <string name="join">Rejoindre</string>
     <string name="invite">Inviter</string>
     <string name="by">Par :</string>
+    <string name="activity">Activity</string>
+    <string name="date">Date</string>
 </resources>

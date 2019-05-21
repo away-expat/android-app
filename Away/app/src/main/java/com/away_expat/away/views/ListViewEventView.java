@@ -8,21 +8,21 @@ import android.widget.TextView;
 import com.away_expat.away.R;
 import com.away_expat.away.classes.Event;
 
-public class ListViewAccountView extends ConstraintLayout {
+public class ListViewEventView extends ConstraintLayout {
     private Event event;
     private TextView eventNameTextView, eventDateTextView;
 
-    public ListViewAccountView(Context context, AttributeSet attrs, int defStyle) {
+    public ListViewEventView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
 
-    public ListViewAccountView(Context context, AttributeSet attrs) {
+    public ListViewEventView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ListViewAccountView(Context context) {
+    public ListViewEventView(Context context) {
         super(context);
         init();
     }
@@ -36,7 +36,7 @@ public class ListViewAccountView extends ConstraintLayout {
     public void bind(Event event) {
         this.event = event;
 
-        eventNameTextView.setText(event.getActivityName());
+        eventNameTextView.setText(event.getName());
         eventDateTextView.setText(event.getDate().toString());
     }
 }
