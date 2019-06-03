@@ -41,7 +41,6 @@ public class EventFragment extends ListFragment {
         activityNameTextview = (TextView) view.findViewById(R.id.event_activity);
         activityNameTextview.setText(event.getActivity().getName());
         activityNameTextview.setPaintFlags(activityNameTextview.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        activityNameTextview.setTextColor(ContextCompat.getColor(getContext(), R.color.colorMenu));
         activityNameTextview.setOnClickListener(v -> openActivityFragment());
 
         eventDateTextview = (TextView) view.findViewById(R.id.event_date);

@@ -5,12 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.away_expat.away.classes.User;
 
 public class LoginActivity extends AppCompatActivity {
 
     private Button loginBtn, createAccountBtn;
+    private TextView createAccountTV;
     private EditText emailET, passwordET;
     private User account;
 
@@ -20,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         loginBtn = (Button)findViewById(R.id.login_btn);
-        createAccountBtn = (Button)findViewById(R.id.login_create_btn);
+        createAccountTV = (TextView)findViewById(R.id.login_create);
         emailET = (EditText) findViewById(R.id.login_input_email);
         passwordET = (EditText) findViewById(R.id.login_input_password);
 
@@ -36,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        createAccountBtn.setOnClickListener(v -> createAccount());
+        createAccountTV.setOnClickListener(v -> createAccount());
     }
 
     private void login() {

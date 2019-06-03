@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,7 +27,8 @@ import java.util.List;
 
 public class ActivityFragment extends ListFragment {
 
-    private TextView activity_name, activity_description, activity_address;
+    private TextView activityName, activityDescription, activityAddress;
+    private ImageView activityImage;
     private EventListViewAdapter adapter;
     private User connectedUser;
     private Activity activity;
@@ -39,18 +41,17 @@ public class ActivityFragment extends ListFragment {
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
         connectedUser = (User) getActivity().getIntent().getSerializableExtra("connected_user");
 
-        activity_name = (TextView) view.findViewById(R.id.activity_name);
-        activity_name.setText(activity.getName());
+        activityName = (TextView) view.findViewById(R.id.activity_name);
+        activityName.setText(activity.getName());
 
-        activity_description = (TextView) view.findViewById(R.id.activity_description);
-        activity_description.setText(activity.getDescription());
+        activityDescription = (TextView) view.findViewById(R.id.activity_description);
+        activityDescription.setText(activity.getDescription());
 
-        activity_address = (TextView) view.findViewById(R.id.activity_address);
-        activity_address.setText(activity.getAddress());
-        activity_address.setPaintFlags(activity_address.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        activity_address.setTextColor(ContextCompat.getColor(getContext(), R.color.colorMenu));
+        activityAddress = (TextView) view.findViewById(R.id.activity_address);
+        activityAddress.setText(activity.getAddress());
+        activityAddress.setPaintFlags(activityAddress.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        activity_address.setOnClickListener(
+        activityAddress.setOnClickListener(
                 v -> new Handler().postDelayed(() -> {
                     Uri gmmIntentUri = Uri.parse("geo:0,0?q="+activity.getAddress());
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
@@ -70,12 +71,12 @@ public class ActivityFragment extends ListFragment {
 
         List<User> participants = new ArrayList<>();
         //participants.add(new User("fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"));
-        participants.add(new User("001","testtest@test.com", "******", "test", "test", "01/01/1111", "USA"));
+        participants.add(new User("001","testtest@input.com", "******", "input", "input", "01/01/1111", "USA"));
         participants.add(new User("002","helloworld@yahou.com", "*****", "Hello", "World", "00/00/0000", "Espana"));
 
         final List<Event> items = new ArrayList<>();
         items.add(new Event("Super Cool", "Ptite aprem chill au vre-lou. On va faire le tour du baille, mater la Joconde et manger un pti domac des mifas. Si tu kiff la vibes rejoint nous rouilla.", new Date(), new User("000","fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"), louvre, participants));
-        items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User("00", "testtest@test.com", "******", "test", "test", "01/01/1111", "USA"), louvre, participants));
+        items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User("00", "testtest@input.com", "******", "input", "input", "01/01/1111", "USA"), louvre, participants));
 
         adapter = new EventListViewAdapter(getActivity());
         adapter.bind(items);
