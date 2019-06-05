@@ -15,8 +15,8 @@
         android:title="@string/create"/>
 
     <item
-        android:id="@+id/countryFragmentMenu"
-        android:icon="@drawable/earth"
+        android:id="@+id/countryInfoFragmentMenu"
+        android:icon="@drawable/info"
         android:title="@string/country"/>
 
     <item

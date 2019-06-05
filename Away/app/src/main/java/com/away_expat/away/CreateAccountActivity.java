@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.away_expat.away.classes.User;
-import com.away_expat.away.fragments.ModifFragment;
+import com.away_expat.away.fragments.AccUpdateFragment;
 import com.away_expat.away.fragments.TagFragment;
 import com.away_expat.away.fragments.CountryFragment;
 
@@ -15,7 +15,7 @@ public class CreateAccountActivity extends FragmentActivity {
 
     private Button previousBtn, nextBtn;
     private int step;
-    private ModifFragment accModifFrag;
+    private AccUpdateFragment accModifFrag;
     private CountryFragment accCountryFrag;
     private TagFragment accTagFrag;
     private User account;
@@ -31,7 +31,7 @@ public class CreateAccountActivity extends FragmentActivity {
                 return;
             }
 
-            accModifFrag = new ModifFragment();
+            accModifFrag = new AccUpdateFragment();
             accModifFrag.setArguments(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, accModifFrag).commit();
 

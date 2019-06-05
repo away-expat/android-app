@@ -6,6 +6,7 @@
     <string name="next">Suivant</string>
     <string name="previous">Précédent</string>
     <string name="create">Créer</string>
+    <string name="save">Enregistrer</string>
 
     <string name="email">E-mail</string>
     <string name="password">Mot de passe</string>
@@ -24,11 +25,12 @@
     <string name="connect">Vous êtes connecté</string>
     <string name="subscribe">Vous êtes bien inscrit</string>
     <string name="fail">Problème de connexion</string>
-    <string name="save">Modification effectuée</string>
+    <string name="saved">Modification effectuée</string>
     <string name="home">Accueil</string>
     <string name="event">Evenement</string>
     <string name="account">Compte</string>
     <string name="country">Pays</string>
+    <string name="country_info">Information du pays</string>
     <string name="country_text">Où voulez vous aller ?</string>
     <string name="search">Recherche</string>
     <string name="update">Modifier</string>

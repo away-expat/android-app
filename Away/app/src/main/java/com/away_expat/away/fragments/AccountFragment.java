@@ -78,7 +78,9 @@ public class AccountFragment extends ListFragment {
     }
 
     private void updateAccount() {
-        //TODO
+        UpdateFragment fragment = new UpdateFragment();
+        ((HomeActivity) getActivity()).replaceFragment(fragment);
+        fragment.setUser(user);
     }
 
     private void followUser() {

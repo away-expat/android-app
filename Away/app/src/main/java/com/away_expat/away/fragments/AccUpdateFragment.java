@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -15,17 +16,19 @@ import com.away_expat.away.classes.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModifFragment extends Fragment {
+public class AccUpdateFragment extends Fragment {
 
     private EditText emailET, passwordET, firstnameET, lastnameET, birthdateET;
     private Spinner countryET;
+    private Button disconnectBtn;
+    private User user = null;
 
-    public ModifFragment() {
+    public AccUpdateFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_acc_modif, container, false);
+        View view = inflater.inflate(R.layout.fragment_update_user, container, false);
         emailET = (EditText) view.findViewById(R.id.account_input_email);
         passwordET = (EditText) view.findViewById(R.id.account_input_password);
         firstnameET = (EditText) view.findViewById(R.id.account_input_firstname);
@@ -34,6 +37,19 @@ public class ModifFragment extends Fragment {
         countryET = (Spinner) view.findViewById(R.id.account_input_country);
 
         setCountrySpinner();
+
+        disconnectBtn = (Button) view.findViewById(R.id.disconnectionBtn);
+
+        if (user != null) {
+            emailET.setText(user.getEmail());
+            passwordET.setText(user.getPassword());
+            firstnameET.setText(user.getFirstname());
+            lastnameET.setText(user.getLastname());
+            
+            disconnectBtn.setVisibility(View.VISIBLE);
+        } else {
+            disconnectBtn.setVisibility(View.INVISIBLE);
+        }
 
         // Inflate the layout for this fragment
         return view;
@@ -71,5 +87,9 @@ public class ModifFragment extends Fragment {
         }
 
         return acc;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
