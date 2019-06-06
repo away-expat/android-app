@@ -40,6 +40,9 @@
     <string name="invite">Invitar</string>
     <string name="by">Por :</string>
     <string name="country_text">¿Adonde quieres ir?</string>
+    <string name="search_text">¿Qué busca usted?</string>
     <string name="activity">Activity</string>
     <string name="date">Date</string>
+    <string name="add_tag">Añadir a los tags</string>
+    <string name="remove_tag">Retirar de tags</string>
 </resources>

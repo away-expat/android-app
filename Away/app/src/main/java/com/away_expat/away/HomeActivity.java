@@ -88,6 +88,7 @@ public class HomeActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, homeFragment).commit();
                 break;
             case R.id.searchFragmentMenu:
+                searchFragment.setUser(connectedUser);
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, searchFragment).commit();
                 break;
             case R.id.createFragmentMenu:

@@ -11,13 +11,13 @@
         android:title="@string/search"/>
     <item
         android:id="@+id/createFragmentMenu"
-        android:icon="@drawable/add"
+        android:icon="@drawable/create"
         android:title="@string/create"/>
 
     <item
         android:id="@+id/countryInfoFragmentMenu"
         android:icon="@drawable/info"
-        android:title="@string/country"/>
+        android:title="@string/country_info"/>
 
     <item
         android:id="@+id/accountFragmentMenu"

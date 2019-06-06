@@ -63,7 +63,7 @@ public class ListViewHomeView extends ConstraintLayout {
             isConnectedUserInEvent = false;
 
             //TODO
-            //Join event (may add the event id)
+            //Join event (may create the event id)
             List<User> p = event.getParticipant();
             p.remove(connectedUser);
 
@@ -75,7 +75,7 @@ public class ListViewHomeView extends ConstraintLayout {
             isConnectedUserInEvent = true;
 
             //TODO
-            //Join event (may add the event id)
+            //Join event (may create the event id)
             List<User> p = event.getParticipant();
             p.add(connectedUser);
 

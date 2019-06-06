@@ -44,9 +44,6 @@ public class ActivityFragment extends ListFragment {
         activityName = (TextView) view.findViewById(R.id.activity_name);
         activityName.setText(activity.getName());
 
-        activityDescription = (TextView) view.findViewById(R.id.activity_description);
-        activityDescription.setText(activity.getDescription());
-
         activityAddress = (TextView) view.findViewById(R.id.activity_address);
         activityAddress.setText(activity.getAddress());
         activityAddress.setPaintFlags(activityAddress.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -67,10 +64,10 @@ public class ActivityFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Activity louvre = new Activity("Louvre", "Musée du Louvre. 75058 Paris","Louvre possède une longue histoire de conservation artistique et historique, depuis l'Ancien Régime jusqu'à nos jours");
+        Activity louvre = new Activity("Louvre", "Musée du Louvre. 75058 Paris");
 
         List<User> participants = new ArrayList<>();
-        //participants.add(new User("fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"));
+        //participants.create(new User("fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"));
         participants.add(new User("001","testtest@input.com", "******", "input", "input", "01/01/1111", "USA"));
         participants.add(new User("002","helloworld@yahou.com", "*****", "Hello", "World", "00/00/0000", "Espana"));
 

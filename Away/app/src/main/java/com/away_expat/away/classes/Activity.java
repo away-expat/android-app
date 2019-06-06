@@ -4,12 +4,10 @@ public class Activity {
 
     private String name;
     private String address;
-    private String description;
 
-    public Activity(String name, String address, String description) {
+    public Activity(String name, String address) {
         this.name = name;
         this.address = address;
-        this.description = description;
     }
 
     public String getName() {
@@ -28,11 +26,4 @@ public class Activity {
         this.address = address;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

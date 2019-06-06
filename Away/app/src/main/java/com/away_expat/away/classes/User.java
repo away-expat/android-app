@@ -1,6 +1,8 @@
 package com.away_expat.away.classes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User implements Serializable {
     private String id;
@@ -10,6 +12,8 @@ public class User implements Serializable {
     private String lastname;
     private String birthdate;
     private String country;
+
+    private List<Tag> tags;
 
     public User(String email, String password) {
         this.email = email;
@@ -24,6 +28,7 @@ public class User implements Serializable {
         this.lastname = lastname;
         this.birthdate = birthdate;
         this.country = country;
+        this.tags = new ArrayList<>();
     }
 
     public String getId() {
@@ -80,5 +85,21 @@ public class User implements Serializable {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public void addTag(Tag tag) {
+        tags.add(tag);
+    }
+
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
     }
 }

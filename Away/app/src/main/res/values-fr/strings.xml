@@ -32,6 +32,7 @@
     <string name="country">Pays</string>
     <string name="country_info">Information du pays</string>
     <string name="country_text">Où voulez vous aller ?</string>
+    <string name="search_text">Que cherches-tu?</string>
     <string name="search">Recherche</string>
     <string name="update">Modifier</string>
     <string name="friends">Amis</string>
@@ -42,4 +43,6 @@
     <string name="by">Par :</string>
     <string name="activity">Activity</string>
     <string name="date">Date</string>
+    <string name="add_tag">Ajouter aux tags</string>
+    <string name="remove_tag">Retirer des tags</string>
 </resources>
