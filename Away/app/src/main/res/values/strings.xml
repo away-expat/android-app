@@ -49,4 +49,6 @@
     <string name="date">Date</string>
     <string name="add_tag">Add to tags</string>
     <string name="remove_tag">Remove to tags</string>
+    <string name="creation_text">What do you want to create?</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

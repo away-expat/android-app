@@ -1,5 +1,6 @@
 package com.away_expat.away;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -92,6 +93,7 @@ public class HomeActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, searchFragment).commit();
                 break;
             case R.id.createFragmentMenu:
+                creationFragment.setUser(connectedUser);
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, creationFragment).commit();
                 break;
             case R.id.accountFragmentMenu:
@@ -113,4 +115,5 @@ public class HomeActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, fragment).commit();
     }
+
 }

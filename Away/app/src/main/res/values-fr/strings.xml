@@ -22,8 +22,8 @@
     <string name="wrong_email">Mauvais e-mail</string>
     <string name="wrong_pwd">Mauvais mot de passe</string>
     <string name="required">Ce champs est requis</string>
-    <string name="connect">Vous êtes connecté</string>
-    <string name="subscribe">Vous êtes bien inscrit</string>
+    <string name="connect">Tu es connecté</string>
+    <string name="subscribe">Tu as bien été inscrit</string>
     <string name="fail">Problème de connexion</string>
     <string name="saved">Modification effectuée</string>
     <string name="home">Accueil</string>
@@ -45,4 +45,5 @@
     <string name="date">Date</string>
     <string name="add_tag">Ajouter aux tags</string>
     <string name="remove_tag">Retirer des tags</string>
+    <string name="creation_text">Que veux-tu créer?</string>
 </resources>

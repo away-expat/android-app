@@ -19,11 +19,11 @@ public class UpdateFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_acc_update, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_creation, container, false);
 
-        AccUpdateFragment accUpdateFragment = new AccUpdateFragment();
-        accUpdateFragment.setUser(user);
-        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, accUpdateFragment).commit();
+        UserCreationFragment userCreationFragment = new UserCreationFragment();
+        userCreationFragment.setUser(user);
+        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, userCreationFragment).commit();
 
         return view;
     }

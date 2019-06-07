@@ -45,4 +45,5 @@
     <string name="date">Date</string>
     <string name="add_tag">Añadir a los tags</string>
     <string name="remove_tag">Retirar de tags</string>
+    <string name="creation_text">¿Que quieres crear?</string>
 </resources>

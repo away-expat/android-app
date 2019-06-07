@@ -16,14 +16,14 @@ import com.away_expat.away.classes.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccUpdateFragment extends Fragment {
+public class UserCreationFragment extends Fragment {
 
     private EditText emailET, passwordET, firstnameET, lastnameET, birthdateET;
     private Spinner countryET;
     private Button disconnectBtn;
     private User user = null;
 
-    public AccUpdateFragment() {
+    public UserCreationFragment() {
     }
 
     @Override
