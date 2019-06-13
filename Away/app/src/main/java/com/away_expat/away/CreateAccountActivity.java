@@ -10,6 +10,7 @@ import com.away_expat.away.classes.User;
 import com.away_expat.away.fragments.UserCreationFragment;
 import com.away_expat.away.fragments.TagFragment;
 import com.away_expat.away.fragments.CountryFragment;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 public class CreateAccountActivity extends FragmentActivity {
 
@@ -26,6 +27,8 @@ public class CreateAccountActivity extends FragmentActivity {
         setContentView(R.layout.activity_create_account);
         step = 1;
 
+        account = (User) getIntent().getSerializableExtra("account");
+
         if (findViewById(R.id.fragment_container) != null) {
             if (savedInstanceState != null) {
                 return;
@@ -33,6 +36,9 @@ public class CreateAccountActivity extends FragmentActivity {
 
             accModifFrag = new UserCreationFragment();
             accModifFrag.setArguments(getIntent().getExtras());
+            if (account != null) {
+                accModifFrag.setUser(account, false);
+            }
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, accModifFrag).commit();
 
             accCountryFrag = new CountryFragment();

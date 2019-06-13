@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.away_expat.away.HomeActivity;
@@ -20,9 +21,15 @@ import com.away_expat.away.adapters.ActivityListViewAdapter;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
+import com.away_expat.away.services.ActivityApiService;
+import com.away_expat.away.services.RetrofitServiceGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DetailedSearchFragment extends ListFragment {
 
@@ -30,9 +37,12 @@ public class DetailedSearchFragment extends ListFragment {
     private ConstraintLayout tagBadge, addTile;
     private ImageView addTileIV;
     private EditText searchET;
+    private ProgressBar progressBar;
     private User connectedUser;
     private Tag tag;
     private ActivityListViewAdapter adapter;
+
+    private RetrofitServiceGenerator retrofitServiceGenerator;
 
     public DetailedSearchFragment() {
         // Required empty public constructor
@@ -46,6 +56,7 @@ public class DetailedSearchFragment extends ListFragment {
         addTileTV = (TextView) view.findViewById(R.id.add_tag_text);
         addTileIV = (ImageView) view.findViewById(R.id.add_tag_img);
         searchET = (EditText) view.findViewById(R.id.search_detailed_input);
+        progressBar = (ProgressBar) view.findViewById(R.id.search_detailed_progress);
 
         searchET.addTextChangedListener(new TextWatcher() {
 
@@ -106,15 +117,26 @@ public class DetailedSearchFragment extends ListFragment {
             addTileIV.setImageResource(R.drawable.add_black);
         }
 
-        List<Activity> activities = new ArrayList<>();
-        activities.add(new Activity("Musée du Louvre", "Rue de Rivoli, 75001 Paris"));
-        activities.add(new Activity("Musée du quai Branly", "37 Quai Branly, 75007 Paris"));
-        activities.add(new Activity("Musee d'Orsay", "58 Quai Anatole France, 75007 Paris"));
+        Call<List<Activity>> call = retrofitServiceGenerator.createService(ActivityApiService.class).getActivitiesByTag("Paris", tag.getName());
 
-        adapter = new ActivityListViewAdapter(getActivity());
-        adapter.bind(activities);
+        call.enqueue(new Callback<List<Activity>>() {
+            @Override
+            public void onResponse(Call<List<Activity>> call, Response<List<Activity>> response) {
+                Log.i("HI", "----------------------------------> "+tag.getName());
+                adapter = new ActivityListViewAdapter(getActivity());
+                adapter.bind(response.body());
+                progressBar.setVisibility(View.GONE);
+                setListAdapter(adapter);
+            }
 
-        setListAdapter(adapter);
+            @Override
+            public void onFailure(Call<List<Activity>> call, Throwable t) {
+                //TODO
+                Log.i("ERROR", "----------------------------------> "+t.getMessage());
+            }
+        });
+
+
     }
 
     @Override

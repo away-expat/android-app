@@ -89,6 +89,17 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <ProgressBar
+        android:id="@+id/search_detailed_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180dp"
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="340dp"
+        android:indeterminate="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"

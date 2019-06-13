@@ -66,7 +66,7 @@
         android:layout_marginEnd="80dp"
         android:layout_marginRight="80dp"
         android:background="@drawable/btn"
-        android:text="Facebook"
+        android:text="Google"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_input_password" />
@@ -81,7 +81,7 @@
         android:layout_marginEnd="80dp"
         android:layout_marginRight="80dp"
         android:background="@drawable/btn"
-        android:text="Google"
+        android:text="Facebook"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_google_btn" />

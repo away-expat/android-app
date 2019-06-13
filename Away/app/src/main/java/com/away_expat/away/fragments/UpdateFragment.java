@@ -22,7 +22,7 @@ public class UpdateFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_creation, container, false);
 
         UserCreationFragment userCreationFragment = new UserCreationFragment();
-        userCreationFragment.setUser(user);
+        userCreationFragment.setUser(user, true);
         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, userCreationFragment).commit();
 
         return view;

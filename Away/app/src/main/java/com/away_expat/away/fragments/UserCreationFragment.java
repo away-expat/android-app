@@ -22,6 +22,7 @@ public class UserCreationFragment extends Fragment {
     private Spinner countryET;
     private Button disconnectBtn;
     private User user = null;
+    private boolean connected = false;
 
     public UserCreationFragment() {
     }
@@ -31,8 +32,8 @@ public class UserCreationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_update_user, container, false);
         emailET = (EditText) view.findViewById(R.id.account_input_email);
         passwordET = (EditText) view.findViewById(R.id.account_input_password);
-        firstnameET = (EditText) view.findViewById(R.id.account_input_firstname);
-        lastnameET = (EditText) view.findViewById(R.id.account_input_lastname);
+        firstnameET = (EditText) view.findViewById(R.id.account_input_lastname);
+        lastnameET = (EditText) view.findViewById(R.id.account_input_firstname);
         birthdateET = (EditText) view.findViewById(R.id.account_input_birthdate);
         countryET = (Spinner) view.findViewById(R.id.account_input_country);
 
@@ -45,7 +46,9 @@ public class UserCreationFragment extends Fragment {
             passwordET.setText(user.getPassword());
             firstnameET.setText(user.getFirstname());
             lastnameET.setText(user.getLastname());
-            
+        }
+
+        if (connected) {
             disconnectBtn.setVisibility(View.VISIBLE);
         } else {
             disconnectBtn.setVisibility(View.INVISIBLE);
@@ -89,7 +92,8 @@ public class UserCreationFragment extends Fragment {
         return acc;
     }
 
-    public void setUser(User user) {
+    public void setUser(User user, boolean connected) {
         this.user = user;
+        this.connected = connected;
     }
 }

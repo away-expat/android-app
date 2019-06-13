@@ -1,5 +1,7 @@
 package com.away_expat.away.classes;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,8 @@ public class User implements Serializable {
     private String lastname;
     private String birthdate;
     private String country;
+
+    private Address currentCity;
 
     private List<Tag> tags;
 
@@ -29,6 +33,15 @@ public class User implements Serializable {
         this.birthdate = birthdate;
         this.country = country;
         this.tags = new ArrayList<>();
+
+        //TO REMOVE
+        this.currentCity = new Address("Paris", 48.866667, 2.333333);
+    }
+
+    public User(GoogleSignInAccount googleAccount) {
+        this.email = googleAccount.getEmail();
+        this.firstname = googleAccount.getGivenName();
+        this.lastname = googleAccount.getFamilyName();
     }
 
     public String getId() {
@@ -101,5 +114,13 @@ public class User implements Serializable {
 
     public void removeTag(Tag tag) {
         tags.remove(tag);
+    }
+
+    public Address getCurrentCity() {
+        return currentCity;
+    }
+
+    public void setCurrentCity(Address currentCity) {
+        this.currentCity = currentCity;
     }
 }

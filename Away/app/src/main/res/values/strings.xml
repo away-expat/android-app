@@ -40,8 +40,8 @@
     <string name="join">Join</string>
     <string name="invite">Invite</string>
 
-    <string name="default_lorem">Lorem ipsum dolor sit amet, tortor vestibulum facilisi risus in, phasellus wisi donec in tempus adipisci, diam vitae rutrum viverra in luctus, adipiscing erat non mollis nunc nam nulla. Justo in. Dui sem aliquam nulla vitae nec fringilla. Velit mauris vestibulum eget, vestibulum maecenas, sed pede etiam cras porta pharetra nullam, donec dui integer. Malesuada laoreet lacus interdum, suspendisse erat nec non blandit mauris. Suscipit molestie. Maecenas lorem pulvinar elementum semper quisque, integer ac pede dignissim metus venenatis, gravida mauris donec lorem faucibus orci, commodo nam convallis platea accumsan morbi.</string>
-    <string name="little_lorem">Lorem ipsum dolor sit amet, tortor vestibulum facilisi risus in, phasellus wisi donec in tempus adipisci, diam vitae rutrum viverra in luctus, adipiscing erat non mollis nunc nam nulla. </string>
+    <string name="default_lorem" translatable="false">Lorem ipsum dolor sit amet, tortor vestibulum facilisi risus in, phasellus wisi donec in tempus adipisci, diam vitae rutrum viverra in luctus, adipiscing erat non mollis nunc nam nulla. Justo in. Dui sem aliquam nulla vitae nec fringilla. Velit mauris vestibulum eget, vestibulum maecenas, sed pede etiam cras porta pharetra nullam, donec dui integer. Malesuada laoreet lacus interdum, suspendisse erat nec non blandit mauris. Suscipit molestie. Maecenas lorem pulvinar elementum semper quisque, integer ac pede dignissim metus venenatis, gravida mauris donec lorem faucibus orci, commodo nam convallis platea accumsan morbi.</string>
+    <string name="little_lorem" translatable="false">Lorem ipsum dolor sit amet, tortor vestibulum facilisi risus in, phasellus wisi donec in tempus adipisci, diam vitae rutrum viverra in luctus, adipiscing erat non mollis nunc nam nulla. </string>
     <string name="by">By :</string>
     <string name="country_text">Where want to go you?</string>
     <string name="search_text">What are you looking for?</string>
@@ -49,6 +49,15 @@
     <string name="date">Date</string>
     <string name="add_tag">Add to tags</string>
     <string name="remove_tag">Remove to tags</string>
-    <string name="creation_text">What do you want to create?</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="creation_text">Event creation</string>
+    <string name="title_activity_maps" translatable="false">Map</string>
+    <string name="select">Select</string>
+    <string name="select_place">Select a place</string>
+    <string name="select_tag">Select a Tag</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="delete">Delete</string>
+    <string name="disconnect">Disconnect</string>
+
+    <string name="server_client_id" translatable="false">996830036732-oo39jopkdp4k8cft8jfdo3mgq4icc9er.apps.googleusercontent.com</string>
 </resources>

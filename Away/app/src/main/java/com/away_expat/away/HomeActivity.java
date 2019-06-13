@@ -1,12 +1,12 @@
 package com.away_expat.away;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.away_expat.away.classes.User;
 import com.away_expat.away.fragments.AccountFragment;
@@ -30,23 +30,26 @@ public class HomeActivity extends AppCompatActivity {
     private CountryFragment countryFragment;
 
     private ImageView countryImageView;
+    private TextView currentCityTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        connectedUser = (User) getIntent().getSerializableExtra("connected_user");
 
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.custom_action_bar);
         View customBar = getSupportActionBar().getCustomView();
 
+        currentCityTV = (TextView) customBar.findViewById(R.id.user_location);
+        currentCityTV.setText(connectedUser.getCurrentCity().getLocationName());
+
         countryImageView = (ImageView) customBar.findViewById(R.id.country);
         countryImageView.setOnClickListener(v -> getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, countryFragment).commit());
 
         bottom_bar = (BottomNavigationViewEx) findViewById(R.id.bottom_bar);
-
-        connectedUser = (User) getIntent().getSerializableExtra("connected_user");
 
         //home
         homeFragment = new HomeFragment();
@@ -78,7 +81,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initBottomBar() {
         bottom_bar.enableItemShiftingMode(false);
-        bottom_bar.enableAnimation(false);
 
         bottom_bar.setOnNavigationItemSelectedListener(item -> updateMainFragment(item.getItemId()));
     }
@@ -115,5 +117,4 @@ public class HomeActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, fragment).commit();
     }
-
 }

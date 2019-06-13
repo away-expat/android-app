@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ListFragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.away_expat.away.adapters.EventListViewAdapter;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Event;
 import com.away_expat.away.classes.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +27,7 @@ import java.util.List;
 
 public class ActivityFragment extends ListFragment {
 
-    private TextView activityName, activityDescription, activityAddress;
+    private TextView activityName, activityAddress;
     private ImageView activityImage;
     private EventListViewAdapter adapter;
     private User connectedUser;
@@ -56,6 +56,10 @@ public class ActivityFragment extends ListFragment {
                     startActivity(mapIntent);
                 }, 1000)
         );
+
+        activityImage = (ImageView) view.findViewById(R.id.activity_image);
+        Picasso.get().load(activity.getPhotos())
+                .into(activityImage);
 
         return view;
     }

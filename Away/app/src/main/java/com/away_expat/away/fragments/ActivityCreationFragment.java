@@ -8,9 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.away_expat.away.MapsActivity;
 import com.away_expat.away.R;
+import com.away_expat.away.TagActivity;
+import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.User;
 
 import static android.app.Activity.RESULT_OK;
@@ -18,7 +22,10 @@ import static android.app.Activity.RESULT_OK;
 public class ActivityCreationFragment extends Fragment {
 
     private User connectedUser;
-    private Button placePickerBtn;
+    private Button placePickerBtn, tagPickerBtn;
+    private TextView selectedPlaceTV;
+    private EditText title;
+    private Activity toCreate;
 
     public ActivityCreationFragment() {
     }
@@ -26,13 +33,23 @@ public class ActivityCreationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_activity_creation, container, false);
+        toCreate = new Activity();
+
+        title = (EditText) view.findViewById(R.id.activity_crea_titleET);
+        selectedPlaceTV = (TextView) view.findViewById(R.id.selected_placeTV);
 
         placePickerBtn = (Button) view.findViewById(R.id.place_picker);
         placePickerBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), MapsActivity.class);
+            intent.putExtra("connected_user", connectedUser);
             startActivityForResult(intent, 1);
+        });
 
-
+        tagPickerBtn = (Button) view.findViewById(R.id.event_crea_dateET);
+        tagPickerBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), TagActivity.class);
+            intent.putExtra("connected_user", connectedUser);
+            startActivityForResult(intent, 2);
         });
 
         return view;
@@ -42,14 +59,15 @@ public class ActivityCreationFragment extends Fragment {
         this.connectedUser = user;
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (resultCode == RESULT_OK) {
-
-            Log.i("INFO", data.getExtras().get("position").toString());
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            Log.i("INFO", "------------------------->"+ data.getExtras().get("position").toString());
+            selectedPlaceTV.setText("Coordonnée : "+data.getExtras().get("position").toString());
         }
 
+        if (resultCode == RESULT_OK && requestCode == 2) {
+            //Log.i("INFO","------------------------->"+ data.getExtras().get("tag").toString());
+        }
     }
 }

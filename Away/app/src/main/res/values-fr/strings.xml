@@ -41,9 +41,16 @@
     <string name="join">Rejoindre</string>
     <string name="invite">Inviter</string>
     <string name="by">Par :</string>
-    <string name="activity">Activity</string>
+    <string name="activity">Activité</string>
     <string name="date">Date</string>
     <string name="add_tag">Ajouter aux tags</string>
     <string name="remove_tag">Retirer des tags</string>
-    <string name="creation_text">Que veux-tu créer?</string>
+    <string name="creation_text">Création d\'événement</string>
+    <string name="select">Selectionner</string>
+    <string name="select_place">Selectionner un lieu</string>
+    <string name="title">Titre</string>
+    <string name="select_tag">Selectionner un Tag</string>
+    <string name="description">Description</string>
+    <string name="delete">Supprimer</string>
+    <string name="disconnect">Déconnection</string>
 </resources>

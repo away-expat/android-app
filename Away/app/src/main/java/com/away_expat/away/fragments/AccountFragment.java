@@ -23,7 +23,7 @@ import java.util.List;
 public class AccountFragment extends ListFragment {
 
     private TextView nameTextview;
-    private Button actionBtn;
+    private Button actionBtn, account_btn_tag;
     private EventListViewAdapter adapter;
 
     private User user;

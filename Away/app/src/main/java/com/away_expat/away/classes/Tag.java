@@ -1,21 +1,19 @@
 package com.away_expat.away.classes;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Tag {
 
-    private String id;
+    @SerializedName("name")
     private String name;
 
+    //TO REMOVE
     public Tag(String id, String name) {
-        this.id = id;
         this.name = name;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public Tag(String name) {
+        this.name = name;
     }
 
     public String getName() {

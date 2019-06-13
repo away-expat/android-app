@@ -41,9 +41,16 @@
     <string name="by">Por :</string>
     <string name="country_text">¿Adonde quieres ir?</string>
     <string name="search_text">¿Qué busca usted?</string>
-    <string name="activity">Activity</string>
+    <string name="activity">Actividad</string>
     <string name="date">Date</string>
     <string name="add_tag">Añadir a los tags</string>
     <string name="remove_tag">Retirar de tags</string>
-    <string name="creation_text">¿Que quieres crear?</string>
+    <string name="creation_text">Creación de evento</string>
+    <string name="select">Seleccionar</string>
+    <string name="select_place">Seleccionar un lugar</string>
+    <string name="title">Título</string>
+    <string name="select_tag">Seleccionar un Tag</string>
+    <string name="description">Descripción</string>
+    <string name="delete">Suprimir</string>
+    <string name="disconnect">Desconexión</string>
 </resources>
