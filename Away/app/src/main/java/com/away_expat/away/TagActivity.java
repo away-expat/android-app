@@ -1,5 +1,6 @@
 package com.away_expat.away;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,12 +15,19 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.away_expat.away.adapters.SearchGridViewAdapter;
 import com.away_expat.away.adapters.TagSelectionGridViewAdapter;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Tag;
+import com.away_expat.away.services.RetrofitServiceGenerator;
+import com.away_expat.away.services.TagApiService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TagActivity extends AppCompatActivity {
 
@@ -27,6 +35,8 @@ public class TagActivity extends AppCompatActivity {
     private EditText searchET;
     private Button selectBtn;
     private GridView gridView;
+
+    private RetrofitServiceGenerator retrofitServiceGenerator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,19 +68,23 @@ public class TagActivity extends AppCompatActivity {
             finish();
         });
 
-        //TO REMOVE
-        List<Tag> tags = new ArrayList<>();
-        tags.add(new Tag("","Resto"));
-        tags.add(new Tag("", "Bar"));
-        tags.add(new Tag("", "Musée"));
-        tags.add(new Tag("", "Parc"));
-        tags.add(new Tag("", "Magasin"));
-        tags.add(new Tag("", "Bistro"));
+        Context $this = this;
+        Call<List<Tag>> call = retrofitServiceGenerator.createService(TagApiService.class).getAllTags();
 
-        adapter = new TagSelectionGridViewAdapter(this);
-        adapter.bind(tags);
+        call.enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
+                adapter = new TagSelectionGridViewAdapter($this);
+                adapter.bind(response.body());
 
-        gridView.setAdapter(adapter);
+                gridView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Tag>> call, Throwable t) {
+                Log.i("error", t.getMessage());
+            }
+        });
 
         gridView.setOnItemClickListener((a, v, position, id) -> {
             getIntent().putExtra("tag", adapter.getItem(position).getName());

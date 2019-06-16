@@ -9,6 +9,7 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.EventListViewAdapter;
+import com.away_expat.away.adapters.TagActivityGridViewAdapter;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Event;
 import com.away_expat.away.classes.User;
@@ -29,7 +31,9 @@ public class ActivityFragment extends ListFragment {
 
     private TextView activityName, activityAddress;
     private ImageView activityImage;
-    private EventListViewAdapter adapter;
+    private EventListViewAdapter eventAdapter;
+    private GridView gridView;
+    private TagActivityGridViewAdapter tagAdapter;
     private User connectedUser;
     private Activity activity;
 
@@ -61,6 +65,13 @@ public class ActivityFragment extends ListFragment {
         Picasso.get().load(activity.getPhotos())
                 .into(activityImage);
 
+        gridView = (GridView) view.findViewById(R.id.grid_view);
+        gridView.setNumColumns(activity.getType().size());
+        tagAdapter = new TagActivityGridViewAdapter(getContext());
+        tagAdapter.bind(activity.getType());
+
+        gridView.setAdapter(tagAdapter);
+
         return view;
     }
 
@@ -79,10 +90,10 @@ public class ActivityFragment extends ListFragment {
         items.add(new Event("Super Cool", "Ptite aprem chill au vre-lou. On va faire le tour du baille, mater la Joconde et manger un pti domac des mifas. Si tu kiff la vibes rejoint nous rouilla.", new Date(), new User("000","fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"), louvre, participants));
         items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User("00", "testtest@input.com", "******", "input", "input", "01/01/1111", "USA"), louvre, participants));
 
-        adapter = new EventListViewAdapter(getActivity());
-        adapter.bind(items);
+        eventAdapter = new EventListViewAdapter(getActivity());
+        eventAdapter.bind(items);
 
-        setListAdapter(adapter);
+        setListAdapter(eventAdapter);
     }
 
     @Override
@@ -90,7 +101,7 @@ public class ActivityFragment extends ListFragment {
         super.onListItemClick(l, v, pos, id);
 
         EventFragment fragment = new EventFragment();
-        fragment.setEvent(adapter.getItem(pos));
+        fragment.setEvent(eventAdapter.getItem(pos));
 
         ((HomeActivity) getActivity()).replaceFragment(fragment);
     }
