@@ -117,4 +117,13 @@ public class HomeActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, fragment).commit();
     }
+
+    public void overloadFragment(Fragment fragment, Fragment previous) {
+        if (fragment == null) {
+            return;
+        }
+        fragment.setArguments(getIntent().getExtras());
+
+        getSupportFragmentManager().beginTransaction().add(R.id.home_fragment_container, fragment).commit();
+    }
 }

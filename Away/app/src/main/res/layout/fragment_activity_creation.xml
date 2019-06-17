@@ -145,7 +145,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <Button
-        android:id="@+id/event_crea_dateET"
+        android:id="@+id/event_crea_dateBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="180dp"

@@ -22,10 +22,11 @@ import static android.app.Activity.RESULT_OK;
 public class ActivityCreationFragment extends Fragment {
 
     private User connectedUser;
-    private Button placePickerBtn, tagPickerBtn;
+    private Button placePickerBtn, tagPickerBtn, saveBtn;
     private TextView selectedPlaceTV;
     private EditText title;
     private Activity toCreate;
+    private CreationFragment previousFragment;
 
     public ActivityCreationFragment() {
     }
@@ -45,18 +46,24 @@ public class ActivityCreationFragment extends Fragment {
             startActivityForResult(intent, 1);
         });
 
-        tagPickerBtn = (Button) view.findViewById(R.id.event_crea_dateET);
+        tagPickerBtn = (Button) view.findViewById(R.id.event_crea_dateBtn);
         tagPickerBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), TagActivity.class);
             intent.putExtra("connected_user", connectedUser);
             startActivityForResult(intent, 2);
         });
 
+        saveBtn = (Button) view.findViewById(R.id.save_btn);
+        saveBtn.setOnClickListener(v -> {
+            checkAndReturnNewActivity();
+        });
+
         return view;
     }
 
-    public void setUser(User user) {
+    public void setData(User user, CreationFragment previousFragment) {
         this.connectedUser = user;
+        this.previousFragment = previousFragment;
     }
 
     @Override
@@ -69,5 +76,12 @@ public class ActivityCreationFragment extends Fragment {
         if (resultCode == RESULT_OK && requestCode == 2) {
             //Log.i("INFO","------------------------->"+ data.getExtras().get("tag").toString());
         }
+    }
+
+    public void checkAndReturnNewActivity() {
+
+
+        previousFragment.setNewActivity(null);
+        getActivity().getFragmentManager().popBackStack();
     }
 }

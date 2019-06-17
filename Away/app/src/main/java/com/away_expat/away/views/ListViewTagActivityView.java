@@ -27,7 +27,7 @@ public class ListViewTagActivityView extends ConstraintLayout {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.gridview_tag_activity, this);
+        inflate(getContext(), R.layout.view_tag_activity, this);
         mTextView = (TextView) findViewById(R.id.tag_text);
     }
 

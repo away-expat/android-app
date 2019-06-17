@@ -18,6 +18,7 @@
         android:layout_marginRight="15dp"
         android:gravity="center"
         android:text="@string/creation_text"
+        android:textColor="#000"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +83,7 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/event_crea_dateET"
+        app:layout_constraintBottom_toTopOf="@+id/event_crea_dateBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/event_crea_titleET" />
@@ -98,20 +99,44 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/event_crea_descTV" />
 
-    <EditText
-        android:id="@+id/event_crea_dateET"
-        android:layout_width="0dp"
+    <Button
+        android:id="@+id/event_crea_dateBtn"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/btn"
+        android:text="@string/date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_crea_titleET" />
+
+    <Button
+        android:id="@+id/event_crea_timeBtn"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="140dp"
         android:layout_marginLeft="140dp"
         android:layout_marginTop="140dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/input"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/btn"
+        android:text="@string/time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/event_crea_titleET" />
+
+    <TextView
+        android:id="@+id/date_picked"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_crea_dateBtn" />
 
     <Button
         android:id="@+id/select_activity_btn"
@@ -119,23 +144,23 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/btn"
         android:text="@string/select"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/event_crea_dateET" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/create_activity_btn"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/btn"
         android:text="@string/create"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/event_crea_dateET" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/save_btn"
@@ -159,14 +184,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
         android:gravity="center"
         android:text="@string/activity"
+        android:textColor="#000"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/event_crea_dateET" />
+        app:layout_constraintTop_toBottomOf="@+id/date_picked" />
 
 
 </android.support.constraint.ConstraintLayout>

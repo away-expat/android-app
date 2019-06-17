@@ -24,7 +24,6 @@ import com.away_expat.away.classes.User;
 import com.away_expat.away.services.ActivityApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

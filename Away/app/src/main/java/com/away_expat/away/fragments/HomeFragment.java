@@ -1,10 +1,11 @@
 package com.away_expat.away.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.away_expat.away.HomeActivity;
@@ -13,15 +14,18 @@ import com.away_expat.away.adapters.HomeListViewAdapter;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.classes.Event;
+import com.away_expat.away.tools.ListViewTools;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class HomeFragment extends ListFragment {
+public class HomeFragment extends Fragment {
 
     private HomeListViewAdapter adapter;
     private User connectedUser;
+    private ListView listview;
+    private ListViewTools lvTools;
 
     public HomeFragment() {
     }
@@ -30,6 +34,8 @@ public class HomeFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         connectedUser = (User) getActivity().getIntent().getSerializableExtra("connected_user");
+
+        listview = (ListView) view.findViewById(R.id.list_view);
         return view;
     }
 
@@ -57,17 +63,19 @@ public class HomeFragment extends ListFragment {
         adapter = new HomeListViewAdapter(getActivity());
         adapter.bind(connectedUser, items);
 
-        setListAdapter(adapter);
+        listview.setAdapter(adapter);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                EventFragment fragment = new EventFragment();
+                fragment.setEvent((Event) adapterView.getItemAtPosition(position));
+
+                ((HomeActivity) getActivity()).replaceFragment(fragment);
+            }
+        });
+
+        lvTools.setListViewHeightBasedOnChildren(listview);
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int pos, long id) {
-        super.onListItemClick(l, v, pos, id);
-
-        EventFragment fragment = new EventFragment();
-        fragment.setEvent(adapter.getItem(pos));
-
-        ((HomeActivity) getActivity()).replaceFragment(fragment);
-    }
 
 }

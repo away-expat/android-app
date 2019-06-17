@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ListFragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.EventListViewAdapter;
+import com.away_expat.away.adapters.TagActivityAdapter;
 import com.away_expat.away.adapters.TagActivityGridViewAdapter;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Event;
@@ -65,12 +68,18 @@ public class ActivityFragment extends ListFragment {
         Picasso.get().load(activity.getPhotos())
                 .into(activityImage);
 
-        gridView = (GridView) view.findViewById(R.id.grid_view);
-        gridView.setNumColumns(activity.getType().size());
-        tagAdapter = new TagActivityGridViewAdapter(getContext());
-        tagAdapter.bind(activity.getType());
-
-        gridView.setAdapter(tagAdapter);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        ArrayList<String> listItem = new ArrayList<>();
+        listItem.add("Resto");
+        listItem.add("Bistro");
+        listItem.add("Parc");
+        listItem.add("Sport");
+        listItem.add("Cinema");
+        TagActivityAdapter itemAdapter = new TagActivityAdapter(listItem, getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(itemAdapter);
 
         return view;
     }
