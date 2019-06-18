@@ -9,12 +9,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.away_expat.away.classes.User;
+import com.away_expat.away.dto.LoginDto;
+import com.away_expat.away.dto.TokenDto;
+import com.away_expat.away.services.RetrofitServiceGenerator;
+import com.away_expat.away.services.UserApiService;
+import com.away_expat.away.tools.SaveSharedPreference;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,10 +33,20 @@ public class LoginActivity extends AppCompatActivity {
     private User account;
     private GoogleSignInClient mGoogleSignInClient;
 
+    private RetrofitServiceGenerator retrofitServiceGenerator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(SaveSharedPreference.getToken(getApplicationContext()) != null) {
+            Log.i("AWAYINFO", SaveSharedPreference.getToken(getApplicationContext()));
+            Intent home = new Intent(getApplicationContext(), HomeActivity.class);
+            home.putExtra("token", SaveSharedPreference.getToken(getApplicationContext()));
+            startActivity(home);
+            finish();
+        }
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -55,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         googleBtn.setOnClickListener(v -> {
-            Log.i("INFO", "------------> bruh");
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
             startActivityForResult(signInIntent, 1);
         });
@@ -64,15 +82,32 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        //check account & get the connected account
-        //TODO
-        account = new User("000", "fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France");
+        Call<TokenDto> call = retrofitServiceGenerator.createService(UserApiService.class).login(new LoginDto(emailET.getText().toString(), passwordET.getText().toString()));
 
-        Intent home = new Intent(LoginActivity.this, HomeActivity.class);
-        home.putExtra("connected_user", account);
-        startActivity(home);
-        finish();
+        call.enqueue(new Callback<TokenDto>() {
+            @Override
+            public void onResponse(Call<TokenDto> call, Response<TokenDto> response) {
+                Log.i("AWAYINFO", "Login success : " + response.isSuccessful());
+                if (response.isSuccessful()) {
+                    Intent home = new Intent(LoginActivity.this, HomeActivity.class);
+                    String token = response.body().getToken();
+                    SaveSharedPreference.setToken(getApplicationContext(), token);
+                    home.putExtra("token", token);
+                    startActivity(home);
+                    finish();
+                } else {
+                    //TODO
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TokenDto> call, Throwable t) {
+                //TODO
+                Log.i("error", t.getMessage());
+            }
+        });
     }
+
 
     private void createAccount() {
         Intent CreateAcc = new Intent(LoginActivity.this, CreateAccountActivity.class);

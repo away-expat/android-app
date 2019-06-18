@@ -18,13 +18,11 @@ import android.widget.TextView;
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.ActivityListViewAdapter;
-import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
+import com.away_expat.away.dto.ActivityByTagListDto;
 import com.away_expat.away.services.ActivityApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,9 +35,11 @@ public class DetailedSearchFragment extends ListFragment {
     private ImageView addTileIV;
     private EditText searchET;
     private ProgressBar progressBar;
-    private User connectedUser;
     private Tag tag;
     private ActivityListViewAdapter adapter;
+
+    private User connectedUser;
+    private String token;
 
     private RetrofitServiceGenerator retrofitServiceGenerator;
 
@@ -50,6 +50,9 @@ public class DetailedSearchFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detailed_search, container, false);
+
+        token = getActivity().getIntent().getStringExtra("token");
+        connectedUser = (User) getActivity().getIntent().getSerializableExtra("connectedUser");
 
         tagTV = (TextView) view.findViewById(R.id.tag_text);
         addTileTV = (TextView) view.findViewById(R.id.add_tag_text);
@@ -76,13 +79,13 @@ public class DetailedSearchFragment extends ListFragment {
         tagBadge = (ConstraintLayout) view.findViewById(R.id.tag_badge);
         tagBadge.setOnClickListener(v -> {
             SearchFragment searchFragment = new SearchFragment();
-            searchFragment.setUser(connectedUser);
+            searchFragment.setUser();
             ((HomeActivity) getActivity()).replaceFragment(searchFragment);
         });
 
         addTile = (ConstraintLayout) view.findViewById(R.id.add_tag);
         addTile.setOnClickListener(v -> {
-            if (connectedUser.getTags().contains(tag)) {
+            /*if (connectedUser.getTags().contains(tag)) {
                 //TODO remove the tag to user
                 connectedUser.removeTag(tag);
                 Log.i("INFO", "-------------> REMOVE");
@@ -96,7 +99,7 @@ public class DetailedSearchFragment extends ListFragment {
 
                 addTileTV.setText(getResources().getString(R.string.remove_tag));
                 addTileIV.setImageResource(R.drawable.cross);
-            }
+            }*/
         });
 
         return view;
@@ -108,28 +111,29 @@ public class DetailedSearchFragment extends ListFragment {
 
         tagTV.setText(tag.getName());
 
+        /*
         if (connectedUser.getTags().contains(tag)) {
             addTileTV.setText(getResources().getString(R.string.remove_tag));
             addTileIV.setImageResource(R.drawable.cross);
         } else {
             addTileTV.setText(getResources().getString(R.string.add_tag));
             addTileIV.setImageResource(R.drawable.add_black);
-        }
+        }*/
 
-        Call<List<Activity>> call = retrofitServiceGenerator.createService(ActivityApiService.class).getActivitiesByTag("Paris", tag.getName());
+        Call<ActivityByTagListDto> call = retrofitServiceGenerator.createService(ActivityApiService.class).getActivitiesByTag(token,"Paris", tag.getName());
 
-        call.enqueue(new Callback<List<Activity>>() {
+        call.enqueue(new Callback<ActivityByTagListDto>() {
             @Override
-            public void onResponse(Call<List<Activity>> call, Response<List<Activity>> response) {
+            public void onResponse(Call<ActivityByTagListDto> call, Response<ActivityByTagListDto> response) {
                 Log.i("HI", "----------------------------------> "+tag.getName());
                 adapter = new ActivityListViewAdapter(getActivity());
-                adapter.bind(response.body());
+                adapter.bind(response.body().getResults());
                 progressBar.setVisibility(View.GONE);
                 setListAdapter(adapter);
             }
 
             @Override
-            public void onFailure(Call<List<Activity>> call, Throwable t) {
+            public void onFailure(Call<ActivityByTagListDto> call, Throwable t) {
                 //TODO
                 Log.i("ERROR", "----------------------------------> "+t.getMessage());
             }

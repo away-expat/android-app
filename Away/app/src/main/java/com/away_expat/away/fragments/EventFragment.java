@@ -72,7 +72,7 @@ public class EventFragment extends ListFragment {
 
         User userClicked = adapter.getItem(pos);
         AccountFragment fragment = new AccountFragment();
-        fragment.setUser(userClicked, userClicked.getId().equals(connectedUser.getId()));
+        fragment.setUser(userClicked, userClicked.getId() == connectedUser.getId());
 
         ((HomeActivity) getActivity()).replaceFragment(fragment);
     }

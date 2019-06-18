@@ -15,16 +15,12 @@ import android.widget.TextView;
 
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
-import com.away_expat.away.adapters.ActivityListViewAdapter;
 import com.away_expat.away.adapters.SearchGridViewAdapter;
-import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
-import com.away_expat.away.services.ActivityApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 import com.away_expat.away.services.TagApiService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,8 +34,6 @@ public class SearchFragment extends Fragment {
     private EditText searchET;
     private GridView gridView;
     private User connectedUser;
-
-    private RetrofitServiceGenerator retrofitServiceGenerator;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -69,7 +63,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        Call<List<Tag>> call = retrofitServiceGenerator.createService(TagApiService.class).getAllTags();
+        Call<List<Tag>> call = RetrofitServiceGenerator.createService(TagApiService.class).getAllTags();
 
         call.enqueue(new Callback<List<Tag>>() {
             @Override
@@ -99,7 +93,10 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    public void setUser(User connectedUser) {
+    public void setUser() {
+
+
+
         this.connectedUser = connectedUser;
     }
 

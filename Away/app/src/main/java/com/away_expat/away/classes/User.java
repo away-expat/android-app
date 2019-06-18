@@ -7,53 +7,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Serializable {
-    private String id;
-    private String email;
+    private int id;
+    private String mail;
     private String password;
     private String firstname;
     private String lastname;
-    private String birthdate;
+    private String birth;
     private String country;
+    private String idCity = "151";
 
-    private Address currentCity;
-
-    private List<Tag> tags;
+    public User() {
+    }
 
     public User(String email, String password) {
-        this.email = email;
+        this.mail = email;
         this.password = password;
     }
 
-    public User(String id, String email, String password, String firstname, String lastname, String birthdate, String country) {
+    public User(int id, String email, String password, String firstname, String lastname, String birthday, String country) {
         this.id = id;
-        this.email = email;
+        this.mail = email;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.birthdate = birthdate;
+        this.birth = birthday;
         this.country = country;
-        this.tags = new ArrayList<>();
-
-        //TO REMOVE
-        this.currentCity = new Address("Paris", 48.866667, 2.333333);
     }
 
     public User(GoogleSignInAccount googleAccount) {
-        this.email = googleAccount.getEmail();
+        this.mail = googleAccount.getEmail();
         this.firstname = googleAccount.getGivenName();
         this.lastname = googleAccount.getFamilyName();
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     public String getEmail() {
-        return email;
+        return mail;
     }
 
     public String getPassword() {
@@ -68,8 +64,8 @@ public class User implements Serializable {
         return lastname;
     }
 
-    public String getBirthdate() {
-        return birthdate;
+    public String getBirthday() {
+        return birth;
     }
 
     public String getCountry() {
@@ -77,7 +73,7 @@ public class User implements Serializable {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.mail = email;
     }
 
     public void setPassword(String password) {
@@ -92,35 +88,26 @@ public class User implements Serializable {
         this.lastname = lastname;
     }
 
-    public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
+    public void setBirthday(String birthday) {
+        this.birth = birthday;
     }
 
     public void setCountry(String country) {
         this.country = country;
     }
 
-    public List<Tag> getTags() {
-        return tags;
-    }
 
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public void addTag(Tag tag) {
-        tags.add(tag);
-    }
-
-    public void removeTag(Tag tag) {
-        tags.remove(tag);
-    }
-
-    public Address getCurrentCity() {
-        return currentCity;
-    }
-
-    public void setCurrentCity(Address currentCity) {
-        this.currentCity = currentCity;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", mail='" + mail + '\'' +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", birth='" + birth + '\'' +
+                ", country='" + country + '\'' +
+                ", idCity='" + idCity + '\'' +
+                '}';
     }
 }

@@ -79,8 +79,6 @@ public class ActivityCreationFragment extends Fragment {
     }
 
     public void checkAndReturnNewActivity() {
-
-
         previousFragment.setNewActivity(null);
         getActivity().getFragmentManager().popBackStack();
     }

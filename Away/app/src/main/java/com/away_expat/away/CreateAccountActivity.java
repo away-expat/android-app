@@ -3,23 +3,32 @@ package com.away_expat.away;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.away_expat.away.classes.User;
+import com.away_expat.away.dto.TokenDto;
 import com.away_expat.away.fragments.UserCreationFragment;
 import com.away_expat.away.fragments.TagFragment;
-import com.away_expat.away.fragments.CountryFragment;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.away_expat.away.fragments.CityFragment;
+import com.away_expat.away.services.RetrofitServiceGenerator;
+import com.away_expat.away.services.UserApiService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreateAccountActivity extends FragmentActivity {
 
     private Button previousBtn, nextBtn;
     private int step;
     private UserCreationFragment accModifFrag;
-    private CountryFragment accCountryFrag;
+    private CityFragment accCountryFrag;
     private TagFragment accTagFrag;
     private User account;
+
+    private RetrofitServiceGenerator retrofitServiceGenerator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +50,7 @@ public class CreateAccountActivity extends FragmentActivity {
             }
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, accModifFrag).commit();
 
-            accCountryFrag = new CountryFragment();
+            accCountryFrag = new CityFragment();
             accCountryFrag.setArguments(getIntent().getExtras());
 
             accTagFrag = new TagFragment();
@@ -95,17 +104,33 @@ public class CreateAccountActivity extends FragmentActivity {
 
                     case 3:
                         step++;
-                        //create account
-                        //TODO
+                        Call<TokenDto> call = retrofitServiceGenerator.createService(UserApiService.class).createUser(account);
+                        Log.i("AWAYINFO", "Account "+account.toString());
 
-                        //connect
-                        //TODO
+                        call.enqueue(new Callback<TokenDto>() {
+                            @Override
+                            public void onResponse(Call<TokenDto> call, Response<TokenDto> response) {
+                                Log.i("AWAYINFO", "Acc creation success : " + response.isSuccessful());
+                                if (response.isSuccessful()) {
+                                    Intent home = new Intent(CreateAccountActivity.this, HomeActivity.class);
+                                    home.putExtra("token", response.body().getToken());
 
-                        Intent home = new Intent(CreateAccountActivity.this, HomeActivity.class);
-                        home.putExtra("connected_user", account);
+                                    home.putExtra("connected_user", account);
 
-                        startActivity(home);
-                        finish();
+                                    startActivity(home);
+                                    finish();
+                                } else {
+                                    //TODO
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<TokenDto> call, Throwable t) {
+                                //TODO
+                                Log.i("error", t.getMessage());
+                            }
+                        });
+
                         break;
                 }
             }

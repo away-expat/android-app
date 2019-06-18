@@ -50,7 +50,7 @@ public class ListViewHomeView extends ConstraintLayout {
         activityNameTextView.setText(event.getName());
 
         for (User u : event.getParticipant()) {
-            if (u.getId().equals(connectedUser.getId())) {
+            if (connectedUser.getId() == u.getId()) {
                 joinImageView.setImageResource(R.drawable.done);
                 isConnectedUserInEvent = true;
                 break;

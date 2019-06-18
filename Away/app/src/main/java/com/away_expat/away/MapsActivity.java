@@ -42,7 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng userPos = new LatLng(connectedUser.getCurrentCity().getLatitude(), connectedUser.getCurrentCity().getLongitude());
+        LatLng userPos = new LatLng(48.866667, 2.333333);
         getIntent().putExtra("position", userPos);
         mMap.addMarker(new MarkerOptions().position(userPos));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(userPos));

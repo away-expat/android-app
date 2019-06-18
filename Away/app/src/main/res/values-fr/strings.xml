@@ -52,7 +52,11 @@
     <string name="select_tag">Selectionner un Tag</string>
     <string name="description">Description</string>
     <string name="delete">Supprimer</string>
-    <string name="disconnect">Déconnection</string>
+    <string name="disconnect">Déconnexion</string>
     <string name="selected_date">Date selectionnée :</string>
     <string name="time">Heure</string>
+    <string name="delete_text">Supprimer?</string>
+    <string name="disconnect_text">Déconnexion?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
 </resources>

@@ -6,32 +6,33 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.away_expat.away.R;
-import com.away_expat.away.classes.Country;
+import com.away_expat.away.classes.City;
 
-public class ListViewCountryView extends ConstraintLayout {
+public class ListViewCityView extends ConstraintLayout {
     private TextView mTextView;
 
-    public ListViewCountryView(Context context, AttributeSet attrs, int defStyle) {
+    public ListViewCityView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
 
-    public ListViewCountryView(Context context, AttributeSet attrs) {
+    public ListViewCityView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ListViewCountryView(Context context) {
+    public ListViewCityView(Context context) {
         super(context);
         init();
     }
 
     private void init() {
-        inflate(getContext(), R.layout.listview_country, this);
+        inflate(getContext(), R.layout.listview_city, this);
         mTextView = (TextView) findViewById(R.id.countrylist_name);
     }
 
-    public void bind(Country country) {
-        mTextView.setText(country.getCountryName());
+    public void bind(City city) {
+        String toDisplay = city.getName()+" - "+city.getCountry();
+        mTextView.setText(toDisplay);
     }
 }

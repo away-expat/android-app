@@ -2,6 +2,7 @@ package com.away_expat.away.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.away_expat.away.HomeActivity;
+import com.away_expat.away.LoginActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.classes.User;
+import com.away_expat.away.tools.SaveSharedPreference;
 
 public class UpdateFragment extends Fragment {
 
@@ -26,7 +30,7 @@ public class UpdateFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_creation, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_options, container, false);
 
         UserCreationFragment userCreationFragment = new UserCreationFragment();
         userCreationFragment.setUser(user, true);
@@ -50,8 +54,8 @@ public class UpdateFragment extends Fragment {
         deleteLink = (TextView) view.findViewById(R.id.delete_link);
         deleteLink.setPaintFlags(deleteLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         deleteLink.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setMessage("Delete?").setPositiveButton("Yes", dialogDeleteListener).setNegativeButton("No", dialogDeleteListener).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomDialogTheme);
+            builder.setMessage(getContext().getResources().getString(R.string.delete_text)).setPositiveButton(getContext().getResources().getString(R.string.yes), dialogDeleteListener).setNegativeButton(getContext().getResources().getString(R.string.no), dialogDeleteListener).show();
         });
 
         DialogInterface.OnClickListener dialogDisconnectListener = new DialogInterface.OnClickListener() {
@@ -59,11 +63,13 @@ public class UpdateFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-                        //Yes button clicked
+                        SaveSharedPreference.setToken(getActivity().getApplicationContext(), null);
+                        Intent home = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(home);
+                        getActivity().finish();
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
                         break;
                 }
             }
@@ -71,8 +77,8 @@ public class UpdateFragment extends Fragment {
 
         disconnectBtn = (Button) view.findViewById(R.id.disconnectBtn);
         disconnectBtn.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setMessage("Disconnect?").setPositiveButton("Yes", dialogDisconnectListener).setNegativeButton("No", dialogDisconnectListener).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomDialogTheme);
+            builder.setMessage(getContext().getResources().getString(R.string.disconnect_text)).setPositiveButton(getContext().getResources().getString(R.string.yes), dialogDisconnectListener).setNegativeButton(getContext().getResources().getString(R.string.no), dialogDisconnectListener).show();
         });
 
         return view;

@@ -47,10 +47,7 @@ public class CreationFragment extends Fragment {
 
         selectActivityBtn = (Button) view.findViewById(R.id.select_activity_btn);
         selectActivityBtn.setOnClickListener(v -> {
-            EventCreationFragment fragment = new EventCreationFragment();
-            fragment.setUser(connectedUser);
-
-            ((HomeActivity) getActivity()).replaceFragment(fragment);
+            //TODO
         });
 
         createActivityBtn = (Button) view.findViewById(R.id.create_activity_btn);
@@ -61,9 +58,6 @@ public class CreationFragment extends Fragment {
             ((HomeActivity) getActivity()).replaceFragment(fragment);
         });
 
-        dateTV = (TextView) view.findViewById(R.id.date_picked);
-        dateTV.setVisibility(View.INVISIBLE);
-
         TimePickerDialog.OnTimeSetListener time = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -71,7 +65,7 @@ public class CreationFragment extends Fragment {
             }
         };
         selectTimeBtn = (Button) view.findViewById(R.id.event_crea_timeBtn);
-        selectTimeBtn.setOnClickListener(v -> new TimePickerDialog(getContext(), time, myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE), false).show());
+        selectTimeBtn.setOnClickListener(v -> new TimePickerDialog(getContext(), R.style.CustomDialogTheme, time, myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE), false).show());
 
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -83,13 +77,13 @@ public class CreationFragment extends Fragment {
             }
         };
         selectDateBtn = (Button) view.findViewById(R.id.event_crea_dateBtn);
-        selectDateBtn.setOnClickListener(v -> new DatePickerDialog(getContext(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show());
+        selectDateBtn.setOnClickListener(v -> new DatePickerDialog(getContext(), R.style.CustomDialogTheme, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show());
 
         return view;
     }
 
-    public void setUser(User user) {
-        this.connectedUser = user;
+    public void setUser() {
+        this.connectedUser = new User();
     }
 
     public void setNewActivity(Activity newActivity) {
@@ -99,29 +93,15 @@ public class CreationFragment extends Fragment {
     private void updateDate() {
         String myFormat = "dd/MM/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-
-        dateTV.setVisibility(View.VISIBLE);
         this.selectedDate = sdf.format(myCalendar.getTime());
 
-        String toDisplay = getResources().getString(R.string.selected_date)+" "+selectedDate;
-        if (selectedTime != null) {
-            toDisplay += " - "+selectedTime;
-        }
-
-        dateTV.setText(toDisplay);
+        selectDateBtn.setText(selectedDate);
     }
 
     private void updateTime(int hourOfDay, int minute) {
-        dateTV.setVisibility(View.VISIBLE);
         this.selectedTime = hourOfDay+":"+minute;
 
-        String toDisplay = getResources().getString(R.string.selected_date)+" ";
-        if (selectedDate != null) {
-            toDisplay += selectedDate+" - ";
-        }
-        toDisplay += selectedTime;
-
-        dateTV.setText(toDisplay);
+        selectTimeBtn.setText(selectedTime);
     }
 
 }

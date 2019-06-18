@@ -5,18 +5,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.away_expat.away.classes.Country;
-import com.away_expat.away.views.ListViewCountryView;
+import com.away_expat.away.classes.City;
+import com.away_expat.away.views.ListViewCityView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CountryListViewAdapter extends BaseAdapter {
+public class CityListViewAdapter extends BaseAdapter {
 
-    private List<Country> mModel = new ArrayList<>();
+    private List<City> mModel = new ArrayList<>();
     private Context mContext;
 
-    public CountryListViewAdapter(Context context) {
+    public CityListViewAdapter(Context context) {
         mContext = context;
     }
 
@@ -26,7 +26,7 @@ public class CountryListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public Country getItem(int position) {
+    public City getItem(int position) {
         return mModel.get(position);
     }
 
@@ -37,17 +37,17 @@ public class CountryListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ListViewCountryView v = null;
+        ListViewCityView v = null;
         if (convertView == null) {
-            v = new ListViewCountryView(mContext);
+            v = new ListViewCityView(mContext);
         } else {
-            v = (ListViewCountryView) convertView;
+            v = (ListViewCityView) convertView;
         }
         v.bind(getItem(position));
         return v;
     }
 
-    public void bind(List<Country> model) {
+    public void bind(List<City> model) {
         mModel = model;
     }
 }

@@ -55,4 +55,8 @@
     <string name="disconnect">Desconexión</string>
     <string name="selected_date">Fecha seleccionada :</string>
     <string name="time">Hora</string>
+    <string name="delete_text">¿Suprimir?</string>
+    <string name="disconnect_text">¿Desconexión?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
 </resources>
