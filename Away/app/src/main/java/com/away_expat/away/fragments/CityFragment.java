@@ -48,7 +48,12 @@ public class CityFragment extends ListFragment {
             @Override
             public void onResponse(Call<List<City>> call, Response<List<City>> response) {
                 adapter = new CityListViewAdapter(getActivity());
-                adapter.bind(response.body());
+
+                if (response.isSuccessful()) {
+                    adapter.bind(response.body());
+                } else {
+                    //TODO
+                }
 
                 setListAdapter(adapter);
             }

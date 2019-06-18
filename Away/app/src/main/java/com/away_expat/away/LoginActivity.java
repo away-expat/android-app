@@ -82,7 +82,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        Call<TokenDto> call = retrofitServiceGenerator.createService(UserApiService.class).login(new LoginDto(emailET.getText().toString(), passwordET.getText().toString()));
+        String email = emailET.getText().toString().replaceAll(" ","");
+        String password = passwordET.getText().toString();
+
+        Call<TokenDto> call = retrofitServiceGenerator.createService(UserApiService.class).login(new LoginDto(email, password));
 
         call.enqueue(new Callback<TokenDto>() {
             @Override
