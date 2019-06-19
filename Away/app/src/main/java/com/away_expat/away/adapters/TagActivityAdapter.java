@@ -1,6 +1,7 @@
 package com.away_expat.away.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,17 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.away_expat.away.R;
+import com.away_expat.away.classes.Tag;
 import com.away_expat.away.views.RecyclerViewTagActivityView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class TagActivityAdapter extends RecyclerView.Adapter {
+public class TagActivityAdapter extends RecyclerView.Adapter<RecyclerViewTagActivityView> {
 
     private Context context;
-    private ArrayList<String> horizontalList;
+    private List<String> horizontalList;
 
-    public TagActivityAdapter(ArrayList<String> horizontalList, Context context) {
-        this.horizontalList = horizontalList; this.context = context;
+    public TagActivityAdapter(List<String> horizontalList, Context context) {
+        this.horizontalList = horizontalList;
+        this.context = context;
     }
 
     @Override
@@ -28,21 +32,13 @@ public class TagActivityAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        if(viewHolder instanceof RecyclerViewTagActivityView) {
-            bindViewHolder((RecyclerViewTagActivityView) viewHolder, position);
-        } else {
-            Log.e("ERROR", "Should instanciable");
-        }
-    }
-
-    public void bindViewHolder(final RecyclerViewTagActivityView holder, final int position) {
+    public void onBindViewHolder(RecyclerViewTagActivityView holder, int position) {
         String mItem = horizontalList.get(position);
         holder.textView.setText(mItem);
     }
 
     @Override
     public int getItemCount() {
-        return horizontalList.size();
+        return horizontalList == null ? 0 :horizontalList.size();
     }
 }

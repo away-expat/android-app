@@ -35,6 +35,7 @@
     <string name="update">Actualizar</string>
     <string name="friends">Amigos</string>
     <string name="event_passed">Eventos pasados :</string>
+    <string name="next_event">Futuro eventos :</string>
     <string name="event_participants">Participante(s) :</string>
     <string name="join">Unirse</string>
     <string name="invite">Invitar</string>

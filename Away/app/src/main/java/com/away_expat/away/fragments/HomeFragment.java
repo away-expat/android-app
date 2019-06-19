@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.away_expat.away.CreateAccountActivity;
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.HomeListViewAdapter;

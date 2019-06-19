@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ import com.away_expat.away.adapters.TagActivityAdapter;
 import com.away_expat.away.adapters.TagActivityGridViewAdapter;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Event;
+import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
 import com.squareup.picasso.Picasso;
 
@@ -35,7 +35,6 @@ public class ActivityFragment extends ListFragment {
     private TextView activityName, activityAddress;
     private ImageView activityImage;
     private EventListViewAdapter eventAdapter;
-    private GridView gridView;
     private TagActivityGridViewAdapter tagAdapter;
     private User connectedUser;
     private Activity activity;
@@ -71,12 +70,7 @@ public class ActivityFragment extends ListFragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        ArrayList<String> listItem = new ArrayList<>();
-        listItem.add("Resto");
-        listItem.add("Bistro");
-        listItem.add("Parc");
-        listItem.add("Sport");
-        listItem.add("Cinema");
+        List<String> listItem = activity.getType();
         TagActivityAdapter itemAdapter = new TagActivityAdapter(listItem, getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(itemAdapter);
@@ -97,6 +91,9 @@ public class ActivityFragment extends ListFragment {
 
         final List<Event> items = new ArrayList<>();
         items.add(new Event("Super Cool", "Ptite aprem chill au vre-lou. On va faire le tour du baille, mater la Joconde et manger un pti domac des mifas. Si tu kiff la vibes rejoint nous rouilla.", new Date(), new User(0,"fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"), louvre, participants));
+        items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User(0, "testtest@input.com", "******", "input", "input", "01/01/1111", "USA"), louvre, participants));
+        items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User(0, "testtest@input.com", "******", "input", "input", "01/01/1111", "USA"), louvre, participants));
+        items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User(0, "testtest@input.com", "******", "input", "input", "01/01/1111", "USA"), louvre, participants));
         items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User(0, "testtest@input.com", "******", "input", "input", "01/01/1111", "USA"), louvre, participants));
 
         eventAdapter = new EventListViewAdapter(getActivity());

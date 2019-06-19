@@ -12,4 +12,7 @@ public interface CityApiService {
 
     @GET("/cities/")
     Call<List<City>> getCities(@Header("Authorization") String token);
+
+
+    Call<List<City>> searchCities(String token, String search);
 }

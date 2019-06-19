@@ -23,7 +23,7 @@ import java.util.List;
 public class AccountFragment extends ListFragment {
 
     private TextView nameTextview;
-    private Button actionBtn, account_btn_tag;
+    private Button actionBtn, tagBtn;
     private EventListViewAdapter adapter;
 
     private User user;
@@ -37,20 +37,24 @@ public class AccountFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         actionBtn = (Button) view.findViewById(R.id.account_btn_action);
+        tagBtn = (Button) view.findViewById(R.id.account_btn_tag);
         nameTextview = (TextView) view.findViewById(R.id.account_textview_username);
 
         nameTextview.setText(user.getFirstname()+" "+user.getLastname());
 
         if (isUserAccount) {
-            actionBtn.setText(R.string.update);
+            actionBtn.setVisibility(View.VISIBLE);
             actionBtn.setOnClickListener(v -> {
                 updateAccount();
             });
-        } else {
-            actionBtn.setText("Follow");
-            actionBtn.setOnClickListener(v -> {
-                followUser();
+
+            tagBtn.setVisibility(View.VISIBLE);
+            tagBtn.setOnClickListener(v -> {
+                updateTag();
             });
+        } else {
+            actionBtn.setVisibility(View.INVISIBLE);
+            tagBtn.setVisibility(View.INVISIBLE);
         }
 
         return view;
@@ -83,8 +87,9 @@ public class AccountFragment extends ListFragment {
         fragment.setUser(user);
     }
 
-    private void followUser() {
-        //TODO
+    private void updateTag() {
+        TagFragment fragment = new TagFragment();
+        ((HomeActivity) getActivity()).replaceFragment(fragment);
     }
 
     public void setUser(User user, boolean isUserAcc) {

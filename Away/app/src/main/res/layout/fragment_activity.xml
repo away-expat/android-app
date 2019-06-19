@@ -69,28 +69,6 @@
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/activity_image" />
 
-
-    <GridView
-        android:id="@+id/grid_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="auto_fit"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_address">
-
-    </GridView>
-
     <LinearLayout
         android:id="@+id/linear_recycler_view"
         android:layout_width="fill_parent"
@@ -120,8 +98,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/event_passed"
+        android:layout_marginTop="15dp"
+        android:text="@string/next_event"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear_recycler_view" />

@@ -6,23 +6,15 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.TextView;
 
-import com.away_expat.away.adapters.SearchGridViewAdapter;
 import com.away_expat.away.adapters.TagSelectionGridViewAdapter;
-import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Tag;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 import com.away_expat.away.services.TagApiService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -41,7 +33,7 @@ public class TagActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tag);
+        setContentView(R.layout.fragment_tag);
 
         gridView = (GridView) findViewById(R.id.grid_view);
         searchET = (EditText) findViewById(R.id.search_tag_input);
