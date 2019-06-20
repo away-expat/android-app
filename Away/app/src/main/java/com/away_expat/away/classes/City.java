@@ -1,6 +1,8 @@
 package com.away_expat.away.classes;
 
-public class City {
+import java.io.Serializable;
+
+public class City implements Serializable {
 
     private int id;
     private String name;

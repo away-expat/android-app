@@ -11,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface UserApiService {
@@ -24,8 +25,8 @@ public interface UserApiService {
     @GET("users/userInfo")
     Call<User> getUserInfo(@Header("Authorization") String token);
 
-    @PATCH("users/{id}")
-    Call<User> updateUser(@Header("Authorization") String token, @Path("id") Long userId, @Body User user);
+    @PUT("users/")
+    Call<User> updateUser(@Header("Authorization") String token, @Body User user);
 
     @DELETE("users/{id}")
     Call<User> deleteUser(@Header("Authorization") String token, @Path("id") Long id);

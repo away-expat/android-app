@@ -96,6 +96,13 @@ public class User implements Serializable {
         this.country = country;
     }
 
+    public String getIdCity() {
+        return idCity;
+    }
+
+    public void setIdCity(String idCity) {
+        this.idCity = idCity;
+    }
 
     @Override
     public String toString() {

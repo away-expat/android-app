@@ -22,7 +22,7 @@ import java.util.List;
 
 public class AccountFragment extends ListFragment {
 
-    private TextView nameTextview;
+    private TextView nameTV, countryTV, birthdayTV;
     private Button actionBtn, tagBtn;
     private EventListViewAdapter adapter;
 
@@ -38,9 +38,13 @@ public class AccountFragment extends ListFragment {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         actionBtn = (Button) view.findViewById(R.id.account_btn_action);
         tagBtn = (Button) view.findViewById(R.id.account_btn_tag);
-        nameTextview = (TextView) view.findViewById(R.id.account_textview_username);
+        nameTV = (TextView) view.findViewById(R.id.account_textview_username);
+        countryTV = (TextView) view.findViewById(R.id.account_textview_country);
+        birthdayTV = (TextView) view.findViewById(R.id.account_textview_birthdate);
 
-        nameTextview.setText(user.getFirstname()+" "+user.getLastname());
+        nameTV.setText(user.getFirstname()+" "+user.getLastname());
+        countryTV.setText(user.getCountry());
+        birthdayTV.setText(user.getBirthday());
 
         if (isUserAccount) {
             actionBtn.setVisibility(View.VISIBLE);

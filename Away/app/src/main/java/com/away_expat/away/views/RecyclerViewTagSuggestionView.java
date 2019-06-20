@@ -5,14 +5,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.away_expat.away.R;
-import com.away_expat.away.adapters.TagUserAdapter;
+import com.away_expat.away.adapters.TagSuggestionAdapter;
 
-public class RecyclerViewTagUserView extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class RecyclerViewTagSuggestionView extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView textView;
-    TagUserAdapter.OnAddedTagClickListener onAddedTagClickListener;
+    TagSuggestionAdapter.OnAddedTagClickListener onAddedTagClickListener;
 
-    public RecyclerViewTagUserView(View view, TagUserAdapter.OnAddedTagClickListener onAddedTagClickListener) {
+    public RecyclerViewTagSuggestionView(View view, TagSuggestionAdapter.OnAddedTagClickListener onAddedTagClickListener) {
         super(view);
         textView = (TextView) view.findViewById(R.id.tag_text);
         this.onAddedTagClickListener = onAddedTagClickListener;

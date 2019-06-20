@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,8 +15,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="250dp"
-        android:layout_marginLeft="250dp"
+        android:layout_marginStart="225dp"
+        android:layout_marginLeft="225dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
@@ -28,7 +29,7 @@
 
     <TextView
         android:id="@+id/account_textview_username"
-        android:layout_width="200dp"
+        android:layout_width="175dp"
         android:layout_height="25dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -37,16 +38,14 @@
         android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="175dp"
-        android:layout_marginRight="175dp"
         android:text="@string/first_name"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/account_textview_info"
-        android:layout_width="200dp"
+        android:id="@+id/account_textview_birthdate"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -55,14 +54,14 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="55dp"
-        android:text="@string/little_lorem"
+        android:layout_marginTop="15dp"
+        android:text="@string/birth_date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/account_textview_username" />
 
-    <Button
-        android:id="@+id/account_btn_action"
-        android:layout_width="200dp"
+    <TextView
+        android:id="@+id/account_textview_country"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -72,30 +71,60 @@
         android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/btn"
-        android:text="@string/update"
+        android:text="@string/country"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_textview_info" />
+        app:layout_constraintTop_toBottomOf="@+id/account_textview_birthdate" />
 
     <Button
         android:id="@+id/account_btn_tag"
-        android:layout_width="match_parent"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="250dp"
-        android:layout_marginLeft="250dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/btn"
+        android:text="TAGS"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_textview_country" />
+
+    <View
+        android:id="@+id/hr"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_btn_tag" />
+
+    <Button
+        android:id="@+id/account_btn_action"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
         android:background="@drawable/btn"
-        android:text="TAGS"
+        android:text="@string/params"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_textview_info" />
+        app:layout_constraintTop_toBottomOf="@+id/hr" />
 
     <TextView
         android:id="@+id/textView11"
@@ -106,8 +135,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/event_passed"
+        android:layout_marginTop="15dp"
+        android:text="@string/next_event"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/account_btn_action" />

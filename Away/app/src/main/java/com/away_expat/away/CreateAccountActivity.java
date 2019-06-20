@@ -70,13 +70,8 @@ public class CreateAccountActivity extends FragmentActivity {
 
                     case 2:
                         step--;
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, accModifFrag).commit();
-                        break;
-
-                    case 3:
-                        step--;
                         nextBtn.setText(R.string.next);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, accCountryFrag).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, accModifFrag).commit();
                         break;
                 }
             }
@@ -90,6 +85,7 @@ public class CreateAccountActivity extends FragmentActivity {
                         account = accModifFrag.checkAndGetAccountInfo();
                         if (account != null) {
                             step++;
+                            nextBtn.setText(R.string.create);
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, accCountryFrag).commit();
                             return;
                         } else {
@@ -97,12 +93,6 @@ public class CreateAccountActivity extends FragmentActivity {
                         }
 
                     case 2:
-                        step++;
-                        nextBtn.setText(R.string.create);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, accTagFrag).commit();
-                        break;
-
-                    case 3:
                         step++;
                         Call<TokenDto> call = retrofitServiceGenerator.createService(UserApiService.class).createUser(account);
                         Log.i("AWAYINFO", "Account "+account.toString());

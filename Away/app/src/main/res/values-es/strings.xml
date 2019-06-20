@@ -41,7 +41,7 @@
     <string name="invite">Invitar</string>
     <string name="by">Por :</string>
     <string name="country_text">¿Adonde quieres ir?</string>
-    <string name="search_text">¿Qué busca usted?</string>
+    <string name="search_text">¿Que buscas tú?</string>
     <string name="activity">Actividad</string>
     <string name="date">Date</string>
     <string name="add_tag">Añadir a los tags</string>
@@ -60,4 +60,10 @@
     <string name="disconnect_text">¿Desconexión?</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
+    <string name="added">añadió</string>
+    <string name="already_added">ya añadió</string>
+    <string name="tag_warning">Tienes que tener al menos un Tag</string>
+    <string name="error_retry">Error, reprueba</string>
+    <string name="error_reload">Error, recargas la página</string>
+    <string name="params">Parámetros</string>
 </resources>

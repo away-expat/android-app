@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 import com.away_expat.away.classes.City;
 import com.away_expat.away.views.ListViewCityView;
@@ -15,6 +16,7 @@ public class CityListViewAdapter extends BaseAdapter {
 
     private List<City> mModel = new ArrayList<>();
     private Context mContext;
+    private ListViewCityView view;
 
     public CityListViewAdapter(Context context) {
         mContext = context;
@@ -37,14 +39,14 @@ public class CityListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ListViewCityView v = null;
+        view = null;
         if (convertView == null) {
-            v = new ListViewCityView(mContext);
+            view = new ListViewCityView(mContext);
         } else {
-            v = (ListViewCityView) convertView;
+            view = (ListViewCityView) convertView;
         }
-        v.bind(getItem(position));
-        return v;
+        view.bind(getItem(position));
+        return view;
     }
 
     public void bind(List<City> model) {

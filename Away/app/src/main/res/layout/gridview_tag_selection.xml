@@ -45,7 +45,7 @@
             android:layout_marginTop="13dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/add_black" />
+            app:srcCompat="@drawable/cross" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -10,15 +10,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.away_expat.away.R;
-import com.away_expat.away.adapters.TagActivityAdapter;
+import com.away_expat.away.adapters.AutoCompleteTagArrayAdapter;
 import com.away_expat.away.adapters.TagSelectionGridViewAdapter;
-import com.away_expat.away.adapters.TagUserAdapter;
+import com.away_expat.away.adapters.TagSuggestionAdapter;
 import com.away_expat.away.classes.Tag;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 import com.away_expat.away.services.TagApiService;
@@ -30,18 +33,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TagFragment extends Fragment implements TagUserAdapter.OnAddedTagClickListener {
+public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAddedTagClickListener {
 
     private TagSelectionGridViewAdapter tagsAdapter;
-    private TagUserAdapter userTagAdapter;
-    private EditText searchET;
-    private Button selectBtn;
+    private TagSuggestionAdapter tagSuggestionAdapter;
+    private AutoCompleteTagArrayAdapter autoCompleteAdapter;
+
+    private AutoCompleteTextView searchATV;
     private GridView gridView;
     private RecyclerView recyclerView;
     private String token;
 
-    private List<Tag> addedTag = new ArrayList<>();
-    private List<Tag> allTag = new ArrayList<>();
+    private List<Tag> suggestionTag = new ArrayList<>();
+    private List<Tag> userTag = new ArrayList<>();
+    private List<Tag> searchedTag = new ArrayList<>();
 
     public TagFragment() {
     }
@@ -52,101 +57,145 @@ public class TagFragment extends Fragment implements TagUserAdapter.OnAddedTagCl
         token = getActivity().getIntent().getStringExtra("token");
 
         gridView = (GridView) view.findViewById(R.id.grid_view);
-        searchET = (EditText) view.findViewById(R.id.search_tag_input);
-        selectBtn = (Button) view.findViewById(R.id.tag_selection_btn);
+        searchATV = (AutoCompleteTextView) view.findViewById(R.id.search_tag_input);
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
 
-        setupSearch();
         setupTagGridView();
-        setupUserTag();
-
-        selectBtn.setOnClickListener(v -> {
-            //TODO
-        });
 
         return view;
     }
 
-    public void setupUserTag() {
+    public void setupTagSuggestion() {
         if (token != null) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             recyclerView.setLayoutManager(layoutManager);
             TagFragment $this = this;
 
-            Call<List<Tag>> call = RetrofitServiceGenerator.createService(TagApiService.class).getUserTags(token);
+            recyclerView.setAdapter(tagSuggestionAdapter);
 
-            call.enqueue(new Callback<List<Tag>>() {
-                @Override
-                public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
-                    addedTag = response.body();
-
-                    userTagAdapter = new TagUserAdapter(addedTag, getContext(), $this);
-                    recyclerView.setAdapter(userTagAdapter);
-                }
-
-                @Override
-                public void onFailure(Call<List<Tag>> call, Throwable t) {
-                    Log.i("error", t.getMessage());
-                }
-            });
+            //TODO
         }
     }
 
     private void setupSearch() {
-        searchET.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence c, int start, int before, int count) {
-                Log.i("INFO", c.toString());
-            }
-
-            public void beforeTextChanged(CharSequence c, int start, int count, int after) {
-                // this space intentionally left blank
-            }
-
-            public void afterTextChanged(Editable c) {
-                // this one too
-            }
-        });
-    }
-
-
-    private void setupTagGridView() {
         Call<List<Tag>> call = RetrofitServiceGenerator.createService(TagApiService.class).getAllTags();
 
         call.enqueue(new Callback<List<Tag>>() {
             @Override
             public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
-                allTag = response.body();
+                if (response.isSuccessful()) {
+                    autoCompleteAdapter = new AutoCompleteTagArrayAdapter(getContext(), R.layout.view_auto_complete, response.body());
 
-                tagsAdapter = new TagSelectionGridViewAdapter(getContext());
-                tagsAdapter.bind(allTag);
-
-                gridView.setAdapter(tagsAdapter);
+                    searchATV.setAdapter(autoCompleteAdapter);
+                    searchATV.setOnItemClickListener((AdapterView<?> adapterView, View view, int i, long l) -> {
+                        Tag selectedTag = (Tag) adapterView.getItemAtPosition(i);
+                        addToUserTags(selectedTag);
+                    });
+                }else {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<List<Tag>> call, Throwable t) {
-                Log.i("error", t.getMessage());
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setupTagGridView() {
+        Call<List<Tag>> call = RetrofitServiceGenerator.createService(TagApiService.class).getUserTags(token);
+
+        call.enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
+                if (response.isSuccessful()) {
+                    userTag = response.body();
+
+                    tagsAdapter = new TagSelectionGridViewAdapter(getContext());
+                    tagsAdapter.bind(userTag);
+
+                    gridView.setAdapter(tagsAdapter);
+                    gridView.setOnItemClickListener((a, v, position, id) -> {
+                        removeFromUserTags(userTag.get(position));
+                    });
+
+                    setupSearch();
+                    setupTagSuggestion();
+                }else {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Tag>> call, Throwable t) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
             }
         });
 
-        gridView.setOnItemClickListener((a, v, position, id) -> {
-            Log.i("AWAYINFO", "----------------------------------------−−> "+addedTag.size()+" // "+tagsAdapter.getItem(position).getName());
-            addedTag.add(tagsAdapter.getItem(position));
-            userTagAdapter.notifyDataSetChanged();
+    }
 
-            allTag.remove(position);
-            tagsAdapter.notifyDataSetChanged();
-        });
+    private void addToUserTags(Tag tag) {
+        if (!userTag.contains(tag)) {
+            Call<Tag> call = RetrofitServiceGenerator.createService(TagApiService.class).addToUserTags(token, tag.getId());
+
+            call.enqueue(new Callback<Tag>() {
+                @Override
+                public void onResponse(Call<Tag> call, Response<Tag> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(getActivity(), "Tag : " + tag.getName() + " " + getResources().getString(R.string.added), Toast.LENGTH_SHORT).show();
+                        userTag.add(tag);
+                        tagsAdapter.notifyDataSetChanged();
+                    }else {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Tag> call, Throwable t) {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(getActivity(), "Tag : " + tag.getName() + " " + getResources().getString(R.string.already_added), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void removeFromUserTags(Tag tag) {
+        if (userTag.size() > 1) {
+            Call<Void> call = RetrofitServiceGenerator.createService(TagApiService.class).removeFromUserTags(token, tag.getId());
+
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        userTag.remove(tag);
+                        tagsAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(getActivity(), getResources().getString(R.string.tag_warning), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onClick(int position) {
-        Log.i("AWAYINFO", "----------------------------------------> "+addedTag.get(position).getName());
-        allTag.add(addedTag.get(position));
+        Log.i("AWAYINFO", "----------------------------------------> "+ suggestionTag.get(position).getName());
+        userTag.add(suggestionTag.get(position));
         tagsAdapter.notifyDataSetChanged();
 
-        addedTag.remove(position);
-        userTagAdapter.notifyDataSetChanged();
+        suggestionTag.remove(position);
+        tagSuggestionAdapter.notifyDataSetChanged();
     }
+
+
 }

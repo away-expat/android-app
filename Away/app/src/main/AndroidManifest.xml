@@ -44,11 +44,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TagActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity

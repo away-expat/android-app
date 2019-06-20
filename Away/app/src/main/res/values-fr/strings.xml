@@ -31,7 +31,7 @@
     <string name="account">Compte</string>
     <string name="country">Pays</string>
     <string name="country_info">Information du pays</string>
-    <string name="country_text">Où voulez vous aller ?</string>
+    <string name="country_text">Où veux-tu aller ?</string>
     <string name="search_text">Que cherches-tu?</string>
     <string name="search">Recherche</string>
     <string name="update">Modifier</string>
@@ -60,4 +60,10 @@
     <string name="disconnect_text">Déconnexion?</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
+    <string name="added">ajouté</string>
+    <string name="already_added">déjà ajouté</string>
+    <string name="tag_warning">Tu dois avoir au moins un Tag</string>
+    <string name="error_retry">Erreur, réessaie</string>
+    <string name="error_reload">Erreur, recharge la page</string>
+    <string name="params">Parametres</string>
 </resources>

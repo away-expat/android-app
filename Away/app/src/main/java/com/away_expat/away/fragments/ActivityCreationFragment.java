@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.away_expat.away.MapsActivity;
 import com.away_expat.away.R;
-import com.away_expat.away.TagActivity;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.User;
 
@@ -48,9 +47,7 @@ public class ActivityCreationFragment extends Fragment {
 
         tagPickerBtn = (Button) view.findViewById(R.id.event_crea_dateBtn);
         tagPickerBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), TagActivity.class);
-            intent.putExtra("connected_user", connectedUser);
-            startActivityForResult(intent, 2);
+            //TODO
         });
 
         saveBtn = (Button) view.findViewById(R.id.save_btn);

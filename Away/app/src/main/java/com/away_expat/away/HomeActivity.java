@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.away_expat.away.classes.City;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.fragments.AccountFragment;
 import com.away_expat.away.fragments.CityFragment;
@@ -16,6 +18,7 @@ import com.away_expat.away.fragments.CountryInformationFragment;
 import com.away_expat.away.fragments.CreationFragment;
 import com.away_expat.away.fragments.HomeFragment;
 import com.away_expat.away.fragments.SearchFragment;
+import com.away_expat.away.services.CityApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 import com.away_expat.away.services.UserApiService;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
@@ -38,6 +41,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private ImageView countryImageView;
     private TextView currentCityTV;
+    private View customBar;
 
     private RetrofitServiceGenerator retrofitServiceGenerator;
 
@@ -45,24 +49,9 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         token = getIntent().getStringExtra("token");
-        Call<User> call = retrofitServiceGenerator.createService(UserApiService.class).getUserInfo(token);
 
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                getIntent().putExtra("connectedUser", response.body());
-                Log.i("AWAYINFO", "User success : " + ((User) getIntent().getSerializableExtra("connectedUser")).toString());
-                loadViews();
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                //TODO
-                Log.i("error", t.getMessage());
-            }
-        });
+        getConnectedUser();
     }
 
     private void initBottomBar() {
@@ -99,16 +88,36 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
+    private  void getConnectedUser() {
+        HomeActivity $this = this;
+        Call<User> call = retrofitServiceGenerator.createService(UserApiService.class).getUserInfo(token);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    getIntent().putExtra("connectedUser", response.body());
+                    loadViews();
+                    setupUserCity();
+                } else {
+                    Toast.makeText($this, getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText($this, getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void loadViews() {
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.custom_action_bar);
-        View customBar = getSupportActionBar().getCustomView();
+        customBar = getSupportActionBar().getCustomView();
 
         currentCityTV = (TextView) customBar.findViewById(R.id.user_location);
-        //TODO
-        currentCityTV.setText("PARIS");
-
         countryImageView = (ImageView) customBar.findViewById(R.id.country);
         countryImageView.setOnClickListener(v -> getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, cityFragment).commit());
 
@@ -151,4 +160,32 @@ public class HomeActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, fragment).commit();
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
+    public void setupUserCity() {
+        HomeActivity $this = this;
+        User connectedUser = (User) getIntent().getSerializableExtra("connectedUser");
+        Call<City> call = retrofitServiceGenerator.createService(CityApiService.class).getCityById(token, connectedUser.getIdCity());
+
+        call.enqueue(new Callback<City>() {
+            @Override
+            public void onResponse(Call<City> call, Response<City> response) {
+                if (response.isSuccessful()) {
+                    City currentCity = response.body();
+                    getIntent().putExtra("city", currentCity);
+                    currentCityTV.setText(response.body().getName());
+                } else {
+                    Toast.makeText($this, getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<City> call, Throwable t) {
+                Toast.makeText($this, getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
