@@ -138,6 +138,7 @@ public class DetailedSearchFragment extends ListFragment {
 
             @Override
             public void onFailure(Call<ActivityByTagListDto> call, Throwable t) {
+                Log.i("AWAYINFO", "-----------------> "+t.getMessage());
                 Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
             }
         });

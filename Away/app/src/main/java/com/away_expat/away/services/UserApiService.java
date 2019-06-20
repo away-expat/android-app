@@ -1,5 +1,6 @@
 package com.away_expat.away.services;
 
+import com.away_expat.away.classes.City;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.dto.LoginDto;
 import com.away_expat.away.dto.TokenDto;
@@ -32,5 +33,5 @@ public interface UserApiService {
     Call<User> deleteUser(@Header("Authorization") String token, @Path("id") Long id);
 
     @PUT("users/updateUserCity/{id}")
-    Call<User> updateUserCity(@Header("Authorization") String token, @Path("id") int id);
+    Call<City> updateUserCity(@Header("Authorization") String token, @Path("id") int id);
 }

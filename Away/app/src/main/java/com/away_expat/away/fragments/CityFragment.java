@@ -82,7 +82,9 @@ public class CityFragment extends ListFragment {
 
             @Override
             public void onTextChanged(CharSequence c, int start, int before, int count) {
-                searchCities(c.toString());
+                if (c.toString().length() > 2) {
+                    searchCities(c.toString());
+                }
             }
 
             @Override
@@ -140,22 +142,24 @@ public class CityFragment extends ListFragment {
 
     private void setupSelect() {
         selectBtn.setOnClickListener(v -> {
-            Call<User> call = RetrofitServiceGenerator.createService(UserApiService.class).updateUserCity(token, selectedCity.getId());
+            Call<City> call = RetrofitServiceGenerator.createService(UserApiService.class).updateUserCity(token, selectedCity.getId());
 
-            call.enqueue(new Callback<User>() {
+            call.enqueue(new Callback<City>() {
                 @Override
-                public void onResponse(Call<User> call, Response<User> response) {
+                public void onResponse(Call<City> call, Response<City> response) {
                     if (response.isSuccessful()) {
-                        connectedUser = response.body();
+                        connectedUser.setCity(response.body());
                         getActivity().getIntent().putExtra("connectedUser", connectedUser);
                         ((HomeActivity) getActivity()).setupUserCity();
+                        HomeFragment fragment = new HomeFragment();
+                        ((HomeActivity) getActivity()).replaceFragment(fragment);
                     } else {
                         Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<User> call, Throwable t) {
+                public void onFailure(Call<City> call, Throwable t) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
                 }
             });

@@ -112,7 +112,7 @@ public class User implements Serializable {
                 ", lastname='" + lastname + '\'' +
                 ", birth='" + birth + '\'' +
                 ", country='" + country + '\'' +
-                ", idCity='" + at.getName() + '\'' +
+                //", idCity='" + at.getName() + '\'' +
                 '}';
     }
 }
