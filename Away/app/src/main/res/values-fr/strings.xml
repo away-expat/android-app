@@ -63,7 +63,7 @@
     <string name="added">ajouté</string>
     <string name="already_added">déjà ajouté</string>
     <string name="tag_warning">Tu dois avoir au moins un Tag</string>
-    <string name="error_retry">Erreur, réessaie</string>
+    <string name="error_retry">Erreur, réessaies</string>
     <string name="error_reload">Erreur, recharge la page</string>
     <string name="params">Parametres</string>
 </resources>

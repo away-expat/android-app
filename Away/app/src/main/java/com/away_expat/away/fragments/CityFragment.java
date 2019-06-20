@@ -140,14 +140,11 @@ public class CityFragment extends ListFragment {
 
     private void setupSelect() {
         selectBtn.setOnClickListener(v -> {
-            connectedUser.setIdCity(Integer.toString(selectedCity.getId()));
-
-            Call<User> call = RetrofitServiceGenerator.createService(UserApiService.class).updateUser(token, connectedUser);
+            Call<User> call = RetrofitServiceGenerator.createService(UserApiService.class).updateUserCity(token, selectedCity.getId());
 
             call.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
-
                     if (response.isSuccessful()) {
                         connectedUser = response.body();
                         getActivity().getIntent().putExtra("connectedUser", connectedUser);

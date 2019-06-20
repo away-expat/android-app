@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
@@ -120,22 +121,24 @@ public class DetailedSearchFragment extends ListFragment {
             addTileIV.setImageResource(R.drawable.add_black);
         }*/
 
-        Call<ActivityByTagListDto> call = retrofitServiceGenerator.createService(ActivityApiService.class).getActivitiesByTag(token,"Paris", tag.getName());
+        Call<ActivityByTagListDto> call = retrofitServiceGenerator.createService(ActivityApiService.class).getActivitiesByTag(token,connectedUser.getCity().getName()+" "+connectedUser.getCity().getCountry(), tag.getName());
 
         call.enqueue(new Callback<ActivityByTagListDto>() {
             @Override
             public void onResponse(Call<ActivityByTagListDto> call, Response<ActivityByTagListDto> response) {
-                Log.i("HI", "----------------------------------> "+tag.getName());
-                adapter = new ActivityListViewAdapter(getActivity());
-                adapter.bind(response.body().getResults());
-                progressBar.setVisibility(View.GONE);
-                setListAdapter(adapter);
+                if (response.isSuccessful()) {
+                    adapter = new ActivityListViewAdapter(getActivity());
+                    adapter.bind(response.body().getResults());
+                    progressBar.setVisibility(View.GONE);
+                    setListAdapter(adapter);
+                }else {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<ActivityByTagListDto> call, Throwable t) {
-                //TODO
-                Log.i("ERROR", "----------------------------------> "+t.getMessage());
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
             }
         });
 

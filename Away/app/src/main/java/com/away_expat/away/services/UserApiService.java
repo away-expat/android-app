@@ -31,4 +31,6 @@ public interface UserApiService {
     @DELETE("users/{id}")
     Call<User> deleteUser(@Header("Authorization") String token, @Path("id") Long id);
 
+    @PUT("users/updateUserCity/{id}")
+    Call<User> updateUserCity(@Header("Authorization") String token, @Path("id") int id);
 }

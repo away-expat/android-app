@@ -3,8 +3,6 @@ package com.away_expat.away.classes;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class User implements Serializable {
     private int id;
@@ -14,7 +12,7 @@ public class User implements Serializable {
     private String lastname;
     private String birth;
     private String country;
-    private String idCity = "151";
+    private City at;
 
     public User() {
     }
@@ -31,7 +29,7 @@ public class User implements Serializable {
         this.firstname = firstname;
         this.lastname = lastname;
         this.birth = birthday;
-        this.country = country;
+        this.at = at;
     }
 
     public User(GoogleSignInAccount googleAccount) {
@@ -96,12 +94,12 @@ public class User implements Serializable {
         this.country = country;
     }
 
-    public String getIdCity() {
-        return idCity;
+    public City getCity() {
+        return at;
     }
 
-    public void setIdCity(String idCity) {
-        this.idCity = idCity;
+    public void setCity(City at) {
+        this.at = at;
     }
 
     @Override
@@ -114,7 +112,7 @@ public class User implements Serializable {
                 ", lastname='" + lastname + '\'' +
                 ", birth='" + birth + '\'' +
                 ", country='" + country + '\'' +
-                ", idCity='" + idCity + '\'' +
+                ", idCity='" + at.getName() + '\'' +
                 '}';
     }
 }

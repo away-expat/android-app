@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.away_expat.away.classes.City;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.fragments.AccountFragment;
 import com.away_expat.away.fragments.CityFragment;
@@ -18,10 +16,10 @@ import com.away_expat.away.fragments.CountryInformationFragment;
 import com.away_expat.away.fragments.CreationFragment;
 import com.away_expat.away.fragments.HomeFragment;
 import com.away_expat.away.fragments.SearchFragment;
-import com.away_expat.away.services.CityApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 import com.away_expat.away.services.UserApiService;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
     private CountryInformationFragment countryInfoFragment;
     private CityFragment cityFragment;
 
-    private ImageView countryImageView;
+    private ImageView changeCountryImageView, currentCountryIV;
     private TextView currentCityTV;
     private View customBar;
 
@@ -118,8 +116,11 @@ public class HomeActivity extends AppCompatActivity {
         customBar = getSupportActionBar().getCustomView();
 
         currentCityTV = (TextView) customBar.findViewById(R.id.user_location);
-        countryImageView = (ImageView) customBar.findViewById(R.id.country);
-        countryImageView.setOnClickListener(v -> getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, cityFragment).commit());
+        currentCountryIV = (ImageView) customBar.findViewById(R.id.user_location_country);
+        //Picasso.get().load("https://www.countryflags.io/fr/flat/16.png").into(currentCountryIV);
+
+        changeCountryImageView = (ImageView) customBar.findViewById(R.id.country);
+        changeCountryImageView.setOnClickListener(v -> getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, cityFragment).commit());
 
         bottom_bar = (BottomNavigationViewEx) findViewById(R.id.bottom_bar);
 
@@ -166,26 +167,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void setupUserCity() {
-        HomeActivity $this = this;
         User connectedUser = (User) getIntent().getSerializableExtra("connectedUser");
-        Call<City> call = retrofitServiceGenerator.createService(CityApiService.class).getCityById(token, connectedUser.getIdCity());
-
-        call.enqueue(new Callback<City>() {
-            @Override
-            public void onResponse(Call<City> call, Response<City> response) {
-                if (response.isSuccessful()) {
-                    City currentCity = response.body();
-                    getIntent().putExtra("city", currentCity);
-                    currentCityTV.setText(response.body().getName());
-                } else {
-                    Toast.makeText($this, getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<City> call, Throwable t) {
-                Toast.makeText($this, getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
-            }
-        });
+        currentCityTV.setText(connectedUser.getCity().getName());
     }
 }
