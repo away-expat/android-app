@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/previousBtn"
+            android:id="@+id/closeBtn"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"

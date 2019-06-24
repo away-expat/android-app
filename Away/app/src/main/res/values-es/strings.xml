@@ -63,7 +63,11 @@
     <string name="added">añadió</string>
     <string name="already_added">ya añadió</string>
     <string name="tag_warning">Tienes que tener al menos un Tag</string>
+    <string name="tag_three_warning">Tienes que tener al menos très Tag</string>
     <string name="error_retry">Error, reprueba</string>
     <string name="error_reload">Error, recargas la página</string>
     <string name="params">Parámetros</string>
+    <string name="close">Cerrar</string>
+    <string name="welcome">¡Benvenido to AWAY, to finalice tu cuenta provide al menos très TAG!\n ¡Puedes usar el bar de la búsqueda para terminar lo que quieras!</string>
+    <string name="error_city">Selecciona una ciudad</string>
 </resources>

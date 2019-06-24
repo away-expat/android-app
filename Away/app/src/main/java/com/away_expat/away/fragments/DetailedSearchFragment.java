@@ -131,7 +131,7 @@ public class DetailedSearchFragment extends ListFragment {
                     adapter.bind(response.body().getResults());
                     progressBar.setVisibility(View.GONE);
                     setListAdapter(adapter);
-                }else {
+                } else {
                     Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
                 }
             }

@@ -16,8 +16,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.away_expat.away.FirstLoginActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.AutoCompleteTagArrayAdapter;
 import com.away_expat.away.adapters.TagSelectionGridViewAdapter;
@@ -42,6 +44,7 @@ public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAdde
     private AutoCompleteTextView searchATV;
     private GridView gridView;
     private RecyclerView recyclerView;
+    private TextView welcomeTV;
     private String token;
 
     private List<Tag> suggestionTag = new ArrayList<>();
@@ -56,9 +59,14 @@ public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAdde
         View view = inflater.inflate(R.layout.fragment_update_tag, container, false);
         token = getActivity().getIntent().getStringExtra("token");
 
+        Log.i("AWAYINFO", "-----------------> "+token);
+
         gridView = (GridView) view.findViewById(R.id.grid_view);
         searchATV = (AutoCompleteTextView) view.findViewById(R.id.search_tag_input);
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+
+        welcomeTV = (TextView) view.findViewById(R.id.welcomeTV);
+        welcomeTV.setVisibility(View.INVISIBLE);
 
         setupTagGridView();
 
@@ -113,6 +121,10 @@ public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAdde
                 if (response.isSuccessful()) {
                     userTag = response.body();
 
+                    if (userTag.size() == 0) {
+                        welcomeTV.setVisibility(View.VISIBLE);
+                    }
+
                     tagsAdapter = new TagSelectionGridViewAdapter(getContext());
                     tagsAdapter.bind(userTag);
 
@@ -123,7 +135,7 @@ public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAdde
 
                     setupSearch();
                     setupTagSuggestion();
-                }else {
+                } else {
                     Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -133,11 +145,12 @@ public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAdde
                 Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void addToUserTags(Tag tag) {
         if (!userTag.contains(tag)) {
+            welcomeTV.setVisibility(View.INVISIBLE);
+
             Call<Tag> call = RetrofitServiceGenerator.createService(TagApiService.class).addToUserTags(token, tag.getId());
 
             call.enqueue(new Callback<Tag>() {
@@ -147,6 +160,11 @@ public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAdde
                         Toast.makeText(getActivity(), "Tag : " + tag.getName() + " " + getResources().getString(R.string.added), Toast.LENGTH_SHORT).show();
                         userTag.add(tag);
                         tagsAdapter.notifyDataSetChanged();
+
+
+                        if (getActivity().getIntent().getBooleanExtra("isFirstLogin", false) && tagsAdapter.getCount() >= 3) {
+                            ((FirstLoginActivity) getActivity()).setIsTagSelected();
+                        }
                     }else {
                         Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
                     }
@@ -196,6 +214,4 @@ public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAdde
         suggestionTag.remove(position);
         tagSuggestionAdapter.notifyDataSetChanged();
     }
-
-
 }

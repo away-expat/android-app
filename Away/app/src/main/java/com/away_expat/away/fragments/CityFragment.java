@@ -40,12 +40,12 @@ public class CityFragment extends ListFragment {
     private Button selectBtn;
     private String token;
     private User connectedUser;
+    private boolean isCreation = false;
 
     private ListViewCityView oldView;
     private City selectedCity = null;
 
     public CityFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -65,6 +65,7 @@ public class CityFragment extends ListFragment {
         connectedUser = (User) getActivity().getIntent().getSerializableExtra("connectedUser");
 
         if (token == null && connectedUser == null) {
+            isCreation = true;
             selectBtn.setVisibility(View.INVISIBLE);
         } else {
             setupSelect();
@@ -177,5 +178,12 @@ public class CityFragment extends ListFragment {
 
         selectedCity = adapter.getItem(pos);
         oldView = ((ListViewCityView) v);
+    }
+
+    public City checkAndGetCity() {
+        if (selectedCity != null) {
+            return selectedCity;
+        }
+        return null;
     }
 }

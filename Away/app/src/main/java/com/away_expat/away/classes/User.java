@@ -13,6 +13,7 @@ public class User implements Serializable {
     private String birth;
     private String country;
     private City at;
+    private int idCity;
 
     public User() {
     }
@@ -20,22 +21,16 @@ public class User implements Serializable {
     public User(String email, String password) {
         this.mail = email;
         this.password = password;
+        this.idCity = -1;
     }
 
-    public User(int id, String email, String password, String firstname, String lastname, String birthday, String country) {
-        this.id = id;
+    public User(String email, String password, String firstname, String lastname, String birthday, String country) {
         this.mail = email;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
         this.birth = birthday;
         this.at = at;
-    }
-
-    public User(GoogleSignInAccount googleAccount) {
-        this.mail = googleAccount.getEmail();
-        this.firstname = googleAccount.getGivenName();
-        this.lastname = googleAccount.getFamilyName();
     }
 
     public int getId() {
@@ -102,6 +97,14 @@ public class User implements Serializable {
         this.at = at;
     }
 
+    public int getIdCity() {
+        return idCity;
+    }
+
+    public void setIdCity(int idCity) {
+        this.idCity = idCity;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -112,7 +115,7 @@ public class User implements Serializable {
                 ", lastname='" + lastname + '\'' +
                 ", birth='" + birth + '\'' +
                 ", country='" + country + '\'' +
-                //", idCity='" + at.getName() + '\'' +
+                ", idCity='" + idCity + '\'' +
                 '}';
     }
 }

@@ -68,9 +68,11 @@
     <string name="added">added</string>
     <string name="already_added">already added</string>
     <string name="tag_warning">You must have at least one Tag</string>
+    <string name="tag_three_warning">You must have at least one Tag</string>
     <string name="error_retry">Error, please retry</string>
     <string name="error_reload">Error, please reload</string>
     <string name="params">Params</string>
-
-    <string name="server_client_id" translatable="false">996830036732-oo39jopkdp4k8cft8jfdo3mgq4icc9er.apps.googleusercontent.com</string>
+    <string name="close">Close</string>
+    <string name="welcome">Welcome to AWAY, to finalise your account you need to provide at least three TAG !\n You can use the search bar to find what you want !</string>
+    <string name="error_city">Select a city</string>
 </resources>

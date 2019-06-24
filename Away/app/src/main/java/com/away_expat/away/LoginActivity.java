@@ -7,11 +7,17 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.away_expat.away.adapters.TagSelectionGridViewAdapter;
+import com.away_expat.away.classes.Activity;
+import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
+import com.away_expat.away.dto.ActivityByTagListDto;
 import com.away_expat.away.dto.LoginDto;
 import com.away_expat.away.dto.TokenDto;
 import com.away_expat.away.services.RetrofitServiceGenerator;
+import com.away_expat.away.services.TagApiService;
 import com.away_expat.away.services.UserApiService;
 import com.away_expat.away.tools.SaveSharedPreference;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -21,19 +27,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button loginBtn, googleBtn, facebookBtn;
+    private Button loginBtn;
     private TextView createAccountTV;
     private EditText emailET, passwordET;
-    private User account;
-    private GoogleSignInClient mGoogleSignInClient;
 
-    private RetrofitServiceGenerator retrofitServiceGenerator;
+    private LoginActivity $this = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +48,13 @@ public class LoginActivity extends AppCompatActivity {
 
         if(SaveSharedPreference.getToken(getApplicationContext()) != null) {
             Log.i("AWAYINFO", SaveSharedPreference.getToken(getApplicationContext()));
-            Intent home = new Intent(getApplicationContext(), HomeActivity.class);
-            home.putExtra("token", SaveSharedPreference.getToken(getApplicationContext()));
-            startActivity(home);
-            finish();
+            String token = SaveSharedPreference.getToken(getApplicationContext());
+            Log.i("AWAYINFO", "-----------------> "+token);
+            getIntent().putExtra("token", token);
+            getConnectedUser(token);
         }
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
         loginBtn = (Button)findViewById(R.id.login_btn);
-        googleBtn = (Button) findViewById(R.id.login_google_btn);
-        facebookBtn = (Button) findViewById(R.id.login_fb_btn);
 
         createAccountTV = (TextView)findViewById(R.id.login_create);
         emailET = (EditText) findViewById(R.id.login_input_email);
@@ -73,11 +72,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        googleBtn.setOnClickListener(v -> {
-            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-            startActivityForResult(signInIntent, 1);
-        });
-
         createAccountTV.setOnClickListener(v -> createAccount());
     }
 
@@ -85,67 +79,93 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailET.getText().toString().replaceAll(" ","");
         String password = passwordET.getText().toString();
 
-        Call<TokenDto> call = retrofitServiceGenerator.createService(UserApiService.class).login(new LoginDto(email, password));
+        Call<TokenDto> call = RetrofitServiceGenerator.createService(UserApiService.class).login(new LoginDto(email, password));
 
         call.enqueue(new Callback<TokenDto>() {
             @Override
             public void onResponse(Call<TokenDto> call, Response<TokenDto> response) {
                 Log.i("AWAYINFO", "Login success : " + response.isSuccessful());
                 if (response.isSuccessful()) {
-                    Intent home = new Intent(LoginActivity.this, HomeActivity.class);
                     String token = response.body().getToken();
+                    getIntent().putExtra("token", token);
                     SaveSharedPreference.setToken(getApplicationContext(), token);
-                    home.putExtra("token", token);
-                    startActivity(home);
-                    finish();
+
+                    getConnectedUser(token);
                 } else {
-                    //TODO
+                    Toast.makeText($this, getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<TokenDto> call, Throwable t) {
-                //TODO
-                Log.i("error", t.getMessage());
+                Log.i("AWAYINFO", "-----------------> "+t.getMessage());
+                Toast.makeText($this, getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    private  void getConnectedUser(String token) {
+        Call<User> call = RetrofitServiceGenerator.createService(UserApiService.class).getUserInfo(token);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    User connectedUser = response.body();
+                    getIntent().putExtra("connectedUser", connectedUser);
+
+                    checkIfUserAsTags(token);
+                } else {
+                    Toast.makeText($this, getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText($this, getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void checkIfUserAsTags(String token) {
+        Call<List<Tag>> call = RetrofitServiceGenerator.createService(TagApiService.class).getUserTags(token);
+
+        call.enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
+                if (response.isSuccessful()) {
+                    List<Tag> userTag = response.body();
+
+                    Log.i("AWAYINFO", "-----------------> "+token);
+
+                    if (userTag.size() == 0) {
+                        Intent firstLogin = new Intent(LoginActivity.this, FirstLoginActivity.class);
+                        firstLogin.putExtra("token", token);
+                        firstLogin.putExtra("connectedUser", getIntent().getSerializableExtra("connectedUser"));
+                        startActivity(firstLogin);
+                        finish();
+                    } else {
+                        Intent home = new Intent(LoginActivity.this, HomeActivity.class);
+                        home.putExtra("token", token);
+                        home.putExtra("connectedUser", getIntent().getSerializableExtra("connectedUser"));
+                        startActivity(home);
+                        finish();
+                    }
+                }else {
+                    Toast.makeText($this, getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Tag>> call, Throwable t) {
+                Toast.makeText($this, getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void createAccount() {
         Intent CreateAcc = new Intent(LoginActivity.this, CreateAccountActivity.class);
         startActivity(CreateAcc);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == 1) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
-
-    }
-
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount googleAccount = completedTask.getResult(ApiException.class);
-
-            // Signed in successfully, show authenticated UI.
-            Log.i("INFO", "---------------------> "+googleAccount.toString());
-            Intent createAcc = new Intent(LoginActivity.this, CreateAccountActivity.class);
-            User account = new User(googleAccount);
-            createAcc.putExtra("account", account);
-            startActivity(createAcc);
-
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w("ERROR", "signInResult:failed code=" + e.getStatusCode());
-        }
-    }
 }

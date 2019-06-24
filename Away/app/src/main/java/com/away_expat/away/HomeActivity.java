@@ -42,15 +42,16 @@ public class HomeActivity extends AppCompatActivity {
     private TextView currentCityTV;
     private View customBar;
 
-    private RetrofitServiceGenerator retrofitServiceGenerator;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         token = getIntent().getStringExtra("token");
 
-        getConnectedUser();
+        Log.i("AWAYINFO", "-----------------> "+token);
+
+        loadViews();
+        setupUserCity();
     }
 
     private void initBottomBar() {
@@ -85,29 +86,6 @@ public class HomeActivity extends AppCompatActivity {
                 break;
         }
         return true;
-    }
-
-    private  void getConnectedUser() {
-        HomeActivity $this = this;
-        Call<User> call = retrofitServiceGenerator.createService(UserApiService.class).getUserInfo(token);
-
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
-                    getIntent().putExtra("connectedUser", response.body());
-                    loadViews();
-                    setupUserCity();
-                } else {
-                    Toast.makeText($this, getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText($this, getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void loadViews() {
