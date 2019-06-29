@@ -1,103 +1,125 @@
 package com.away_expat.away.fragments;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.TextView;
 
-import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
-import com.away_expat.away.adapters.SearchGridViewAdapter;
-import com.away_expat.away.classes.Tag;
-import com.away_expat.away.classes.User;
-import com.away_expat.away.services.RetrofitServiceGenerator;
-import com.away_expat.away.services.TagApiService;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.away_expat.away.adapters.CustomPageAdapter;
 
 public class SearchFragment extends Fragment {
 
-    private SearchGridViewAdapter adapter;
-    private TextView searchTV;
     private EditText searchET;
-    private GridView gridView;
-    private User connectedUser;
+    private CustomPageAdapter customPagerAdapter;
+    private int currentPos = 0;
+    private String currentSearch = null;
+    private boolean onPause = false;
 
-    public SearchFragment() {
-        // Required empty public constructor
-    }
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        gridView = (GridView) view.findViewById(R.id.grid_view);
-        searchTV = (TextView) view.findViewById(R.id.search_text);
+        viewPager = (ViewPager) view.findViewById(R.id.activity_main_viewpager);
+        tabLayout = (TabLayout) view.findViewById(R.id.activity_main_tabs);
         searchET = (EditText) view.findViewById(R.id.search_input);
 
-        searchET.addTextChangedListener(new TextWatcher() {
-
-            // the user's changes are saved here
-            public void onTextChanged(CharSequence c, int start, int before, int count) {
-                Log.i("INFO", c.toString());
-            }
-
-            public void beforeTextChanged(CharSequence c, int start, int count, int after) {
-                // this space intentionally left blank
-            }
-
-            public void afterTextChanged(Editable c) {
-                // this one too
-            }
-        });
-
-        Call<List<Tag>> call = RetrofitServiceGenerator.createService(TagApiService.class).getAllTags();
-
-        call.enqueue(new Callback<List<Tag>>() {
-            @Override
-            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
-                adapter = new SearchGridViewAdapter(getActivity());
-                adapter.bind(response.body());
-
-                gridView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<Tag>> call, Throwable t) {
-                Log.i("error", t.getMessage());
-            }
-        });
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                DetailedSearchFragment fragment = new DetailedSearchFragment();
-                fragment.setData(adapter.getItem(position), connectedUser);
-
-                ((HomeActivity) getActivity()).replaceFragment(fragment);
-            }
-        });
+        setupElements();
 
         return view;
     }
 
-    public void setUser() {
+    private void setupElements() {
+        customPagerAdapter = new CustomPageAdapter(getChildFragmentManager());
+        viewPager.setAdapter(customPagerAdapter);
 
+        tabLayout.setupWithViewPager(viewPager);
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            switch (i) {
+                case 0:
+                    tabLayout.getTabAt(i).setIcon(R.drawable.location);
+                    int tabIconColor = ContextCompat.getColor(getContext(), R.color.colorPrimaryDark);
+                    tabLayout.getTabAt(i).getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+                    break;
+                case 1:
+                    tabLayout.getTabAt(i).setIcon(R.drawable.event);
+                    break;
+                case 2:
+                    tabLayout.getTabAt(i).setIcon(R.drawable.tag);
+                    break;
+                case 3:
+                    tabLayout.getTabAt(i).setIcon(R.drawable.people);
+                    break;
+                default:
+                    break;
+            }
+        }
 
+        tabLayout.addOnTabSelectedListener(
+                new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        super.onTabSelected(tab);
+                        int tabIconColor = ContextCompat.getColor(getContext(), R.color.colorPrimaryDark);
+                        tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+                        currentPos = tab.getPosition();
 
-        this.connectedUser = connectedUser;
+                        if (currentSearch != null && !onPause) {
+                            customPagerAdapter.updateList(currentPos, currentSearch, getActivity());
+                        }
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+                        super.onTabUnselected(tab);
+                        int tabIconColor = ContextCompat.getColor(getContext(), R.color.black);
+                        tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        super.onTabReselected(tab);
+                    }
+                }
+        );
+
+        searchET.addTextChangedListener(new TextWatcher() {
+
+            public void onTextChanged(CharSequence c, int start, int before, int count) {
+                Log.i("INFO", c.toString());
+                if (c.toString().length() >= 3 && !onPause) {
+                    currentSearch = c.toString();
+                    customPagerAdapter.updateList(currentPos, c.toString(), getActivity());
+                }
+            }
+
+            public void beforeTextChanged(CharSequence c, int start, int count, int after) {}
+
+            public void afterTextChanged(Editable c) {}
+        });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        onPause = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onPause = false;
+    }
 }

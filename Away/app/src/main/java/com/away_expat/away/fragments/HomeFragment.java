@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
@@ -16,10 +17,17 @@ import com.away_expat.away.adapters.HomeListViewAdapter;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.classes.Event;
+import com.away_expat.away.dto.DetailedEventDto;
+import com.away_expat.away.services.EventApiService;
+import com.away_expat.away.services.RetrofitServiceGenerator;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class HomeFragment extends Fragment {
@@ -28,7 +36,6 @@ public class HomeFragment extends Fragment {
     private User connectedUser;
     private String token;
     private ListView listview;
-
 
     public HomeFragment() {
     }
@@ -47,35 +54,32 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Activity louvre = new Activity("Louvre", "Musée du Louvre. 75058 Paris");
-
-        List<User> participants = new ArrayList<>();
-        //participants.create(new User("fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"));
-        participants.add(new User("testtest@input.com", "******", "input", "input", "01/01/1111", "USA"));
-        participants.add(new User("helloworld@yahou.com", "*****", "Hello", "World", "00/00/0000", "Espana"));
-
-        final List<Event> items = new ArrayList<>();
-        items.add(new Event("Super Cool", "Ptite aprem chill au vre-lou. On va faire le tour du baille, mater la Joconde et manger un pti domac des mifas. Si tu kiff la vibes rejoint nous rouilla.", new Date(), new User("fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"), louvre, participants));
-        items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User( "testtest@input.com", "******", "input", "input", "01/01/1111", "USA"), louvre, participants));
-        items.add(new Event("C'est plutot Cool", getContext().getString(R.string.little_lorem), new Date(), new User("testtest@input.com", "******", "input", "input", "01/01/1111", "USA"), louvre, participants));
-
-        List<User> p = new ArrayList<>();
-        p.add(connectedUser);
-        p.add(new User("testtest@input.com", "******", "input", "input", "01/01/1111", "USA"));
-        items.add(new Event("Ahwa Cool", getContext().getString(R.string.little_lorem), new Date(), new User("helloworld@yahou.com", "*****", "Hello", "World", "00/00/0000", "Espana"), louvre, p));
-
+        List<Event> items = new ArrayList<>();
         adapter = new HomeListViewAdapter(getActivity());
         adapter.bind(connectedUser, items);
 
         listview.setAdapter(adapter);
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                EventFragment fragment = new EventFragment();
-                fragment.setEvent((Event) adapterView.getItemAtPosition(position));
+        listview.setOnItemClickListener((adapterView, view, position, l) -> {
+            Call<DetailedEventDto> call = RetrofitServiceGenerator.createService(EventApiService.class).getById(token, adapter.getItem(position).getId());
 
-                ((HomeActivity) getActivity()).replaceFragment(fragment);
-            }
+            call.enqueue(new Callback<DetailedEventDto>() {
+                @Override
+                public void onResponse(Call<DetailedEventDto> call, Response<DetailedEventDto> response) {
+                    if (response.isSuccessful()) {
+                        EventFragment fragment = new EventFragment();
+
+                        fragment.setEvent(response.body());
+                        ((HomeActivity) getActivity()).replaceFragment(fragment);
+                    } else {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<DetailedEventDto> call, Throwable t) {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
     }

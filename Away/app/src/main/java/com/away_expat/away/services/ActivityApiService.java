@@ -15,4 +15,7 @@ public interface ActivityApiService {
 
     @GET("/activities/googleByCity/{city}/{tag}")
     Call<ActivityByTagListDto> getActivitiesByTag(@Header("Authorization") String token, @Path("city") String city, @Path("tag") String tag);
+
+    @GET("/activities/recherche/{search}")
+    Call<List<Activity>> searchByText(@Header("Authorization")String token, @Path("search")String search);
 }

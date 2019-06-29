@@ -1,10 +1,8 @@
 package com.away_expat.away.fragments;
 
-import android.annotation.SuppressLint;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +14,13 @@ import com.away_expat.away.R;
 import com.away_expat.away.adapters.UserListViewAdapter;
 import com.away_expat.away.classes.Event;
 import com.away_expat.away.classes.User;
+import com.away_expat.away.dto.DetailedEventDto;
 
 public class EventFragment extends ListFragment {
 
     private TextView eventNameTextview, usernameTextview, eventDescriptionTextView, activityNameTextview, eventDateTextview;
     private UserListViewAdapter adapter;
-    private Event event;
+    private DetailedEventDto eventDto;
     private User connectedUser;
 
     public EventFragment() {
@@ -33,21 +32,21 @@ public class EventFragment extends ListFragment {
         connectedUser = (User) getActivity().getIntent().getSerializableExtra("connected_user");
 
         eventNameTextview = (TextView) view.findViewById(R.id.event_name);
-        eventNameTextview.setText(event.getName());
+        eventNameTextview.setText(eventDto.getEvent().getTitle());
 
         eventDescriptionTextView = (TextView) view.findViewById(R.id.event_info);
-        eventDescriptionTextView.setText(event.getDescription());
+        eventDescriptionTextView.setText(eventDto.getEvent().getDescription());
 
         activityNameTextview = (TextView) view.findViewById(R.id.event_activity);
-        activityNameTextview.setText(event.getActivity().getName());
+        activityNameTextview.setText(eventDto.getActivity().getName());
         activityNameTextview.setPaintFlags(activityNameTextview.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         activityNameTextview.setOnClickListener(v -> openActivityFragment());
 
         eventDateTextview = (TextView) view.findViewById(R.id.event_date);
-        eventDateTextview.setText(event.getDate().toString());
+        eventDateTextview.setText(eventDto.getEvent().getDate());
 
         usernameTextview = (TextView) view.findViewById(R.id.event_username);
-        usernameTextview.setText(getContext().getString(R.string.by)+" "+event.getCreator().getFirstname());
+        usernameTextview.setText(getContext().getString(R.string.by)+" "+eventDto.getCreator().getFirstname());
 
         return view;
     }
@@ -57,13 +56,13 @@ public class EventFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
 
         adapter = new UserListViewAdapter(getActivity());
-        adapter.bind(event.getParticipant());
+        adapter.bind(eventDto.getParticipant());
 
         setListAdapter(adapter);
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setEvent(DetailedEventDto event) {
+        this.eventDto = event;
     }
 
     @Override
@@ -79,7 +78,7 @@ public class EventFragment extends ListFragment {
 
     private void openActivityFragment() {
         ActivityFragment fragment = new ActivityFragment();
-        fragment.setActivity(event.getActivity());
+        fragment.setActivity(eventDto.getActivity());
 
         ((HomeActivity) getActivity()).replaceFragment(fragment);
     }

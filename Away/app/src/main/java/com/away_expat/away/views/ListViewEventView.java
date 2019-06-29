@@ -36,7 +36,7 @@ public class ListViewEventView extends ConstraintLayout {
     public void bind(Event event) {
         this.event = event;
 
-        eventNameTextView.setText(event.getName());
+        eventNameTextView.setText(event.getTitle());
         eventDateTextView.setText(event.getDate().toString());
     }
 }

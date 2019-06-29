@@ -24,6 +24,7 @@ import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Event;
 import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
+import com.away_expat.away.dto.DetailedEventDto;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -82,20 +83,7 @@ public class ActivityFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Activity louvre = new Activity("Louvre", "Musée du Louvre. 75058 Paris");
-
-        List<User> participants = new ArrayList<>();
-        //participants.create(new User("fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"));
-        participants.add(new User("testtest@input.com", "******", "input", "input", "01/01/1111", "USA"));
-        participants.add(new User("helloworld@yahou.com", "*****", "Hello", "World", "00/00/0000", "Espana"));
-
-        final List<Event> items = new ArrayList<>();
-        items.add(new Event("Super Cool", "Ptite aprem chill au vre-lou. On va faire le tour du baille, mater la Joconde et manger un pti domac des mifas. Si tu kiff la vibes rejoint nous rouilla.", new Date(), new User("fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"), louvre, participants));
-        items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User( "testtest@input.com", "******", "input", "input", "01/01/1111", "USA"), louvre, participants));
-        items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User( "testtest@input.com", "******", "input", "input", "01/01/1111", "USA"), louvre, participants));
-        items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User( "testtest@input.com", "******", "input", "input", "01/01/1111", "USA"), louvre, participants));
-        items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User( "testtest@input.com", "******", "input", "input", "01/01/1111", "USA"), louvre, participants));
-
+        List<Event> items = new ArrayList<>();
         eventAdapter = new EventListViewAdapter(getActivity());
         eventAdapter.bind(items);
 
@@ -107,7 +95,7 @@ public class ActivityFragment extends ListFragment {
         super.onListItemClick(l, v, pos, id);
 
         EventFragment fragment = new EventFragment();
-        fragment.setEvent(eventAdapter.getItem(pos));
+        fragment.setEvent(new DetailedEventDto());
 
         ((HomeActivity) getActivity()).replaceFragment(fragment);
     }

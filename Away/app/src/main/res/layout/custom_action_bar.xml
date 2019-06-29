@@ -1,40 +1,48 @@
 <?xml version = "1.0" encoding = "utf-8"?>
-<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width = "match_parent"
     android:layout_height = "wrap_content"
     android:gravity = "center_vertical"
-    android:padding = "5dp"
-    android:weightSum = "1">
-    <LinearLayout
-        android:layout_width = "0dp"
-        android:layout_height = "match_parent"
-        android:layout_weight = "0.6">
+    android:background="@color/colorPrimary">
 
-        <ImageView
-            android:id="@+id/user_location_country"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/store_icon" />
+    <ImageView
+        android:id="@+id/user_location_country"
+        android:layout_width="60dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="-10dp"
+        android:layout_marginLeft="-10dp"
+        android:src="@drawable/fr"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/user_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:text="AWAY"
-            android:textColor="#000"
-            android:textSize="24sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width = "0dp"
-        android:layout_height = "match_parent"
-        android:layout_weight = "0.4"
-        android:gravity = "end">
-        <ImageView
-            android:id="@+id/country"
-            android:layout_width = "wrap_content"
-            android:layout_height = "match_parent"
-            android:src = "@drawable/earth" />
-    </LinearLayout>
-</LinearLayout>
+    <TextView
+        android:id="@+id/user_location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="AWAY"
+        android:textColor="#000"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/country"
+        app:layout_constraintStart_toEndOf="@+id/user_location_country"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/country"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/earth"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

@@ -9,6 +9,7 @@ public class City implements Serializable {
     private String country;
     private String place_id;
     private String location;
+    private String countryCode;
 
     public City(int id, String name, String country, String place_id, String location) {
         this.id = id;
@@ -36,5 +37,9 @@ public class City implements Serializable {
 
     public String getLocation() {
         return location;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
     }
 }

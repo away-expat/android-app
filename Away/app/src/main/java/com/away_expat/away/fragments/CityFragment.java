@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +15,13 @@ import android.widget.Toast;
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.CityListViewAdapter;
-import com.away_expat.away.adapters.SearchGridViewAdapter;
 import com.away_expat.away.classes.City;
-import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.services.CityApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
-import com.away_expat.away.services.TagApiService;
 import com.away_expat.away.services.UserApiService;
 import com.away_expat.away.views.ListViewCityView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

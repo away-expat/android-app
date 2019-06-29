@@ -1,9 +1,12 @@
 package com.away_expat.away.services;
 
 import com.away_expat.away.classes.City;
+import com.away_expat.away.classes.Event;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.dto.LoginDto;
 import com.away_expat.away.dto.TokenDto;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -34,4 +37,7 @@ public interface UserApiService {
 
     @PUT("users/updateUserCity/{id}")
     Call<City> updateUserCity(@Header("Authorization") String token, @Path("id") int id);
+
+    @GET("users/recherche/{search}")
+    Call<List<User>> searchByText(@Header("Authorization") String token, @Path("search") String search);
 }

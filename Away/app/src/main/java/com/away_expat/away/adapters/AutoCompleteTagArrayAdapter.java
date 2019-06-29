@@ -25,8 +25,6 @@ public class AutoCompleteTagArrayAdapter extends ArrayAdapter {
     private ListFilter listFilter = new ListFilter();
     private List<Tag> dataListAllItems;
 
-
-
     public AutoCompleteTagArrayAdapter(Context context, int resource, List<Tag> items) {
         super(context, resource, items);
         this.items = items;

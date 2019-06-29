@@ -19,8 +19,8 @@ public interface TagApiService {
     @GET("/tags/ofUser")
     Call<List<Tag>> getUserTags(@Header("Authorization") String token);
 
-    //TODO
-    Call<List<Tag>> searchTags(String token, String searchedText);
+    @GET("/tags/recherche/{search}")
+    Call<List<Tag>> searchByText(@Header("Authorization") String token, @Path("search") String searchedText);
 
     @POST("/tags/like/{id}")
     Call<Tag> addToUserTags(@Header("Authorization") String token, @Path("id") int id);

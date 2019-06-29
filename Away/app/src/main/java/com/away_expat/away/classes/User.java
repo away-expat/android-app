@@ -14,6 +14,7 @@ public class User implements Serializable {
     private String country;
     private City at;
     private int idCity;
+    private String avatar;
 
     public User() {
     }
@@ -103,6 +104,10 @@ public class User implements Serializable {
 
     public void setIdCity(int idCity) {
         this.idCity = idCity;
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 
     @Override

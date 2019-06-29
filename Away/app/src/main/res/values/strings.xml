@@ -45,7 +45,8 @@
     <string name="little_lorem" translatable="false">Lorem ipsum dolor sit amet, tortor vestibulum facilisi risus in, phasellus wisi donec in tempus adipisci, diam vitae rutrum viverra in luctus, adipiscing erat non mollis nunc nam nulla. </string>
     <string name="by">By :</string>
     <string name="country_text">Where want to go you?</string>
-    <string name="search_text">What are you looking for?</string>
+    <string name="search_text">Use the search bar !</string>
+    <string name="tag_detailed_search_text">Activities matching the TAG : </string>
     <string name="activity">Activity</string>
     <string name="date">Date</string>
     <string name="add_tag">Add to tags</string>
@@ -75,4 +76,7 @@
     <string name="close">Close</string>
     <string name="welcome">Welcome to AWAY, to finalise your account you need to provide at least three TAG !\n You can use the search bar to find what you want !</string>
     <string name="error_city">Select a city</string>
+    <string name="empty">empty</string>
+    <string name="missing">missing</string>
+    <string name="selected_activity_text">Selected activity :</string>
 </resources>

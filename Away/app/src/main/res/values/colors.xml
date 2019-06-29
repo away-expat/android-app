@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#F5A623</color>
     <color name="colorBackground">#FFF</color>
     <color name="colorMenu">#FFD4AC</color>
+    <color name="colorFocusMenu">#FF5400</color>
     <color name="colorAccent">#5A5A5A</color>
+    <color name="black">#000</color>
 </resources>

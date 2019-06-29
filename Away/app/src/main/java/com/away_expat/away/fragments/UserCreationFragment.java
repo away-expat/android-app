@@ -79,7 +79,6 @@ public class UserCreationFragment extends Fragment {
             disconnectBtn.setVisibility(View.INVISIBLE);
         }
 
-        // Inflate the layout for this fragment
         return view;
     }
 

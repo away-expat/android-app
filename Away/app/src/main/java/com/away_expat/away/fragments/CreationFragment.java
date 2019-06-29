@@ -2,9 +2,11 @@ package com.away_expat.away.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,27 +15,40 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.classes.Activity;
+import com.away_expat.away.classes.Event;
 import com.away_expat.away.classes.User;
+import com.away_expat.away.dto.DetailedEventDto;
+import com.away_expat.away.dto.TokenDto;
+import com.away_expat.away.services.EventApiService;
+import com.away_expat.away.services.RetrofitServiceGenerator;
+import com.away_expat.away.services.UserApiService;
+import com.away_expat.away.tools.SaveSharedPreference;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreationFragment extends Fragment {
 
+    private TextView activityTV, errorTV;
     private EditText titleET, descriptionET;
-    private TextView dateTV;
-    private Button selectDateBtn, selectTimeBtn, selectActivityBtn, createActivityBtn, saveBtn;
-    private User connectedUser;
-    private Activity activity;
+    private Button selectDateBtn, selectTimeBtn, selectActivityBtn, saveBtn;
 
+    private Event toCreate = new Event();
     private String selectedDate;
     private String selectedTime;
+    private Activity selectedActivity;
 
     final Calendar myCalendar = Calendar.getInstance();
 
@@ -46,16 +61,47 @@ public class CreationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_creation, container, false);
 
         selectActivityBtn = (Button) view.findViewById(R.id.select_activity_btn);
+        selectTimeBtn = (Button) view.findViewById(R.id.event_crea_timeBtn);
+        selectDateBtn = (Button) view.findViewById(R.id.event_crea_dateBtn);
+        saveBtn = (Button) view.findViewById(R.id.save_btn);
+
+        titleET = (EditText) view.findViewById(R.id.event_crea_titleET);
+        descriptionET = (EditText) view.findViewById(R.id.event_crea_descET);
+
+        activityTV = (TextView) view.findViewById(R.id.selected_activity);
+        activityTV.setVisibility(View.INVISIBLE);
+        errorTV = (TextView) view.findViewById(R.id.error_text);
+        errorTV.setVisibility(View.INVISIBLE);
+
+        setupBtn();
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (selectedActivity != null) {
+            toCreate.setIdActivity(selectedActivity.getId());
+            String toDisplay = getActivity().getString(R.string.selected_activity_text)+" "+selectedActivity.getName();
+            activityTV.setText(toDisplay);
+            activityTV.setVisibility(View.VISIBLE);
+        }
+
+        if (selectedDate != null) {
+            selectDateBtn.setText(selectedDate);
+        }
+
+        if (selectedTime != null) {
+            selectTimeBtn.setText(selectedTime);
+        }
+    }
+
+    private void setupBtn() {
         selectActivityBtn.setOnClickListener(v -> {
-            //TODO
-        });
-
-        createActivityBtn = (Button) view.findViewById(R.id.create_activity_btn);
-        createActivityBtn.setOnClickListener(v -> {
-            ActivityCreationFragment fragment = new ActivityCreationFragment();
-            fragment.setData(connectedUser, this);
-
-            ((HomeActivity) getActivity()).replaceFragment(fragment);
+            SelectActivityFragment saf = new SelectActivityFragment();
+            saf.setPreviousFrag(this);
+            ((HomeActivity) getActivity()).replaceFragment(saf);
         });
 
         TimePickerDialog.OnTimeSetListener time = new TimePickerDialog.OnTimeSetListener() {
@@ -64,44 +110,92 @@ public class CreationFragment extends Fragment {
                 updateTime(hourOfDay, minute);
             }
         };
-        selectTimeBtn = (Button) view.findViewById(R.id.event_crea_timeBtn);
-        selectTimeBtn.setOnClickListener(v -> new TimePickerDialog(getContext(), R.style.CustomDialogTheme, time, myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE), false).show());
+        selectTimeBtn.setOnClickListener(v -> new TimePickerDialog(getContext(), R.style.CustomDialogTheme, time, myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE), true).show());
 
-        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateDate();
-            }
+        DatePickerDialog.OnDateSetListener date = (v, year, monthOfYear, dayOfMonth) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateDate();
         };
-        selectDateBtn = (Button) view.findViewById(R.id.event_crea_dateBtn);
         selectDateBtn.setOnClickListener(v -> new DatePickerDialog(getContext(), R.style.CustomDialogTheme, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show());
 
-        return view;
-    }
+        saveBtn.setOnClickListener(v -> {
+            toCreate.setTitle(titleET.getText().toString());
+            toCreate.setDescription(descriptionET.getText().toString());
+            List<String> needed = toCreate.isComplete();
+            if (needed.size() == 0) {
+                String token = getActivity().getIntent().getStringExtra("token");
+                Call<DetailedEventDto> call = RetrofitServiceGenerator.createService(EventApiService.class).createEvent(token, toCreate);
 
-    public void setUser() {
-        this.connectedUser = new User();
-    }
+                call.enqueue(new Callback<DetailedEventDto>() {
+                    @Override
+                    public void onResponse(Call<DetailedEventDto> call, Response<DetailedEventDto> response) {
+                        Log.i("AWAYINFO", "event creation success : " + response.isSuccessful());
+                        if (response.isSuccessful()) {
+                            EventFragment fragment = new EventFragment();
+                            fragment.setEvent(response.body());
+                            ((HomeActivity) getActivity()).replaceFragment(fragment);
+                        } else {
+                            Log.i("AWAYINFO", response.message());
+                            Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
-    public void setNewActivity(Activity newActivity) {
-        this.activity = newActivity;
+                    @Override
+                    public void onFailure(Call<DetailedEventDto> call, Throwable t) {
+                        Log.i("AWAYINFO", "-----------------> " + t.getMessage());
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                String todisplay = "";
+                for (String s : needed) {
+                    switch (s) {
+                        case "title":
+                            todisplay += " "+getActivity().getString(R.string.title);
+                            break;
+                        case "description":
+                            todisplay += " "+getActivity().getString(R.string.description);
+                            break;
+                        case "hour":
+                            todisplay += " "+getActivity().getString(R.string.time);
+                            break;
+                        case "date":
+                            todisplay += " "+getActivity().getString(R.string.date);
+                            break;
+                        case "activity":
+                            todisplay += " "+getActivity().getString(R.string.activity);
+                            break;
+                    }
+                }
+
+                todisplay += " "+getActivity().getString(R.string.missing);
+                errorTV.setVisibility(View.VISIBLE);
+                errorTV.setText(todisplay);
+                errorTV.setTextColor(Color.parseColor("#ff0000"));
+            }
+        });
     }
 
     private void updateDate() {
-        String myFormat = "dd/MM/yy";
+        String myFormat = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
         this.selectedDate = sdf.format(myCalendar.getTime());
 
         selectDateBtn.setText(selectedDate);
+        toCreate.setDate(selectedDate);
     }
 
     private void updateTime(int hourOfDay, int minute) {
         this.selectedTime = hourOfDay+":"+minute;
 
         selectTimeBtn.setText(selectedTime);
+        toCreate.setHour(selectedTime);
+    }
+
+    public void updateActivity(Activity activity) {
+        this.selectedActivity = activity;
     }
 
 }

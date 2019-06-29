@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,6 +16,9 @@ import com.away_expat.away.adapters.EventListViewAdapter;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Event;
 import com.away_expat.away.classes.User;
+import com.away_expat.away.dto.DetailedEventDto;
+import com.away_expat.away.tools.CircleTransform;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +27,7 @@ import java.util.List;
 public class AccountFragment extends ListFragment {
 
     private TextView nameTV, countryTV, birthdayTV;
+    private ImageView userIV;
     private Button actionBtn, tagBtn;
     private EventListViewAdapter adapter;
 
@@ -36,12 +41,14 @@ public class AccountFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
+        userIV = (ImageView) view.findViewById(R.id.account_user_image);
         actionBtn = (Button) view.findViewById(R.id.account_btn_action);
         tagBtn = (Button) view.findViewById(R.id.account_btn_tag);
         nameTV = (TextView) view.findViewById(R.id.account_textview_username);
         countryTV = (TextView) view.findViewById(R.id.account_textview_country);
         birthdayTV = (TextView) view.findViewById(R.id.account_textview_birthdate);
 
+        Picasso.get().load(user.getAvatar()).transform(new CircleTransform()).into(userIV);
         nameTV.setText(user.getFirstname()+" "+user.getLastname());
         countryTV.setText(user.getCountry());
         birthdayTV.setText(user.getBirthday());
@@ -51,17 +58,22 @@ public class AccountFragment extends ListFragment {
             actionBtn.setOnClickListener(v -> {
                 updateAccount();
             });
-
-            tagBtn.setVisibility(View.VISIBLE);
+            
             tagBtn.setOnClickListener(v -> {
                 updateTag();
             });
         } else {
             actionBtn.setVisibility(View.INVISIBLE);
-            tagBtn.setVisibility(View.INVISIBLE);
+            tagBtn.setOnClickListener(v -> {
+                showTag();
+            });
         }
 
         return view;
+    }
+
+    private void showTag() {
+
     }
 
     @Override
@@ -76,8 +88,6 @@ public class AccountFragment extends ListFragment {
         participants.add(new User("helloworld@yahou.com", "*****", "Hello", "World", "00/00/0000", "Espana"));
 
         final List<Event> items = new ArrayList<>();
-        items.add(new Event("Super Cool", "Ptite aprem chill au vre-lou. On va faire le tour du baille, mater la Joconde et manger un pti domac des mifas. Si tu kiff la vibes rejoint nous rouilla.", new Date(), new User("fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"), louvre, participants));
-        items.add(new Event("C'est Cool", getContext().getString(R.string.little_lorem), new Date(), new User("testtest@input.com", "******", "input", "input", "01/01/1111", "USA"), louvre, participants));
 
         adapter = new EventListViewAdapter(getActivity());
         adapter.bind(items);
@@ -106,7 +116,7 @@ public class AccountFragment extends ListFragment {
         super.onListItemClick(l, v, pos, id);
 
         EventFragment fragment = new EventFragment();
-        fragment.setEvent(adapter.getItem(pos));
+        fragment.setEvent(new DetailedEventDto());
 
         ((HomeActivity) getActivity()).replaceFragment(fragment);
     }

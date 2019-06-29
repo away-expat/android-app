@@ -38,51 +38,12 @@ public class ListViewHomeView extends ConstraintLayout {
     private void init() {
         inflate(getContext(), R.layout.listview_home, this);
         activityNameTextView = (TextView) findViewById(R.id.activity_name);
-        joinImageView = (ImageView) findViewById(R.id.activity_add);
-
-        joinImageView.setOnClickListener(v -> joinEvent());
     }
 
     public void bind(User connectedUser, Event event) {
         this.connectedUser = connectedUser;
         this.event = event;
 
-        activityNameTextView.setText(event.getName());
-
-        for (User u : event.getParticipant()) {
-            if (connectedUser.getId() == u.getId()) {
-                joinImageView.setImageResource(R.drawable.done);
-                isConnectedUserInEvent = true;
-                break;
-            }
-        }
-    }
-
-    private void joinEvent() {
-        if (isConnectedUserInEvent) {
-            isConnectedUserInEvent = false;
-
-            //TODO
-            //Join event (may create the event id)
-            List<User> p = event.getParticipant();
-            p.remove(connectedUser);
-
-            //update db
-            event.setParticipant(p);
-
-            joinImageView.setImageResource(R.drawable.add);
-        } else {
-            isConnectedUserInEvent = true;
-
-            //TODO
-            //Join event (may create the event id)
-            List<User> p = event.getParticipant();
-            p.add(connectedUser);
-
-            //update db
-            event.setParticipant(p);
-
-            joinImageView.setImageResource(R.drawable.done);
-        }
+        activityNameTextView.setText(event.getTitle());
     }
 }

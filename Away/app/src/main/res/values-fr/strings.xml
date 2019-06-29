@@ -32,7 +32,8 @@
     <string name="country">Pays</string>
     <string name="country_info">Information du pays</string>
     <string name="country_text">Où veux-tu aller ?</string>
-    <string name="search_text">Que cherches-tu?</string>
+    <string name="search_text">Utilise la barre de recherche !</string>
+    <string name="tag_detailed_search_text">Activités comprenants le TAG : </string>
     <string name="search">Recherche</string>
     <string name="update">Modifier</string>
     <string name="friends">Amis</string>
@@ -70,4 +71,7 @@
     <string name="close">Fermer</string>
     <string name="welcome">Bienvenue chez AWAY, pour finaliser ton compte, tu dois fournir au moins trois TAG!\n Tu peux utiliser la barre de recherche pour trouver ce que tu veux!</string>
     <string name="error_city">Sélectionne un ville</string>
+    <string name="empty">vide</string>
+    <string name="missing">manquant</string>
+    <string name="selected_activity_text">Activité sélectionnée :</string>
 </resources>

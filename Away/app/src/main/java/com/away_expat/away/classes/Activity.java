@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Activity {
 
+    @SerializedName("id")
+    private Integer id;
     @SerializedName("name")
     private String name;
     @SerializedName("address")
@@ -88,11 +90,23 @@ public class Activity {
         this.type = type;
     }
 
-    public List<String> getTag() {
-        return type;
+    public Integer getId() {
+        return id;
     }
 
-    public void setTag(Tag tag) {
-        //TODO
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", rating=" + rating +
+                ", url='" + url + '\'' +
+                ", photos='" + photos + '\'' +
+                ", type=" + type +
+                '}';
     }
 }

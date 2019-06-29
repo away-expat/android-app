@@ -41,7 +41,8 @@
     <string name="invite">Invitar</string>
     <string name="by">Por :</string>
     <string name="country_text">¿Adonde quieres ir?</string>
-    <string name="search_text">¿Que buscas tú?</string>
+    <string name="search_text">Utilice la barra de búsqueda</string>
+    <string name="tag_detailed_search_text">Actividades que incluyen el TAG : </string>
     <string name="activity">Actividad</string>
     <string name="date">Date</string>
     <string name="add_tag">Añadir a los tags</string>
@@ -70,4 +71,7 @@
     <string name="close">Cerrar</string>
     <string name="welcome">¡Benvenido to AWAY, to finalice tu cuenta provide al menos très TAG!\n ¡Puedes usar el bar de la búsqueda para terminar lo que quieras!</string>
     <string name="error_city">Selecciona una ciudad</string>
+    <string name="empty">Vacío</string>
+    <string name="missing">que falta</string>
+    <string name="selected_activity_text">Actividad seleccionada :</string>
 </resources>

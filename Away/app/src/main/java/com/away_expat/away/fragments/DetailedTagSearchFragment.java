@@ -29,22 +29,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DetailedSearchFragment extends ListFragment {
+public class DetailedTagSearchFragment extends ListFragment {
 
-    private TextView tagTV, addTileTV;
-    private ConstraintLayout tagBadge, addTile;
-    private ImageView addTileIV;
-    private EditText searchET;
+    private TextView detailedSearchTV;
     private ProgressBar progressBar;
     private Tag tag;
     private ActivityListViewAdapter adapter;
-
     private User connectedUser;
-    private String token;
+    private String token, toDisplay;
 
-    private RetrofitServiceGenerator retrofitServiceGenerator;
-
-    public DetailedSearchFragment() {
+    public DetailedTagSearchFragment() {
         // Required empty public constructor
     }
 
@@ -54,54 +48,13 @@ public class DetailedSearchFragment extends ListFragment {
 
         token = getActivity().getIntent().getStringExtra("token");
         connectedUser = (User) getActivity().getIntent().getSerializableExtra("connectedUser");
+        toDisplay = getActivity().getResources().getString(R.string.tag_detailed_search_text);
 
-        tagTV = (TextView) view.findViewById(R.id.tag_text);
-        addTileTV = (TextView) view.findViewById(R.id.add_tag_text);
-        addTileIV = (ImageView) view.findViewById(R.id.add_tag_img);
-        searchET = (EditText) view.findViewById(R.id.search_detailed_input);
+        detailedSearchTV = (TextView) view.findViewById(R.id.detailed_tag_seach);
         progressBar = (ProgressBar) view.findViewById(R.id.search_detailed_progress);
 
-        searchET.addTextChangedListener(new TextWatcher() {
-
-            // the user's changes are saved here
-            public void onTextChanged(CharSequence c, int start, int before, int count) {
-                Log.i("INFO", c.toString());
-            }
-
-            public void beforeTextChanged(CharSequence c, int start, int count, int after) {
-                // this space intentionally left blank
-            }
-
-            public void afterTextChanged(Editable c) {
-                // this one too
-            }
-        });
-
-        tagBadge = (ConstraintLayout) view.findViewById(R.id.tag_badge);
-        tagBadge.setOnClickListener(v -> {
-            SearchFragment searchFragment = new SearchFragment();
-            searchFragment.setUser();
-            ((HomeActivity) getActivity()).replaceFragment(searchFragment);
-        });
-
-        addTile = (ConstraintLayout) view.findViewById(R.id.add_tag);
-        addTile.setOnClickListener(v -> {
-            /*if (connectedUser.getTags().contains(tag)) {
-                //TODO remove the tag to user
-                connectedUser.removeTag(tag);
-                Log.i("INFO", "-------------> REMOVE");
-
-                addTileTV.setText(getResources().getString(R.string.add_tag));
-                addTileIV.setImageResource(R.drawable.add_black);
-            } else {
-                //TODO add the tag to user
-                connectedUser.addTag(tag);
-                Log.i("INFO", "-------------> ADD");
-
-                addTileTV.setText(getResources().getString(R.string.remove_tag));
-                addTileIV.setImageResource(R.drawable.cross);
-            }*/
-        });
+        toDisplay += " "+tag.getName();
+        detailedSearchTV.setText(toDisplay);
 
         return view;
     }
@@ -110,18 +63,7 @@ public class DetailedSearchFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        tagTV.setText(tag.getName());
-
-        /*
-        if (connectedUser.getTags().contains(tag)) {
-            addTileTV.setText(getResources().getString(R.string.remove_tag));
-            addTileIV.setImageResource(R.drawable.cross);
-        } else {
-            addTileTV.setText(getResources().getString(R.string.add_tag));
-            addTileIV.setImageResource(R.drawable.add_black);
-        }*/
-
-        Call<ActivityByTagListDto> call = retrofitServiceGenerator.createService(ActivityApiService.class).getActivitiesByTag(token,connectedUser.getCity().getName()+" "+connectedUser.getCity().getCountry(), tag.getName());
+        Call<ActivityByTagListDto> call = RetrofitServiceGenerator.createService(ActivityApiService.class).getActivitiesByTag(token,connectedUser.getCity().getName()+" "+connectedUser.getCity().getCountry(), tag.getName());
 
         call.enqueue(new Callback<ActivityByTagListDto>() {
             @Override
@@ -138,7 +80,6 @@ public class DetailedSearchFragment extends ListFragment {
 
             @Override
             public void onFailure(Call<ActivityByTagListDto> call, Throwable t) {
-                Log.i("AWAYINFO", "-----------------> "+t.getMessage());
                 Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
             }
         });
@@ -156,8 +97,7 @@ public class DetailedSearchFragment extends ListFragment {
         ((HomeActivity) getActivity()).replaceFragment(fragment);
     }
 
-    public void setData(Tag tag, User connectedUser) {
+    public void setData(Tag tag) {
         this.tag = tag;
-        this.connectedUser = connectedUser;
     }
 }

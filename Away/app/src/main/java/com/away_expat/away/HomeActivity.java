@@ -1,14 +1,17 @@
 package com.away_expat.away;
 
+import android.app.FragmentManager;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.away_expat.away.classes.User;
 import com.away_expat.away.fragments.AccountFragment;
@@ -17,14 +20,8 @@ import com.away_expat.away.fragments.CountryInformationFragment;
 import com.away_expat.away.fragments.CreationFragment;
 import com.away_expat.away.fragments.HomeFragment;
 import com.away_expat.away.fragments.SearchFragment;
-import com.away_expat.away.services.RetrofitServiceGenerator;
-import com.away_expat.away.services.UserApiService;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.squareup.picasso.Picasso;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -38,6 +35,9 @@ public class HomeActivity extends AppCompatActivity {
     private CountryInformationFragment countryInfoFragment;
     private CityFragment cityFragment;
 
+    int menuIconBaseColor;
+    int menuIconFocusColor;
+
     private ImageView changeCountryImageView, currentCountryIV;
     private TextView currentCityTV;
     private View customBar;
@@ -48,7 +48,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         token = getIntent().getStringExtra("token");
 
-        Log.i("AWAYINFO", "-----------------> "+token);
+        menuIconBaseColor = ContextCompat.getColor(this.getApplicationContext(), R.color.colorPrimaryDark);
+        menuIconFocusColor = ContextCompat.getColor(this.getApplicationContext(), R.color.colorFocusMenu);
 
         loadViews();
         setupUserCity();
@@ -57,7 +58,11 @@ public class HomeActivity extends AppCompatActivity {
     private void initBottomBar() {
         bottom_bar.enableItemShiftingMode(false);
 
-        bottom_bar.setOnNavigationItemSelectedListener(item -> updateMainFragment(item.getItemId()));
+        bottom_bar.setOnNavigationItemSelectedListener(item -> {
+            updateMenuColor(bottom_bar.getMenuItemPosition(item));
+            return updateMainFragment(item.getItemId());
+        });
+
     }
 
     private Boolean updateMainFragment(Integer integer){
@@ -66,22 +71,18 @@ public class HomeActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, homeFragment).commit();
                 break;
             case R.id.searchFragmentMenu:
-                //TODO
-                searchFragment.setUser();
+                searchFragment = new SearchFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, searchFragment).commit();
                 break;
             case R.id.createFragmentMenu:
-                //TODO
-                creationFragment.setUser();
+                creationFragment = new CreationFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, creationFragment).commit();
                 break;
             case R.id.accountFragmentMenu:
-                //TODO
                 accountFragment.setUser((User) getIntent().getSerializableExtra("connectedUser"),true);
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, accountFragment).commit();
                 break;
             case R.id.countryInfoFragmentMenu:
-                //TODO
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, countryInfoFragment).commit();
                 break;
         }
@@ -96,12 +97,15 @@ public class HomeActivity extends AppCompatActivity {
 
         currentCityTV = (TextView) customBar.findViewById(R.id.user_location);
         currentCountryIV = (ImageView) customBar.findViewById(R.id.user_location_country);
-        //Picasso.get().load("https://www.countryflags.io/fr/flat/16.png").into(currentCountryIV);
 
         changeCountryImageView = (ImageView) customBar.findViewById(R.id.country);
-        changeCountryImageView.setOnClickListener(v -> getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, cityFragment).commit());
+        changeCountryImageView.setOnClickListener(v -> {
+            updateMenuColor(-1);
+            getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, cityFragment).commit();
+        });
 
         bottom_bar = (BottomNavigationViewEx) findViewById(R.id.bottom_bar);
+        updateMenuColor(0);
 
         //home
         homeFragment = new HomeFragment();
@@ -135,18 +139,37 @@ public class HomeActivity extends AppCompatActivity {
         if (fragment == null) {
             return;
         }
-        fragment.setArguments(getIntent().getExtras());
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, fragment).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.home_fragment_container, fragment)
+                .addToBackStack(fragment.getClass().getName())
+                .commit();
     }
 
     @Override
     public void onBackPressed() {
+        getSupportFragmentManager().popBackStack();
+    }
 
+    public void updateMenuColor(int position) {
+        if (position == -1) {
+            changeCountryImageView.setColorFilter(menuIconFocusColor);
+        }
+
+        for (int i = 0; i < bottom_bar.getItemCount(); i++) {
+            if (position == i) {
+                bottom_bar.getIconAt(i).setColorFilter(menuIconFocusColor, PorterDuff.Mode.SRC_IN);
+                changeCountryImageView.setColorFilter(menuIconBaseColor);
+            } else {
+                bottom_bar.getIconAt(i).setColorFilter(menuIconBaseColor, PorterDuff.Mode.SRC_IN);
+            }
+        }
     }
 
     public void setupUserCity() {
         User connectedUser = (User) getIntent().getSerializableExtra("connectedUser");
         currentCityTV.setText(connectedUser.getCity().getName());
+        Picasso.get().load(connectedUser.getCity().getCountryCode()).into(currentCountryIV);
     }
 }

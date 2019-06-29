@@ -9,23 +9,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.away_expat.away.adapters.TagSelectionGridViewAdapter;
-import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
-import com.away_expat.away.dto.ActivityByTagListDto;
 import com.away_expat.away.dto.LoginDto;
 import com.away_expat.away.dto.TokenDto;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 import com.away_expat.away.services.TagApiService;
 import com.away_expat.away.services.UserApiService;
 import com.away_expat.away.tools.SaveSharedPreference;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
 
 import java.util.List;
 
