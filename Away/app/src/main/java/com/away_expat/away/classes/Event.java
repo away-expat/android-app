@@ -74,10 +74,10 @@ public class Event {
 
     public List<String> isComplete() {
         List<String> msg = new ArrayList<>();
-        if (title == null) {
+        if (title.equals("")) {
             msg.add("title");
         }
-        if (description == null) {
+        if (description.equals("")) {
             msg.add("description");
         }
         if (hour == null) {

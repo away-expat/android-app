@@ -4,10 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Tag {
 
-    @SerializedName("id")
     private int id;
-
-    @SerializedName("name")
     private String name;
 
     //TO REMOVE

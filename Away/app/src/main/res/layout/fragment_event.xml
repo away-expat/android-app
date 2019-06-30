@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/louvre" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/event_user_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -170,12 +170,12 @@
         android:layout_marginStart="184dp"
         android:layout_marginLeft="184dp"
         android:layout_marginTop="432dp"
-        android:text="empty"
+        android:text="@string/empty"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/event_join"
+        android:id="@+id/event_action"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"

@@ -1,21 +1,18 @@
 package com.away_expat.away.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.SearchActivityListViewAdapter;
-import com.away_expat.away.adapters.SearchTagListViewAdapter;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.services.ActivityApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
@@ -31,7 +28,7 @@ public class SearchActivityFragment extends Fragment {
 
     private SearchActivityListViewAdapter adapter;
     private ListView listview;
-    private TextView searchTV;
+    private ImageView searchIV;
     private String token;
 
     @Override
@@ -45,14 +42,14 @@ public class SearchActivityFragment extends Fragment {
         token = getActivity().getIntent().getStringExtra("token");
 
         listview = (ListView) view.findViewById(R.id.list_view);
-        searchTV = (TextView) view.findViewById(R.id.search_text);
+        searchIV = (ImageView) view.findViewById(R.id.search_img);
 
         if (adapter == null) {
             adapter = new SearchActivityListViewAdapter(getActivity());
             adapter.bind(new ArrayList<>());
             listview.setAdapter(adapter);
         } else {
-            searchTV.setVisibility(View.INVISIBLE);
+            searchIV.setVisibility(View.INVISIBLE);
             listview.setAdapter(adapter);
         }
 
@@ -83,8 +80,8 @@ public class SearchActivityFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Activity>> call, Response<List<Activity>> response) {
                 if (response.isSuccessful()) {
-                    if (searchTV != null) {
-                        searchTV.setVisibility(View.INVISIBLE);
+                    if (searchIV != null) {
+                        searchIV.setVisibility(View.INVISIBLE);
                     }
 
                     if (adapter == null) {

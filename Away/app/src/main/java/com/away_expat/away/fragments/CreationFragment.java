@@ -131,20 +131,17 @@ public class CreationFragment extends Fragment {
                 call.enqueue(new Callback<DetailedEventDto>() {
                     @Override
                     public void onResponse(Call<DetailedEventDto> call, Response<DetailedEventDto> response) {
-                        Log.i("AWAYINFO", "event creation success : " + response.isSuccessful());
                         if (response.isSuccessful()) {
                             EventFragment fragment = new EventFragment();
                             fragment.setEvent(response.body());
                             ((HomeActivity) getActivity()).replaceFragment(fragment);
                         } else {
-                            Log.i("AWAYINFO", response.message());
                             Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<DetailedEventDto> call, Throwable t) {
-                        Log.i("AWAYINFO", "-----------------> " + t.getMessage());
                         Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
                     }
                 });

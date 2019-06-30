@@ -63,7 +63,7 @@ public class AccountFragment extends ListFragment {
                 updateTag();
             });
         } else {
-            actionBtn.setVisibility(View.INVISIBLE);
+            actionBtn.setVisibility(View.GONE);
             tagBtn.setOnClickListener(v -> {
                 showTag();
             });
@@ -79,14 +79,6 @@ public class AccountFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        Activity louvre = new Activity("Louvre", "Musée du Louvre. 75058 Paris");
-
-        List<User> participants = new ArrayList<>();
-        //participants.create(new User("fernandesantunesdylan@gmail.com", "*****", "Dylan", "Fernandes", "06/09/1994", "France"));
-        participants.add(new User("testtest@input.com", "******", "input", "input", "01/01/1111", "USA"));
-        participants.add(new User("helloworld@yahou.com", "*****", "Hello", "World", "00/00/0000", "Espana"));
-
         final List<Event> items = new ArrayList<>();
 
         adapter = new EventListViewAdapter(getActivity());

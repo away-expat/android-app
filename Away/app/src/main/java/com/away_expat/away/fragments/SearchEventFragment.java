@@ -7,16 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
-import com.away_expat.away.adapters.SearchActivityListViewAdapter;
 import com.away_expat.away.adapters.SearchEventListViewAdapter;
-import com.away_expat.away.adapters.SearchTagListViewAdapter;
 import com.away_expat.away.classes.Event;
 import com.away_expat.away.dto.DetailedEventDto;
 import com.away_expat.away.services.EventApiService;
@@ -33,12 +31,12 @@ public class SearchEventFragment extends Fragment {
 
     private SearchEventListViewAdapter adapter;
     private ListView listview;
-    private TextView searchTV;
+    private ImageView searchIV;
     private String token;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search_user, container, false);
+        View view = inflater.inflate(R.layout.fragment_search_event, container, false);
 
         if (getView() != null) {
             return getView();
@@ -47,14 +45,14 @@ public class SearchEventFragment extends Fragment {
         token = getActivity().getIntent().getStringExtra("token");
 
         listview = (ListView) view.findViewById(R.id.list_view);
-        searchTV = (TextView) view.findViewById(R.id.search_text);
+        searchIV = (ImageView) view.findViewById(R.id.search_img);
 
         if (adapter == null) {
             adapter = new SearchEventListViewAdapter(getActivity());
             adapter.bind(new ArrayList<>());
             listview.setAdapter(adapter);
         } else {
-            searchTV.setVisibility(View.INVISIBLE);
+            searchIV.setVisibility(View.INVISIBLE);
             listview.setAdapter(adapter);
         }
 
@@ -98,8 +96,8 @@ public class SearchEventFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 if (response.isSuccessful()) {
-                    if (searchTV != null) {
-                        searchTV.setVisibility(View.INVISIBLE);
+                    if (searchIV != null) {
+                        searchIV.setVisibility(View.INVISIBLE);
                     }
 
                     if (adapter == null) {

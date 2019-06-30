@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
-import com.away_expat.away.adapters.SearchTagListViewAdapter;
 import com.away_expat.away.adapters.SearchUserListViewAdapter;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.services.RetrofitServiceGenerator;
@@ -30,7 +30,7 @@ public class SearchUserFragment extends Fragment {
 
     private SearchUserListViewAdapter adapter;
     private ListView listview;
-    private TextView searchTV;
+    private ImageView searchIV;
     private String token;
 
     @Override
@@ -38,14 +38,14 @@ public class SearchUserFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_user, container, false);
 
         listview = (ListView) view.findViewById(R.id.list_view);
-        searchTV = (TextView) view.findViewById(R.id.search_text);
+        searchIV = (ImageView) view.findViewById(R.id.search_img);
 
         if (adapter == null) {
             adapter = new SearchUserListViewAdapter(getActivity());
             adapter.bind(new ArrayList<>());
             listview.setAdapter(adapter);
         } else {
-            searchTV.setVisibility(View.INVISIBLE);
+            searchIV.setVisibility(View.INVISIBLE);
             listview.setAdapter(adapter);
         }
 
@@ -69,8 +69,8 @@ public class SearchUserFragment extends Fragment {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.isSuccessful()) {
-                    if (searchTV != null) {
-                        searchTV.setVisibility(View.INVISIBLE);
+                    if (searchIV != null) {
+                        searchIV.setVisibility(View.INVISIBLE);
                     }
 
                     if (adapter == null) {

@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.SearchActivityListViewAdapter;
 import com.away_expat.away.classes.Activity;
@@ -49,7 +48,7 @@ public class SelectActivityFragment extends Fragment {
 
         searchET = (EditText) view.findViewById(R.id.search_ET);
         listview = (ListView) view.findViewById(R.id.list_view);
-        searchTV = (TextView) view.findViewById(R.id.search_text);
+        searchTV = (TextView) view.findViewById(R.id.search_img);
 
         if (adapter == null) {
             adapter = new SearchActivityListViewAdapter(getActivity());
@@ -104,8 +103,6 @@ public class SelectActivityFragment extends Fragment {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //todo
-                Log.i("AWAY", adapter.getItem(i).toString());
                 ((CreationFragment) previousFrag).updateActivity(adapter.getItem(i));
                 getActivity().onBackPressed();
             }

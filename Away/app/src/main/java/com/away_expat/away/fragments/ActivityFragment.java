@@ -8,12 +8,14 @@ import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
@@ -25,11 +27,19 @@ import com.away_expat.away.classes.Event;
 import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.dto.DetailedEventDto;
+import com.away_expat.away.dto.ParticipateDto;
+import com.away_expat.away.services.ActivityApiService;
+import com.away_expat.away.services.EventApiService;
+import com.away_expat.away.services.RetrofitServiceGenerator;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivityFragment extends ListFragment {
 
@@ -46,7 +56,7 @@ public class ActivityFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
-        connectedUser = (User) getActivity().getIntent().getSerializableExtra("connected_user");
+        connectedUser = (User) getActivity().getIntent().getSerializableExtra("connectedUser");
 
         activityName = (TextView) view.findViewById(R.id.activity_name);
         activityName.setText(activity.getName());
@@ -65,8 +75,7 @@ public class ActivityFragment extends ListFragment {
         );
 
         activityImage = (ImageView) view.findViewById(R.id.activity_image);
-        Picasso.get().load(activity.getPhotos())
-                .into(activityImage);
+        Picasso.get().load(activity.getPhotos()).into(activityImage);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -84,10 +93,29 @@ public class ActivityFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
 
         List<Event> items = new ArrayList<>();
-        eventAdapter = new EventListViewAdapter(getActivity());
-        eventAdapter.bind(items);
 
-        setListAdapter(eventAdapter);
+        String token = getActivity().getIntent().getStringExtra("token");
+        Call<List<Event>> call = RetrofitServiceGenerator.createService(ActivityApiService.class).getEventByActivity(token, activity.getId());
+
+        call.enqueue(new Callback<List<Event>>() {
+            @Override
+            public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
+                if (response.isSuccessful()) {
+                    eventAdapter = new EventListViewAdapter(getActivity());
+                    eventAdapter.bind(items);
+
+                    setListAdapter(eventAdapter);
+                } else {
+                    Log.i("-------------->", response.message());
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Event>> call, Throwable t) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

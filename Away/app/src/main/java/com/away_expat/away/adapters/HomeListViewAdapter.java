@@ -16,7 +16,6 @@ public class HomeListViewAdapter extends BaseAdapter {
 
     private List<Event> mModel = new ArrayList<>();
     private Context mContext;
-    private User connectedUser;
 
     public HomeListViewAdapter(Context context) {
         mContext = context;
@@ -45,12 +44,11 @@ public class HomeListViewAdapter extends BaseAdapter {
         } else {
             v = (ListViewHomeView) convertView;
         }
-        v.bind(connectedUser, getItem(position));
+        v.bind(getItem(position));
         return v;
     }
 
-    public void bind(User connectedUser, List<Event> model) {
-        this.connectedUser = connectedUser;
+    public void bind(List<Event> model) {
         mModel = model;
     }
 }

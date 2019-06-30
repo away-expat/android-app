@@ -7,19 +7,12 @@ import java.util.List;
 
 public class Activity {
 
-    @SerializedName("id")
     private Integer id;
-    @SerializedName("name")
     private String name;
-    @SerializedName("address")
     private String address;
-    @SerializedName("rating")
     private Float rating;
-    @SerializedName("url")
     private String url;
-    @SerializedName("photos")
     private String photos;
-    @SerializedName("type")
     private List<String> type;
 
     public Activity() {

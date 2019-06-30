@@ -1,7 +1,9 @@
 package com.away_expat.away.services;
 
 import com.away_expat.away.classes.Activity;
+import com.away_expat.away.classes.Event;
 import com.away_expat.away.dto.ActivityByTagListDto;
+import com.away_expat.away.dto.DetailedEventDto;
 
 import java.util.List;
 
@@ -18,4 +20,10 @@ public interface ActivityApiService {
 
     @GET("/activities/recherche/{search}")
     Call<List<Activity>> searchByText(@Header("Authorization")String token, @Path("search")String search);
+
+    @GET("/activities/suggestion")
+    Call<List<Event>> getHome(@Header("Authorization")String token);
+
+    @GET("/activities/getEventsByActivity/{id}")
+    Call<List<Event>> getEventByActivity(@Header("Authorization")String token, @Path("id") int id);
 }

@@ -15,10 +15,8 @@ import java.util.List;
 public class ListViewHomeView extends ConstraintLayout {
 
     private Event event;
-    private TextView activityNameTextView;
-    private ImageView joinImageView;
-    private User connectedUser;
-    private boolean isConnectedUserInEvent = false;
+    private TextView activityNameTV;
+    private ImageView coverIV;
 
     public ListViewHomeView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -37,13 +35,13 @@ public class ListViewHomeView extends ConstraintLayout {
 
     private void init() {
         inflate(getContext(), R.layout.listview_home, this);
-        activityNameTextView = (TextView) findViewById(R.id.activity_name);
+        activityNameTV = (TextView) findViewById(R.id.activity_name);
+        coverIV = (ImageView) findViewById(R.id.activity_image_layout);
     }
 
-    public void bind(User connectedUser, Event event) {
-        this.connectedUser = connectedUser;
+    public void bind(Event event) {
         this.event = event;
 
-        activityNameTextView.setText(event.getTitle());
+        activityNameTV.setText(event.getTitle());
     }
 }

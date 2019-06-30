@@ -18,6 +18,7 @@ import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.classes.Event;
 import com.away_expat.away.dto.DetailedEventDto;
+import com.away_expat.away.services.ActivityApiService;
 import com.away_expat.away.services.EventApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 
@@ -37,6 +38,8 @@ public class HomeFragment extends Fragment {
     private String token;
     private ListView listview;
 
+    private List<Event> items = new ArrayList<>();
+
     public HomeFragment() {
     }
 
@@ -54,11 +57,28 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        List<Event> items = new ArrayList<>();
-        adapter = new HomeListViewAdapter(getActivity());
-        adapter.bind(connectedUser, items);
+        Call<List<Event>> callOne = RetrofitServiceGenerator.createService(ActivityApiService.class).getHome(token);
 
-        listview.setAdapter(adapter);
+        callOne.enqueue(new Callback<List<Event>>() {
+            @Override
+            public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
+                if (response.isSuccessful()) {
+                    items = response.body();
+                    adapter = new HomeListViewAdapter(getActivity());
+                    adapter.bind(items);
+
+                    listview.setAdapter(adapter);
+                } else {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Event>> call, Throwable t) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         listview.setOnItemClickListener((adapterView, view, position, l) -> {
             Call<DetailedEventDto> call = RetrofitServiceGenerator.createService(EventApiService.class).getById(token, adapter.getItem(position).getId());
 
