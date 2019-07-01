@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.SearchActivityListViewAdapter;
 import com.away_expat.away.classes.Activity;
+import com.away_expat.away.dto.ActivityListDto;
 import com.away_expat.away.services.ActivityApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 
@@ -66,17 +67,17 @@ public class SelectActivityFragment extends Fragment {
                 if (c.toString().length() >= 3) {
                     currentSearch = c.toString();
                     token = getActivity().getIntent().getStringExtra("token");
-                    Call<List<Activity>> call = RetrofitServiceGenerator.createService(ActivityApiService.class).searchByText(token, currentSearch);
+                    Call<ActivityListDto> call = RetrofitServiceGenerator.createService(ActivityApiService.class).searchByText(token, currentSearch);
 
-                    call.enqueue(new Callback<List<Activity>>() {
+                    call.enqueue(new Callback<ActivityListDto>() {
                         @Override
-                        public void onResponse(Call<List<Activity>> call, Response<List<Activity>> response) {
+                        public void onResponse(Call<ActivityListDto> call, Response<ActivityListDto> response) {
                             if (response.isSuccessful()) {
                                 if (searchTV != null) {
                                     searchTV.setVisibility(View.INVISIBLE);
                                 }
 
-                                adapter.bind(response.body());
+                                adapter.bind(response.body().getResults());
                                 adapter.notifyDataSetChanged();
 
                                 if (listview != null) {
@@ -88,7 +89,7 @@ public class SelectActivityFragment extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<List<Activity>> call, Throwable t) {
+                        public void onFailure(Call<ActivityListDto> call, Throwable t) {
                             Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
                         }
                     });

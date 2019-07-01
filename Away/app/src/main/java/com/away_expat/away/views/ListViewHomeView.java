@@ -14,7 +14,7 @@ public class ListViewHomeView extends ConstraintLayout {
 
     private Event event;
     private TextView activityNameTV, eventNameTV, dateTV;
-    private ImageView coverIV;
+    private ImageView coverIV, promotedIV;
 
     public ListViewHomeView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -33,6 +33,8 @@ public class ListViewHomeView extends ConstraintLayout {
 
     private void init() {
         inflate(getContext(), R.layout.listview_home, this);
+        promotedIV = (ImageView) findViewById(R.id.promoted_img);
+        promotedIV.setVisibility(GONE);
         eventNameTV = (TextView) findViewById(R.id.event_name);
         activityNameTV = (TextView) findViewById(R.id.activity_name);
         dateTV = (TextView) findViewById(R.id.date_text);
@@ -47,5 +49,8 @@ public class ListViewHomeView extends ConstraintLayout {
         dateTV.setText(toDisplay);
 
         Picasso.get().load(event.getPhoto()).into(coverIV);
+        if (event.isPromoted()) {
+            promotedIV.setVisibility(VISIBLE);
+        }
     }
 }

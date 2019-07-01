@@ -51,4 +51,8 @@ public class SearchActivityListViewAdapter extends BaseAdapter {
     public void bind(List<Activity> model) {
         mModel = model;
     }
+
+    public void addItems(List<Activity> model) {
+        mModel.addAll(model);
+    }
 }

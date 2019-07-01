@@ -113,7 +113,7 @@ public class CityFragment extends ListFragment {
     }
 
     private void getCities() {
-        Call<List<City>> call = RetrofitServiceGenerator.createService(CityApiService.class).getCities(token);
+        Call<List<City>> call = RetrofitServiceGenerator.createService(CityApiService.class).getCitiesSuggestion(token);
 
         call.enqueue(new Callback<List<City>>() {
             @Override

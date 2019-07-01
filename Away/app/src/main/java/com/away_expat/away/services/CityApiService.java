@@ -21,4 +21,7 @@ public interface CityApiService {
 
     @GET("cities/{id}")
     Call<City> getCityById(@Header("Authorization") String token, @Path("id") String idCity);
+
+    @GET("/cities/suggestion")
+    Call<List<City>> getCitiesSuggestion(@Header("Authorization") String token);
 }

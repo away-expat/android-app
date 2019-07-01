@@ -4,12 +4,12 @@ import com.away_expat.away.classes.Activity;
 
 import java.util.List;
 
-public class ActivityByTagListDto {
+public class ActivityListDto {
 
     private String token;
     private List<Activity> results;
 
-    public ActivityByTagListDto(String token, List<Activity> results) {
+    public ActivityListDto(String token, List<Activity> results) {
         this.token = token;
         this.results = results;
     }

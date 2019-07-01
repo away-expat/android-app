@@ -14,6 +14,7 @@ public class Event {
     private Integer idActivity;
     private String activityName;
     private String photo;
+    private boolean promoted;
 
     public Event() {
     }
@@ -80,6 +81,10 @@ public class Event {
 
     public String getPhoto() {
         return photo;
+    }
+
+    public boolean isPromoted() {
+        return promoted;
     }
 
     public List<String> isComplete() {

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -16,6 +17,7 @@ import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.SearchActivityListViewAdapter;
 import com.away_expat.away.classes.Activity;
+import com.away_expat.away.dto.ActivityListDto;
 import com.away_expat.away.services.ActivityApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 
@@ -34,6 +36,8 @@ public class SearchActivityFragment extends Fragment {
     private ProgressBar progressBar;
     private TextView notFoundTV;
     private String token;
+    private boolean flagLoading = false;
+    private ActivityListDto result;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,14 +74,61 @@ public class SearchActivityFragment extends Fragment {
             }
         });
 
+        listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if(firstVisibleItem+visibleItemCount == totalItemCount && totalItemCount!=0) {
+                    if(!flagLoading) {
+                        flagLoading = true;
+                        addItems();
+                    }
+                }
+            }
+        });
+
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    private void addItems() {
+        if (result.getToken() != null) {
+            token = getActivity().getIntent().getStringExtra("token");
+            Call<ActivityListDto> call = RetrofitServiceGenerator.createService(ActivityApiService.class).loadNextResults(token, result.getToken());
 
+            call.enqueue(new Callback<ActivityListDto>() {
+                @Override
+                public void onResponse(Call<ActivityListDto> call, Response<ActivityListDto> response) {
+                    if (response.isSuccessful()) {
+                        result = response.body();
+                        if (result.getResults().size() == 0 && notFoundTV != null) {
+                            notFoundTV.setVisibility(View.VISIBLE);
+                        }
 
+                        if (adapter == null) {
+                            adapter = new SearchActivityListViewAdapter(getActivity());
+                        }
+
+                        adapter.addItems(result.getResults());
+                        adapter.notifyDataSetChanged();
+                        flagLoading = false;
+
+                        if (listview != null) {
+                            listview.setAdapter(adapter);
+                        }
+                    } else {
+                        flagLoading = false;
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ActivityListDto> call, Throwable t) {
+                    flagLoading = false;
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     public void updateListView(String search, android.app.Activity mainActivity) {
@@ -91,13 +142,14 @@ public class SearchActivityFragment extends Fragment {
         }
 
         token = mainActivity.getIntent().getStringExtra("token");
-        Call<List<Activity>> call = RetrofitServiceGenerator.createService(ActivityApiService.class).searchByText(token, search);
+        Call<ActivityListDto> call = RetrofitServiceGenerator.createService(ActivityApiService.class).searchByText(token, search);
 
-        call.enqueue(new Callback<List<Activity>>() {
+        call.enqueue(new Callback<ActivityListDto>() {
             @Override
-            public void onResponse(Call<List<Activity>> call, Response<List<Activity>> response) {
+            public void onResponse(Call<ActivityListDto> call, Response<ActivityListDto> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().size() == 0 && notFoundTV != null) {
+                    result = response.body();
+                    if (result.getResults().size() == 0 && notFoundTV != null) {
                         notFoundTV.setVisibility(View.VISIBLE);
                     }
 
@@ -105,7 +157,7 @@ public class SearchActivityFragment extends Fragment {
                         adapter = new SearchActivityListViewAdapter(mainActivity);
                     }
 
-                    adapter.bind(response.body());
+                    adapter.bind(response.body().getResults());
                     adapter.notifyDataSetChanged();
 
                     if (progressBar != null) {
@@ -121,7 +173,7 @@ public class SearchActivityFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Activity>> call, Throwable t) {
+            public void onFailure(Call<ActivityListDto> call, Throwable t) {
                 Toast.makeText(mainActivity, getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
             }
         });
