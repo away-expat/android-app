@@ -83,6 +83,7 @@
     <string name="error_date">Wrong Date</string>
     <string name="not_found">No result</string>
     <string name="country_info_sub">Find by categories the information we collected about your country of destination</string>
+    <string name="image_saved">Image saved</string>
 
     <string-array name="countries_array">
         <item>Afghanistan</item>

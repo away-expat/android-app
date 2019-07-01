@@ -1,6 +1,13 @@
 package com.away_expat.away.fragments;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,15 +29,28 @@ import com.away_expat.away.classes.User;
 import com.away_expat.away.dto.DetailedEventDto;
 import com.away_expat.away.services.EventApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
+import com.away_expat.away.services.UserApiService;
 import com.away_expat.away.tools.CircleTransform;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+
+import static android.app.Activity.RESULT_OK;
 
 public class AccountFragment extends Fragment {
 
@@ -78,7 +98,14 @@ public class AccountFragment extends Fragment {
         if (isUserAccount) {
             actionBtn.setVisibility(View.VISIBLE);
             actionBtn.setOnClickListener(v -> updateAccount());
-            
+
+            userIV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startGallery();
+                }
+            });
+
             tagBtn.setOnClickListener(v -> updateTag());
         } else {
             actionBtn.setVisibility(View.GONE);
@@ -220,5 +247,80 @@ public class AccountFragment extends Fragment {
     public void setUser(User user, boolean isUserAcc) {
         this.user = user;
         this.isUserAccount = isUserAcc;
+    }
+
+    private void startGallery() {
+        Intent cameraIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        String[] mimeTypes = {"image/jpeg"};
+        cameraIntent.setType("image/*").putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(cameraIntent, 1000);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1000) {
+                Uri returnUri = data.getData();
+                Bitmap bitmapImage = null;
+                try {
+                    bitmapImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), returnUri);
+                    userIV.setImageBitmap(bitmapImage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Log.i("-------> ", returnUri.getPath());
+                String token = getActivity().getIntent().getStringExtra("token");
+
+                //pass it like this
+                File file = new File(getContext().getCacheDir(), "file");
+                try {
+                    file.createNewFile();
+
+                    //Convert bitmap to byte array
+                    Bitmap bitmap = bitmapImage;
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+
+                    //write the bytes in file
+                    FileOutputStream fos = null;
+
+                    fos = new FileOutputStream(file);
+
+                    fos.write(bitmapdata);
+                    fos.flush();
+                    fos.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName()+".jpeg", requestFile);
+
+                //RequestBody requestBodyid = RequestBody.create(MediaType.parse("multipart/form-data"),id);
+
+                Call<ResponseBody> call = RetrofitServiceGenerator.createService(UserApiService.class).upload(token, body);
+
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.image_saved), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.i("--------> ", t.getMessage());
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        }
     }
 }
