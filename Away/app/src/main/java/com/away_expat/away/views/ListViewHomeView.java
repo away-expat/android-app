@@ -8,14 +8,12 @@ import android.widget.TextView;
 
 import com.away_expat.away.R;
 import com.away_expat.away.classes.Event;
-import com.away_expat.away.classes.User;
-
-import java.util.List;
+import com.squareup.picasso.Picasso;
 
 public class ListViewHomeView extends ConstraintLayout {
 
     private Event event;
-    private TextView activityNameTV;
+    private TextView activityNameTV, eventNameTV, dateTV;
     private ImageView coverIV;
 
     public ListViewHomeView(Context context, AttributeSet attrs, int defStyle) {
@@ -35,13 +33,19 @@ public class ListViewHomeView extends ConstraintLayout {
 
     private void init() {
         inflate(getContext(), R.layout.listview_home, this);
+        eventNameTV = (TextView) findViewById(R.id.event_name);
         activityNameTV = (TextView) findViewById(R.id.activity_name);
+        dateTV = (TextView) findViewById(R.id.date_text);
         coverIV = (ImageView) findViewById(R.id.activity_image_layout);
     }
 
     public void bind(Event event) {
         this.event = event;
+        eventNameTV.setText(event.getTitle());
+        activityNameTV.setText(event.getActivityName());
+        String toDisplay = event.getDate()+" "+event.getHour();
+        dateTV.setText(toDisplay);
 
-        activityNameTV.setText(event.getTitle());
+        Picasso.get().load(event.getPhoto()).into(coverIV);
     }
 }

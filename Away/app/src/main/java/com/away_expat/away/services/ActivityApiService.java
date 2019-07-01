@@ -24,6 +24,4 @@ public interface ActivityApiService {
     @GET("/activities/suggestion")
     Call<List<Event>> getHome(@Header("Authorization")String token);
 
-    @GET("/activities/getEventsByActivity/{id}")
-    Call<List<Event>> getEventByActivity(@Header("Authorization")String token, @Path("id") int id);
 }

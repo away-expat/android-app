@@ -20,6 +20,7 @@ import com.away_expat.away.dto.DetailedEventDto;
 import com.away_expat.away.dto.ParticipateDto;
 import com.away_expat.away.services.EventApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
+import com.away_expat.away.services.UserApiService;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -45,6 +46,16 @@ public class EventFragment extends ListFragment {
 
         userIV = (ImageView) view.findViewById(R.id.event_user_image);
         Picasso.get().load(eventDto.getCreator().getAvatar()).into(userIV);
+        userIV.setOnClickListener(v -> {
+            if (eventDto.getCreator().getId() != connectedUser.getId()) {
+                getUserAndLoadFragment(eventDto.getCreator());
+            } else {
+                AccountFragment fragment = new AccountFragment();
+                fragment.setUser(connectedUser, true);
+
+                ((HomeActivity) getActivity()).replaceFragment(fragment);
+            }
+        });
 
         activityIV = (ImageView) view.findViewById(R.id.event_cover);
         Picasso.get().load(eventDto.getActivity().getPhotos()).into(activityIV);
@@ -84,6 +95,30 @@ public class EventFragment extends ListFragment {
         usernameTextview.setText(getContext().getString(R.string.by)+" "+eventDto.getCreator().getFirstname());
 
         return view;
+    }
+
+    private void getUserAndLoadFragment(User toLoad) {
+        String token = getActivity().getIntent().getStringExtra("token");
+        Call<User> call = RetrofitServiceGenerator.createService(UserApiService.class).getUserById(token, toLoad.getId());
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    AccountFragment fragment = new AccountFragment();
+                    fragment.setUser(response.body(), false);
+
+                    ((HomeActivity) getActivity()).replaceFragment(fragment);
+                } else {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private boolean checkIfParticipate() {
@@ -172,10 +207,14 @@ public class EventFragment extends ListFragment {
         super.onListItemClick(l, v, pos, id);
 
         User userClicked = adapter.getItem(pos);
-        AccountFragment fragment = new AccountFragment();
-        fragment.setUser(userClicked, userClicked.getId() == connectedUser.getId());
+        if (userClicked.getId() != connectedUser.getId()) {
+            getUserAndLoadFragment(userClicked);
+        } else {
+            AccountFragment fragment = new AccountFragment();
+            fragment.setUser(connectedUser, true);
 
-        ((HomeActivity) getActivity()).replaceFragment(fragment);
+            ((HomeActivity) getActivity()).replaceFragment(fragment);
+        }
     }
 
     private void openActivityFragment() {

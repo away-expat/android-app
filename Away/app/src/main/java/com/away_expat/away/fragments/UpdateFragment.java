@@ -35,7 +35,6 @@ public class UpdateFragment extends Fragment {
     private User user;
 
     public UpdateFragment() {
-        // Required empty public constructor
     }
 
     @Override

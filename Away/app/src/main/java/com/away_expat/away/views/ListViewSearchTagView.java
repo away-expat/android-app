@@ -42,7 +42,8 @@ public class ListViewSearchTagView extends ConstraintLayout {
     public void bind(Tag tag) {
         this.tag = tag;
         titleTV.setText(tag.getName());
-        Picasso.get().load(R.drawable.tag).into(imageIV);
+        subtitleTV.setVisibility(GONE);
+        imageIV.setVisibility(GONE);
     }
 
 }

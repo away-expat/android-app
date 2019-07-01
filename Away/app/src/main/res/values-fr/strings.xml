@@ -74,4 +74,6 @@
     <string name="empty">vide</string>
     <string name="missing">manquant</string>
     <string name="selected_activity_text">Activité sélectionnée :</string>
+    <string name="error_date">Mauvaise Date</string>
+    <string name="not_found">Aucun résultat</string>
 </resources>

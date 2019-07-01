@@ -29,6 +29,7 @@ import com.away_expat.away.services.RetrofitServiceGenerator;
 import com.away_expat.away.services.UserApiService;
 import com.away_expat.away.tools.SaveSharedPreference;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -125,26 +126,40 @@ public class CreationFragment extends Fragment {
             toCreate.setDescription(descriptionET.getText().toString());
             List<String> needed = toCreate.isComplete();
             if (needed.size() == 0) {
-                String token = getActivity().getIntent().getStringExtra("token");
-                Call<DetailedEventDto> call = RetrofitServiceGenerator.createService(EventApiService.class).createEvent(token, toCreate);
+                Date toTest = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd/HH:mm", Locale.getDefault());
+                try {
+                    toTest = sdf.parse(toCreate.getDate()+"/"+toCreate.getHour());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
-                call.enqueue(new Callback<DetailedEventDto>() {
-                    @Override
-                    public void onResponse(Call<DetailedEventDto> call, Response<DetailedEventDto> response) {
-                        if (response.isSuccessful()) {
-                            EventFragment fragment = new EventFragment();
-                            fragment.setEvent(response.body());
-                            ((HomeActivity) getActivity()).replaceFragment(fragment);
-                        } else {
-                            Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                if (toTest.getTime() < new Date().getTime()) {
+                    errorTV.setVisibility(View.VISIBLE);
+                    errorTV.setText(R.string.error_date);
+                    errorTV.setTextColor(Color.parseColor("#ff0000"));
+                } else {
+                    String token = getActivity().getIntent().getStringExtra("token");
+                    Call<DetailedEventDto> call = RetrofitServiceGenerator.createService(EventApiService.class).createEvent(token, toCreate);
+
+                    call.enqueue(new Callback<DetailedEventDto>() {
+                        @Override
+                        public void onResponse(Call<DetailedEventDto> call, Response<DetailedEventDto> response) {
+                            if (response.isSuccessful()) {
+                                EventFragment fragment = new EventFragment();
+                                fragment.setEvent(response.body());
+                                ((HomeActivity) getActivity()).replaceFragment(fragment);
+                            } else {
+                                Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<DetailedEventDto> call, Throwable t) {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<DetailedEventDto> call, Throwable t) {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             } else {
                 String todisplay = "";
                 for (String s : needed) {

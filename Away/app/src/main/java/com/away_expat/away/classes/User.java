@@ -31,8 +31,9 @@ public class User implements Serializable {
         this.firstname = firstname;
         this.lastname = lastname;
         this.birth = birthday;
-        this.at = at;
+        this.country = country;
     }
+
 
     public int getId() {
         return id;

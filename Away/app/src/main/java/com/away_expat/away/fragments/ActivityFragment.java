@@ -24,17 +24,13 @@ import com.away_expat.away.adapters.TagActivityAdapter;
 import com.away_expat.away.adapters.TagActivityGridViewAdapter;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Event;
-import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.dto.DetailedEventDto;
-import com.away_expat.away.dto.ParticipateDto;
-import com.away_expat.away.services.ActivityApiService;
 import com.away_expat.away.services.EventApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -50,6 +46,8 @@ public class ActivityFragment extends ListFragment {
     private User connectedUser;
     private Activity activity;
 
+    private List<Event> items = new ArrayList<>();
+
     public ActivityFragment() {
     }
 
@@ -58,7 +56,7 @@ public class ActivityFragment extends ListFragment {
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
         connectedUser = (User) getActivity().getIntent().getSerializableExtra("connectedUser");
 
-        activityName = (TextView) view.findViewById(R.id.activity_name);
+        activityName = (TextView) view.findViewById(R.id.event_name);
         activityName.setText(activity.getName());
 
         activityAddress = (TextView) view.findViewById(R.id.activity_address);
@@ -92,15 +90,14 @@ public class ActivityFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        List<Event> items = new ArrayList<>();
-
         String token = getActivity().getIntent().getStringExtra("token");
-        Call<List<Event>> call = RetrofitServiceGenerator.createService(ActivityApiService.class).getEventByActivity(token, activity.getId());
+        Call<List<Event>> call = RetrofitServiceGenerator.createService(EventApiService.class).getEventByActivity(token, activity.getId());
 
         call.enqueue(new Callback<List<Event>>() {
             @Override
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 if (response.isSuccessful()) {
+                    items = response.body();
                     eventAdapter = new EventListViewAdapter(getActivity());
                     eventAdapter.bind(items);
 

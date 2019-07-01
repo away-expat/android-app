@@ -40,4 +40,7 @@ public interface UserApiService {
 
     @GET("users/recherche/{search}")
     Call<List<User>> searchByText(@Header("Authorization") String token, @Path("search") String search);
+
+    @GET("users/{id}")
+    Call<User> getUserById(@Header("Authorization") String token, @Path("id") int id);
 }

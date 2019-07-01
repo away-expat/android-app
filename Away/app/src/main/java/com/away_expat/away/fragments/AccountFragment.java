@@ -49,24 +49,19 @@ public class AccountFragment extends ListFragment {
         birthdayTV = (TextView) view.findViewById(R.id.account_textview_birthdate);
 
         Picasso.get().load(user.getAvatar()).transform(new CircleTransform()).into(userIV);
-        nameTV.setText(user.getFirstname()+" "+user.getLastname());
+        String toDisplay = user.getFirstname()+" "+user.getLastname();
+        nameTV.setText(toDisplay);
         countryTV.setText(user.getCountry());
         birthdayTV.setText(user.getBirthday());
 
         if (isUserAccount) {
             actionBtn.setVisibility(View.VISIBLE);
-            actionBtn.setOnClickListener(v -> {
-                updateAccount();
-            });
+            actionBtn.setOnClickListener(v -> updateAccount());
             
-            tagBtn.setOnClickListener(v -> {
-                updateTag();
-            });
+            tagBtn.setOnClickListener(v -> updateTag());
         } else {
             actionBtn.setVisibility(View.GONE);
-            tagBtn.setOnClickListener(v -> {
-                showTag();
-            });
+            tagBtn.setOnClickListener(v -> showTag());
         }
 
         return view;

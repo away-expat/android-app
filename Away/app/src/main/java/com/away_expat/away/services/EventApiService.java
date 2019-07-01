@@ -30,4 +30,7 @@ public interface EventApiService {
 
     @HTTP(method = "DELETE", path = "/events/deleteParticipationAtEvent", hasBody = true)
     Call<DetailedEventDto> quit(@Header("Authorization") String token, @Body ParticipateDto id);
+
+    @GET("/events/getEventsByActivity/{id}")
+    Call<List<Event>> getEventByActivity(@Header("Authorization")String token, @Path("id") int id);
 }

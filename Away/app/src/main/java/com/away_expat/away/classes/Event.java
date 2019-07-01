@@ -12,6 +12,8 @@ public class Event {
     private String hour;
     private String date;
     private Integer idActivity;
+    private String activityName;
+    private String photo;
 
     public Event() {
     }
@@ -70,6 +72,14 @@ public class Event {
 
     public void setIdActivity(int idActivity) {
         this.idActivity = idActivity;
+    }
+
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public String getPhoto() {
+        return photo;
     }
 
     public List<String> isComplete() {

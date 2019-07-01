@@ -3,7 +3,6 @@ package com.away_expat.away.views;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +32,7 @@ public class ListViewActivityView extends ConstraintLayout {
 
     private void init() {
         inflate(getContext(), R.layout.listview_activity, this);
-        mTextView = (TextView) findViewById(R.id.activity_name);
+        mTextView = (TextView) findViewById(R.id.event_name);
         imageView = (ImageView) findViewById(R.id.activity_image_layout);
     }
 

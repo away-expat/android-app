@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,11 +33,13 @@ public class SearchEventFragment extends Fragment {
     private SearchEventListViewAdapter adapter;
     private ListView listview;
     private ImageView searchIV;
+    private ProgressBar progressBar;
+    private TextView notFoundTV;
     private String token;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search_event, container, false);
+        View view = inflater.inflate(R.layout.fragment_search_sub, container, false);
 
         if (getView() != null) {
             return getView();
@@ -44,8 +47,12 @@ public class SearchEventFragment extends Fragment {
 
         token = getActivity().getIntent().getStringExtra("token");
 
+        progressBar = (ProgressBar) view.findViewById(R.id.search_progress);
+        progressBar.setVisibility(View.GONE);
         listview = (ListView) view.findViewById(R.id.list_view);
         searchIV = (ImageView) view.findViewById(R.id.search_img);
+        notFoundTV = (TextView) view.findViewById(R.id.search_no_result);
+        notFoundTV.setVisibility(View.GONE);
 
         if (adapter == null) {
             adapter = new SearchEventListViewAdapter(getActivity());
@@ -89,6 +96,15 @@ public class SearchEventFragment extends Fragment {
 
 
     public void updateListView(String search, android.app.Activity mainActivity) {
+        if (progressBar != null && searchIV != null) {
+            progressBar.setVisibility(View.VISIBLE);
+            searchIV.setVisibility(View.INVISIBLE);
+        }
+
+        if (notFoundTV != null) {
+            notFoundTV.setVisibility(View.GONE);
+        }
+
         token = mainActivity.getIntent().getStringExtra("token");
         Call<List<Event>> call = RetrofitServiceGenerator.createService(EventApiService.class).searchByText(token, search);
 
@@ -96,6 +112,10 @@ public class SearchEventFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 if (response.isSuccessful()) {
+                    if (response.body().size() == 0 && notFoundTV != null) {
+                        notFoundTV.setVisibility(View.VISIBLE);
+                    }
+
                     if (searchIV != null) {
                         searchIV.setVisibility(View.INVISIBLE);
                     }
@@ -106,6 +126,10 @@ public class SearchEventFragment extends Fragment {
 
                     adapter.bind(response.body());
                     adapter.notifyDataSetChanged();
+
+                    if (progressBar != null) {
+                        progressBar.setVisibility(View.GONE);
+                    }
 
                     if (listview != null) {
                         listview.setAdapter(adapter);

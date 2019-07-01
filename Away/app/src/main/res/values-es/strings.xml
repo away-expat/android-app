@@ -74,4 +74,6 @@
     <string name="empty">Vacío</string>
     <string name="missing">que falta</string>
     <string name="selected_activity_text">Actividad seleccionada :</string>
+    <string name="error_date">Fecha equivocada</string>
+    <string name="not_found">Ningún resultado</string>
 </resources>

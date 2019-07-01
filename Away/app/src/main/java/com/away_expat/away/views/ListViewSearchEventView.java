@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.away_expat.away.R;
 import com.away_expat.away.classes.Event;
+import com.squareup.picasso.Picasso;
 
 public class ListViewSearchEventView extends ConstraintLayout {
 
@@ -41,8 +42,8 @@ public class ListViewSearchEventView extends ConstraintLayout {
         this.event = event;
 
         titleTV.setText(event.getTitle());
-        String dateDisplay = event.getHour()+" "+event.getDate();
+        String dateDisplay = event.getDate()+" "+event.getHour();
         subtitleTV.setText(dateDisplay);
-
+        Picasso.get().load(event.getPhoto()).into(imageIV);
     }
 }
