@@ -33,4 +33,10 @@ public interface EventApiService {
 
     @GET("/events/getEventsByActivity/{id}")
     Call<List<Event>> getEventByActivity(@Header("Authorization")String token, @Path("id") int id);
+
+    @GET("/events/getUserEvents/{id}")
+    Call<List<Event>> getEventByUser(@Header("Authorization")String token, @Path("id") int id);
+
+    @GET("/events/getUserEventsCreated/{id}")
+    Call<List<Event>> getCreatedEventByUser(@Header("Authorization")String token, @Path("id") int id);
 }

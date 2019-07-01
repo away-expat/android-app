@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.away_expat.away.R;
 import com.away_expat.away.classes.Tag;
+import com.away_expat.away.tools.OnTagItemClickListener;
 import com.away_expat.away.views.RecyclerViewTagSuggestionView;
 
 import java.util.List;
@@ -16,24 +17,23 @@ public class TagSuggestionAdapter extends RecyclerView.Adapter<RecyclerViewTagSu
 
     private Context context;
     private List<Tag> horizontalList;
-    private OnAddedTagClickListener mOnAddedTagClickListener;
+    private final OnTagItemClickListener listener;
 
-    public TagSuggestionAdapter(List<Tag> horizontalList, Context context, OnAddedTagClickListener onAddedTagClickListener) {
+    public TagSuggestionAdapter(List<Tag> horizontalList, Context context, OnTagItemClickListener listener) {
         this.horizontalList = horizontalList;
         this.context = context;
-        this.mOnAddedTagClickListener = onAddedTagClickListener;
+        this.listener = listener;
     }
 
     @Override
     public RecyclerViewTagSuggestionView onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_tag_user, parent, false);
-        return new RecyclerViewTagSuggestionView(itemView, mOnAddedTagClickListener);
+        return new RecyclerViewTagSuggestionView(itemView);
     }
 
     @Override
     public void onBindViewHolder(RecyclerViewTagSuggestionView holder, int position) {
-        Tag mItem = horizontalList.get(position);
-        holder.textView.setText(mItem.getName());
+        holder.bind(horizontalList.get(position), listener);
     }
 
     @Override
@@ -41,7 +41,4 @@ public class TagSuggestionAdapter extends RecyclerView.Adapter<RecyclerViewTagSu
         return horizontalList == null ? 0 :horizontalList.size();
     }
 
-    public interface OnAddedTagClickListener {
-        void onClick(int position);
-    }
 }

@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.away_expat.away.HomeActivity;
@@ -37,8 +39,8 @@ public class HomeFragment extends Fragment {
     private User connectedUser;
     private String token;
     private ListView listview;
-
-    private List<Event> items = new ArrayList<>();
+    private ProgressBar progressBar;
+    private TextView notFound;
 
     public HomeFragment() {
     }
@@ -49,6 +51,12 @@ public class HomeFragment extends Fragment {
         token = getActivity().getIntent().getStringExtra("token");
         connectedUser = (User) getActivity().getIntent().getSerializableExtra("connectedUser");
 
+        notFound = (TextView) view.findViewById(R.id.not_found);
+        notFound.setVisibility(View.GONE);
+
+        progressBar = (ProgressBar) view.findViewById(R.id.load_progress);
+        progressBar.setVisibility(View.GONE);
+
         listview = (ListView) view.findViewById(R.id.list_view);
         return view;
     }
@@ -56,16 +64,22 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        progressBar.setVisibility(View.VISIBLE);
         Call<List<Event>> callOne = RetrofitServiceGenerator.createService(ActivityApiService.class).getHome(token);
 
         callOne.enqueue(new Callback<List<Event>>() {
             @Override
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 if (response.isSuccessful()) {
-                    items = response.body();
+                    progressBar.setVisibility(View.GONE);
+                    if (response.body().size() == 0) {
+                        notFound.setVisibility(View.VISIBLE);
+                    } else {
+                        notFound.setVisibility(View.GONE);
+                    }
+
                     adapter = new HomeListViewAdapter(getActivity());
-                    adapter.bind(items);
+                    adapter.bind(response.body());
 
                     listview.setAdapter(adapter);
                 } else {

@@ -1,9 +1,9 @@
 package com.away_expat.away;
 
-import android.app.FragmentManager;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -20,6 +20,7 @@ import com.away_expat.away.fragments.CountryInformationFragment;
 import com.away_expat.away.fragments.CreationFragment;
 import com.away_expat.away.fragments.HomeFragment;
 import com.away_expat.away.fragments.SearchFragment;
+import com.google.android.gms.dynamic.SupportFragmentWrapper;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.squareup.picasso.Picasso;
 
@@ -149,7 +150,16 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        getSupportFragmentManager().popBackStack();
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 1) {
+            int currentId = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getId();
+            int previousId = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 2).getId();
+            if (currentId != previousId) {
+                fm.popBackStack();
+            }
+        } else {
+            fm.popBackStack();
+        }
     }
 
     public void updateMenuColor(int position) {

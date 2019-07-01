@@ -37,6 +37,7 @@
     <string name="friends">Friends</string>
     <string name="event_passed">Event passed :</string>
     <string name="next_event">Next event :</string>
+    <string name="created_event">Created event :</string>
     <string name="event_participants">Participant(s) :</string>
     <string name="join">Join</string>
     <string name="quit">Quit</string>
@@ -80,7 +81,8 @@
     <string name="missing">missing</string>
     <string name="selected_activity_text">Selected activity :</string>
     <string name="error_date">Wrong Date</string>
-    <string name="not_found">Not found</string>
+    <string name="not_found">No result</string>
+    <string name="country_info_sub">Find by categories the information we collected about your country of destination</string>
 
     <string-array name="countries_array">
         <item>Afghanistan</item>

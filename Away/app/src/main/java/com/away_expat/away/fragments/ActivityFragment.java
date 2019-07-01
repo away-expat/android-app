@@ -119,10 +119,27 @@ public class ActivityFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int pos, long id) {
         super.onListItemClick(l, v, pos, id);
 
-        EventFragment fragment = new EventFragment();
-        fragment.setEvent(new DetailedEventDto());
+        String token = getActivity().getIntent().getStringExtra("token");
+        Call<DetailedEventDto> call = RetrofitServiceGenerator.createService(EventApiService.class).getById(token, eventAdapter.getItem(pos).getId());
 
-        ((HomeActivity) getActivity()).replaceFragment(fragment);
+        call.enqueue(new Callback<DetailedEventDto>() {
+            @Override
+            public void onResponse(Call<DetailedEventDto> call, Response<DetailedEventDto> response) {
+                if (response.isSuccessful()) {
+                    EventFragment fragment = new EventFragment();
+
+                    fragment.setEvent(response.body());
+                    ((HomeActivity) getActivity()).replaceFragment(fragment);
+                } else {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DetailedEventDto> call, Throwable t) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void setActivity(Activity activity) {

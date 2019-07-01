@@ -36,6 +36,7 @@
     <string name="friends">Amigos</string>
     <string name="event_passed">Eventos pasados :</string>
     <string name="next_event">Futuro eventos :</string>
+    <string name="created_event">Eventeos creados :</string>
     <string name="event_participants">Participante(s) :</string>
     <string name="join">Unirse</string>
     <string name="quit">Dejar</string>
@@ -76,4 +77,5 @@
     <string name="selected_activity_text">Actividad seleccionada :</string>
     <string name="error_date">Fecha equivocada</string>
     <string name="not_found">Ningún resultado</string>
+    <string name="country_info_sub">Vea por categorías la información que hemos reunido sobre su país de acogida</string>
 </resources>

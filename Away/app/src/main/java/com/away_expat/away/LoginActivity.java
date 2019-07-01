@@ -30,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextView createAccountTV;
     private EditText emailET, passwordET;
 
+    private User connectedUser;
+
     private LoginActivity $this = this;
 
     @Override
@@ -102,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    User connectedUser = response.body();
+                    connectedUser = response.body();
                     getIntent().putExtra("connectedUser", connectedUser);
 
                     checkIfUserAsTags(token);
@@ -119,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkIfUserAsTags(String token) {
-        Call<List<Tag>> call = RetrofitServiceGenerator.createService(TagApiService.class).getUserTags(token);
+        Call<List<Tag>> call = RetrofitServiceGenerator.createService(TagApiService.class).getUserTags(token, connectedUser.getId());
 
         call.enqueue(new Callback<List<Tag>>() {
             @Override

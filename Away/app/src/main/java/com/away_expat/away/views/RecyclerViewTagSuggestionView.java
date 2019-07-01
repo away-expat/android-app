@@ -5,23 +5,26 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.away_expat.away.R;
-import com.away_expat.away.adapters.TagSuggestionAdapter;
+import com.away_expat.away.classes.Tag;
+import com.away_expat.away.tools.OnTagItemClickListener;
 
-public class RecyclerViewTagSuggestionView extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class RecyclerViewTagSuggestionView extends RecyclerView.ViewHolder {
 
     public TextView textView;
-    TagSuggestionAdapter.OnAddedTagClickListener onAddedTagClickListener;
 
-    public RecyclerViewTagSuggestionView(View view, TagSuggestionAdapter.OnAddedTagClickListener onAddedTagClickListener) {
+    public RecyclerViewTagSuggestionView(View view) {
         super(view);
         textView = (TextView) view.findViewById(R.id.tag_text);
-        this.onAddedTagClickListener = onAddedTagClickListener;
-
-        view.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View view) {
-        onAddedTagClickListener.onClick(getAdapterPosition());
+    public void bind(Tag mItem, final OnTagItemClickListener listener) {
+        textView.setText(mItem.getName());
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onTagItemClick(mItem);
+            }
+        });
     }
 }

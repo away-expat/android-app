@@ -200,7 +200,11 @@ public class CreationFragment extends Fragment {
     }
 
     private void updateTime(int hourOfDay, int minute) {
-        this.selectedTime = hourOfDay+":"+minute;
+        if (minute < 10) {
+            this.selectedTime = hourOfDay+":0"+minute;
+        } else {
+            this.selectedTime = hourOfDay+":"+minute;
+        }
 
         selectTimeBtn.setText(selectedTime);
         toCreate.setHour(selectedTime);

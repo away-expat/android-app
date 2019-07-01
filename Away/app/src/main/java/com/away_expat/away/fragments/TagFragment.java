@@ -20,11 +20,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.away_expat.away.FirstLoginActivity;
+import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.AutoCompleteTagArrayAdapter;
 import com.away_expat.away.adapters.TagSelectionGridViewAdapter;
 import com.away_expat.away.adapters.TagSuggestionAdapter;
 import com.away_expat.away.classes.Tag;
+import com.away_expat.away.classes.User;
+import com.away_expat.away.dto.DetailedEventDto;
+import com.away_expat.away.services.EventApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 import com.away_expat.away.services.TagApiService;
 
@@ -35,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAddedTagClickListener {
+public class TagFragment extends Fragment {
 
     private TagSelectionGridViewAdapter tagsAdapter;
     private TagSuggestionAdapter tagSuggestionAdapter;
@@ -46,10 +50,10 @@ public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAdde
     private RecyclerView recyclerView;
     private TextView welcomeTV;
     private String token;
+    private User connectedUser;
 
     private List<Tag> suggestionTag = new ArrayList<>();
     private List<Tag> userTag = new ArrayList<>();
-    private List<Tag> searchedTag = new ArrayList<>();
 
     public TagFragment() {
     }
@@ -58,8 +62,7 @@ public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAdde
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_update_tag, container, false);
         token = getActivity().getIntent().getStringExtra("token");
-
-        Log.i("AWAYINFO", "-----------------> "+token);
+        connectedUser = (User) getActivity().getIntent().getSerializableExtra("connectedUser");
 
         gridView = (GridView) view.findViewById(R.id.grid_view);
         searchATV = (AutoCompleteTextView) view.findViewById(R.id.search_tag_input);
@@ -80,9 +83,48 @@ public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAdde
             recyclerView.setLayoutManager(layoutManager);
             TagFragment $this = this;
 
-            recyclerView.setAdapter(tagSuggestionAdapter);
+            Call<List<Tag>> call = RetrofitServiceGenerator.createService(TagApiService.class).getUserTagsSuggestion(token);
 
-            //TODO
+            call.enqueue(new Callback<List<Tag>>() {
+                @Override
+                public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
+                    if (response.isSuccessful()) {
+                        suggestionTag = response.body();
+
+                        tagSuggestionAdapter = new TagSuggestionAdapter(suggestionTag, getContext(), item -> {
+                            Call<Tag> innerCall = RetrofitServiceGenerator.createService(TagApiService.class).addToUserTags(token, item.getId());
+
+                            innerCall.enqueue(new Callback<Tag>() {
+                                @Override
+                                public void onResponse(Call<Tag> call, Response<Tag> response) {
+                                    if (response.isSuccessful()) {
+                                        userTag.add(item);
+                                        tagsAdapter.notifyDataSetChanged();
+
+                                        suggestionTag.remove(item);
+                                        tagSuggestionAdapter.notifyDataSetChanged();
+                                    } else {
+                                        Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Tag> call, Throwable t) {
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        });
+                        recyclerView.setAdapter(tagSuggestionAdapter);
+                    } else {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Tag>> call, Throwable t) {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
@@ -113,7 +155,7 @@ public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAdde
     }
 
     private void setupTagGridView() {
-        Call<List<Tag>> call = RetrofitServiceGenerator.createService(TagApiService.class).getUserTags(token);
+        Call<List<Tag>> call = RetrofitServiceGenerator.createService(TagApiService.class).getUserTags(token, connectedUser.getId());
 
         call.enqueue(new Callback<List<Tag>>() {
             @Override
@@ -203,15 +245,5 @@ public class TagFragment extends Fragment implements TagSuggestionAdapter.OnAdde
         } else {
             Toast.makeText(getActivity(), getResources().getString(R.string.tag_warning), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public void onClick(int position) {
-        Log.i("AWAYINFO", "----------------------------------------> "+ suggestionTag.get(position).getName());
-        userTag.add(suggestionTag.get(position));
-        tagsAdapter.notifyDataSetChanged();
-
-        suggestionTag.remove(position);
-        tagSuggestionAdapter.notifyDataSetChanged();
     }
 }

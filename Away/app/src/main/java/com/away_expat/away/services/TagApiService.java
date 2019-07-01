@@ -16,8 +16,8 @@ public interface TagApiService {
     @GET("/tags/")
     Call<List<Tag>> getAllTags();
 
-    @GET("/tags/ofUser")
-    Call<List<Tag>> getUserTags(@Header("Authorization") String token);
+    @GET("/tags/ofUser/{id}")
+    Call<List<Tag>> getUserTags(@Header("Authorization") String token, @Path("id") int id);
 
     @GET("/tags/recherche/{search}")
     Call<List<Tag>> searchByText(@Header("Authorization") String token, @Path("search") String searchedText);
@@ -27,4 +27,8 @@ public interface TagApiService {
 
     @DELETE("/tags/dislike/{id}")
     Call<Void> removeFromUserTags(@Header("Authorization") String token, @Path("id") int id);
+
+    @GET("/tags/suggestion")
+    Call<List<Tag>> getUserTagsSuggestion(@Header("Authorization") String token);
+
 }

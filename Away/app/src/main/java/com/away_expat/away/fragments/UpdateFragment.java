@@ -59,7 +59,10 @@ public class UpdateFragment extends Fragment {
                             public void onResponse(Call<User> call, Response<User> response) {
                                 Log.i("AWAYINFO", "Login success : " + response.isSuccessful());
                                 if (response.isSuccessful()) {
-
+                                    SaveSharedPreference.setToken(getActivity().getApplicationContext(), null);
+                                    Intent home = new Intent(getActivity(), LoginActivity.class);
+                                    startActivity(home);
+                                    getActivity().finish();
                                 } else {
                                     Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
                                 }
