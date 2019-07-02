@@ -299,14 +299,13 @@ public class AccountFragment extends Fragment {
                 RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                 MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName()+".jpeg", requestFile);
 
-                //RequestBody requestBodyid = RequestBody.create(MediaType.parse("multipart/form-data"),id);
-
                 Call<ResponseBody> call = RetrofitServiceGenerator.createService(UserApiService.class).upload(token, body);
 
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
+                            refreshConnectedUser();
                             Toast.makeText(getActivity(), getResources().getString(R.string.image_saved), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
@@ -315,12 +314,32 @@ public class AccountFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.i("--------> ", t.getMessage());
                         Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
                     }
                 });
-
             }
         }
+    }
+
+    private void refreshConnectedUser() {
+        String token = getActivity().getIntent().getStringExtra("token");
+        Call<User> call = RetrofitServiceGenerator.createService(UserApiService.class).getUserInfo(token);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    getActivity().getIntent().putExtra("connectedUser", response.body());
+
+                } else {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

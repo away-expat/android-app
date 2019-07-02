@@ -3,6 +3,7 @@ package com.away_expat.away.views;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,7 +35,6 @@ public class ListViewHomeView extends ConstraintLayout {
     private void init() {
         inflate(getContext(), R.layout.listview_home, this);
         promotedIV = (ImageView) findViewById(R.id.promoted_img);
-        promotedIV.setVisibility(GONE);
         eventNameTV = (TextView) findViewById(R.id.event_name);
         activityNameTV = (TextView) findViewById(R.id.activity_name);
         dateTV = (TextView) findViewById(R.id.date_text);
@@ -47,10 +47,13 @@ public class ListViewHomeView extends ConstraintLayout {
         activityNameTV.setText(event.getActivityName());
         String toDisplay = event.getDate()+" "+event.getHour();
         dateTV.setText(toDisplay);
-
         Picasso.get().load(event.getPhoto()).into(coverIV);
+
         if (event.isPromoted()) {
             promotedIV.setVisibility(VISIBLE);
+        } else {
+            promotedIV.setVisibility(GONE);
         }
+        Log.i("----------------> ", event.getTitle()+" "+event.isPromoted());
     }
 }

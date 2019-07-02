@@ -14,7 +14,7 @@ public class Event {
     private Integer idActivity;
     private String activityName;
     private String photo;
-    private boolean promoted;
+    private Boolean promoted;
 
     public Event() {
     }
@@ -84,6 +84,7 @@ public class Event {
     }
 
     public boolean isPromoted() {
+        if (promoted == null) return false;
         return promoted;
     }
 

@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.SearchActivityListViewAdapter;
 import com.away_expat.away.classes.Activity;
@@ -36,6 +37,7 @@ public class SelectActivityFragment extends Fragment {
     private TextView searchTV;
     private String token, currentSearch;
     private Fragment previousFrag;
+    private HomeActivity mainActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,13 +86,13 @@ public class SelectActivityFragment extends Fragment {
                                     listview.setAdapter(adapter);
                                 }
                             } else {
-                                Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mainActivity, getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ActivityListDto> call, Throwable t) {
-                            Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mainActivity, getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -112,7 +114,8 @@ public class SelectActivityFragment extends Fragment {
         return view;
     }
 
-    public void setPreviousFrag(Fragment frag) {
+    public void setPreviousFrag(Fragment frag, HomeActivity mainActivity) {
         this.previousFrag = frag;
+        this.mainActivity = mainActivity;
     }
 }

@@ -101,7 +101,7 @@ public class CreationFragment extends Fragment {
     private void setupBtn() {
         selectActivityBtn.setOnClickListener(v -> {
             SelectActivityFragment saf = new SelectActivityFragment();
-            saf.setPreviousFrag(this);
+            saf.setPreviousFrag(this, (HomeActivity) getActivity());
             ((HomeActivity) getActivity()).replaceFragment(saf);
         });
 
