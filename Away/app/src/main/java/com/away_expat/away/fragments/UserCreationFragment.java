@@ -90,19 +90,16 @@ public class UserCreationFragment extends Fragment {
         if (connected) {
             saveBtn.setVisibility(View.VISIBLE);
             saveBtn.setOnClickListener(v -> {
-                if (checkForm()) {
+                User toUpdate = checkAndGetAccountInfo();
+                if (toUpdate != null) {
                     String token = getActivity().getIntent().getStringExtra("token");
-                    User toUpdate = new User(emailET.getText().toString(), passwordET.getText().toString(),
-                            firstnameET.getText().toString(), lastnameET.getText().toString(),
-                            selectedDate, countrySpin.getSelectedItem().toString());
                     Call<User> call = RetrofitServiceGenerator.createService(UserApiService.class).updateUser(token, toUpdate);
 
                     call.enqueue(new Callback<User>() {
                         @Override
                         public void onResponse(Call<User> call, Response<User> response) {
-                            Log.i("AWAYINFO", "Update success : " + response.message());
                             if (response.isSuccessful()) {
-
+                                Toast.makeText(getActivity(), getResources().getString(R.string.update_success), Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
                             }
@@ -110,7 +107,6 @@ public class UserCreationFragment extends Fragment {
 
                         @Override
                         public void onFailure(Call<User> call, Throwable t) {
-                            Log.i("AWAYINFO", "-----------------> " + t.getMessage());
                             Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -123,11 +119,6 @@ public class UserCreationFragment extends Fragment {
         return view;
     }
 
-    private boolean checkForm() {
-        //TODO
-        return true;
-    }
-
     private void setCountrySpinner() {
         countryAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.countries_array, android.R.layout.simple_spinner_item);
         countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -135,31 +126,46 @@ public class UserCreationFragment extends Fragment {
     }
 
     public User checkAndGetAccountInfo () {
+        boolean isComplete = true;
+
         if (!emailET.getText().toString().equals("")) {
             if (!passwordET.getText().toString().equals("")) {
                 user = new User(emailET.getText().toString(), passwordET.getText().toString());
             } else {
                 passwordET.setError(getActivity().getResources().getString(R.string.required));
-                return null;
+                isComplete = false;
             }
         } else {
             emailET.setError(getActivity().getResources().getString(R.string.required));
-            return null;
+            isComplete = false;
         }
 
         if (!firstnameET.getText().toString().equals("")) {
             user.setFirstname(firstnameET.getText().toString());
+        } else {
+            firstnameET.setError(getActivity().getResources().getString(R.string.required));
+            isComplete = false;
         }
 
         if (!lastnameET.getText().toString().equals("")) {
             user.setLastname(lastnameET.getText().toString());
+        } else {
+            lastnameET.setError(getActivity().getResources().getString(R.string.required));
+            isComplete = false;
         }
 
         if (selectedDate != null) {
             user.setBirthday(selectedDate);
+        } else {
+            birthdayBtn.setText(getActivity().getResources().getString(R.string.required));
+            isComplete = false;
         }
 
         user.setCountry(countrySpin.getSelectedItem().toString());
+
+        if (!isComplete) {
+            return null;
+        }
 
         return user;
     }

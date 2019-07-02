@@ -51,7 +51,7 @@ public class SelectActivityFragment extends Fragment {
 
         searchET = (EditText) view.findViewById(R.id.search_ET);
         listview = (ListView) view.findViewById(R.id.list_view);
-        searchTV = (TextView) view.findViewById(R.id.search_img);
+        searchTV = (TextView) view.findViewById(R.id.search_text);
 
         if (adapter == null) {
             adapter = new SearchActivityListViewAdapter(getActivity());

@@ -79,4 +79,5 @@
     <string name="not_found">Aucun résultat</string>
     <string name="country_info_sub">Retrouvez par catégories les infos que nous avons recueillis sur votre pays d’accueil</string>
     <string name="image_saved">Image sauvegardé</string>
+    <string name="update_success">Modification sauvegardée</string>
 </resources>

@@ -79,4 +79,5 @@
     <string name="not_found">Ningún resultado</string>
     <string name="country_info_sub">Vea por categorías la información que hemos reunido sobre su país de acogida</string>
     <string name="image_saved">Imagen ahorró</string>
+    <string name="update_success">Modificación salvaguardada</string>
 </resources>

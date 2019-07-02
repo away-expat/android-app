@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.away_expat.away.R;
+import com.away_expat.away.adapters.DisplayTagGridViewAdapter;
+import com.away_expat.away.adapters.TagActivityGridViewAdapter;
 import com.away_expat.away.adapters.TagSelectionGridViewAdapter;
 import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
@@ -28,7 +30,7 @@ import retrofit2.Response;
 public class DisplayTagFragment extends Fragment {
 
     private GridView gridView;
-    private TagSelectionGridViewAdapter tagsAdapter;
+    private DisplayTagGridViewAdapter tagsAdapter;
     private List<Tag> userTag = new ArrayList<>();
     private String token;
     private User user;
@@ -52,7 +54,7 @@ public class DisplayTagFragment extends Fragment {
             public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
                 if (response.isSuccessful()) {
                     userTag = response.body();
-                    tagsAdapter = new TagSelectionGridViewAdapter(getContext());
+                    tagsAdapter = new DisplayTagGridViewAdapter(getContext());
                     tagsAdapter.bind(userTag);
 
                     gridView.setAdapter(tagsAdapter);
