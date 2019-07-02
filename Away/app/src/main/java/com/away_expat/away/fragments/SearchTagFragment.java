@@ -3,14 +3,12 @@ package com.away_expat.away.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.away_expat.away.HomeActivity;
@@ -34,7 +32,6 @@ public class SearchTagFragment extends Fragment {
     private String token;
 
     public SearchTagFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -61,7 +58,7 @@ public class SearchTagFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Tag>> call, Throwable t) {
-                Log.i("error", t.getMessage());
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
             }
         });
 

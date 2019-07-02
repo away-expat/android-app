@@ -16,13 +16,11 @@ import android.widget.Toast;
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.SearchActivityListViewAdapter;
-import com.away_expat.away.classes.Activity;
 import com.away_expat.away.dto.ActivityListDto;
 import com.away_expat.away.services.ActivityApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

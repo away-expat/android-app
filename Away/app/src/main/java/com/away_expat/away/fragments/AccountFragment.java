@@ -1,17 +1,13 @@
 package com.away_expat.away.fragments;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +18,6 @@ import android.widget.Toast;
 
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
-import com.away_expat.away.adapters.EventListViewAdapter;
 import com.away_expat.away.adapters.EventRecyclerViewAdapter;
 import com.away_expat.away.classes.Event;
 import com.away_expat.away.classes.User;
@@ -30,12 +25,10 @@ import com.away_expat.away.dto.DetailedEventDto;
 import com.away_expat.away.services.EventApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 import com.away_expat.away.services.UserApiService;
-import com.away_expat.away.tools.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,7 +41,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -57,7 +49,6 @@ public class AccountFragment extends Fragment {
     private TextView nameTV, countryTV, birthdayTV, nextTV, createdTV;
     private ImageView userIV;
     private Button actionBtn, tagBtn;
-    private EventListViewAdapter adapter;
     private RecyclerView futurRecyclerView;
     private RecyclerView createdRecyclerView;
 
@@ -70,7 +61,6 @@ public class AccountFragment extends Fragment {
     private boolean isUserAccount;
 
     public AccountFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -87,7 +77,7 @@ public class AccountFragment extends Fragment {
         futurRecyclerView = (RecyclerView) view.findViewById(R.id.futur_event_recycler_view);
         createdRecyclerView = (RecyclerView) view.findViewById(R.id.created_event_recycler_view);
 
-        Picasso.get().load(user.getAvatar()).transform(new CircleTransform()).into(userIV);
+        Picasso.get().load(user.getAvatar()).into(userIV);
         String toDisplay = user.getFirstname()+" "+user.getLastname();
         nameTV.setText(toDisplay);
         countryTV.setText(user.getCountry());
@@ -165,7 +155,6 @@ public class AccountFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Event>> call, Throwable t) {
-                Log.i("AWAYINFO", "-----------------> "+t.getMessage());
                 Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
             }
         });
@@ -221,7 +210,6 @@ public class AccountFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Event>> call, Throwable t) {
-                Log.i("AWAYINFO", "-----------------> "+t.getMessage());
                 Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
             }
         });
@@ -270,21 +258,17 @@ public class AccountFragment extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Log.i("-------> ", returnUri.getPath());
                 String token = getActivity().getIntent().getStringExtra("token");
 
-                //pass it like this
                 File file = new File(getContext().getCacheDir(), "file");
                 try {
                     file.createNewFile();
 
-                    //Convert bitmap to byte array
                     Bitmap bitmap = bitmapImage;
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
                     byte[] bitmapdata = bos.toByteArray();
 
-                    //write the bytes in file
                     FileOutputStream fos = null;
 
                     fos = new FileOutputStream(file);

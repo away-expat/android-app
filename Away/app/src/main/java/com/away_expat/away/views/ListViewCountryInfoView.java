@@ -3,13 +3,10 @@ package com.away_expat.away.views;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.away_expat.away.R;
-import com.away_expat.away.classes.Event;
 import com.away_expat.away.classes.Info;
-import com.squareup.picasso.Picasso;
 
 public class ListViewCountryInfoView extends ConstraintLayout {
 

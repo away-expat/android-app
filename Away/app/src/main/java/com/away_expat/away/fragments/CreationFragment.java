@@ -4,14 +4,11 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -21,13 +18,9 @@ import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Event;
-import com.away_expat.away.classes.User;
 import com.away_expat.away.dto.DetailedEventDto;
-import com.away_expat.away.dto.TokenDto;
 import com.away_expat.away.services.EventApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
-import com.away_expat.away.services.UserApiService;
-import com.away_expat.away.tools.SaveSharedPreference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,7 +47,6 @@ public class CreationFragment extends Fragment {
     final Calendar myCalendar = Calendar.getInstance();
 
     public CreationFragment() {
-        // Required empty public constructor
     }
 
     @Override

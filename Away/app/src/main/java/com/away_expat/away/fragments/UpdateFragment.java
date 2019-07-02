@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.away_expat.away.HomeActivity;
 import com.away_expat.away.LoginActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.classes.User;
-import com.away_expat.away.dto.LoginDto;
-import com.away_expat.away.dto.TokenDto;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 import com.away_expat.away.services.UserApiService;
 import com.away_expat.away.tools.SaveSharedPreference;
@@ -57,7 +53,6 @@ public class UpdateFragment extends Fragment {
                         call.enqueue(new Callback<User>() {
                             @Override
                             public void onResponse(Call<User> call, Response<User> response) {
-                                Log.i("AWAYINFO", "Login success : " + response.isSuccessful());
                                 if (response.isSuccessful()) {
                                     SaveSharedPreference.setToken(getActivity().getApplicationContext(), null);
                                     Intent home = new Intent(getActivity(), LoginActivity.class);
@@ -70,7 +65,6 @@ public class UpdateFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<User> call, Throwable t) {
-                                Log.i("AWAYINFO", "-----------------> "+t.getMessage());
                                 Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
                             }
                         });

@@ -62,7 +62,6 @@ public class EventFragment extends ListFragment {
 
         actionBtn = (Button) view.findViewById(R.id.event_action);
         if (connectedUser.getId() == eventDto.getCreator().getId()) {
-            //TODO delete event?
             actionBtn.setVisibility(View.GONE);
         } else {
             if (checkIfParticipate()) {

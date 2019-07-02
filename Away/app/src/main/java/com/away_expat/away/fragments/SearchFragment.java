@@ -8,7 +8,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,7 +97,6 @@ public class SearchFragment extends Fragment {
         searchET.addTextChangedListener(new TextWatcher() {
 
             public void onTextChanged(CharSequence c, int start, int before, int count) {
-                Log.i("INFO", c.toString());
                 if (c.toString().length() >= 3 && !onPause) {
                     currentSearch = c.toString();
                     customPagerAdapter.updateList(currentPos, c.toString(), getActivity());

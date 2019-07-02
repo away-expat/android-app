@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -86,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<TokenDto>() {
             @Override
             public void onResponse(Call<TokenDto> call, Response<TokenDto> response) {
-                Log.i("AWAYINFO", "Login success : " + response.isSuccessful());
                 if (response.isSuccessful()) {
                     String token = response.body().getToken();
                     getIntent().putExtra("token", token);

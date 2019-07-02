@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.away_expat.away.classes.Event;
-import com.away_expat.away.classes.User;
 import com.away_expat.away.views.ListViewHomeView;
 
 import java.util.ArrayList;

@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,8 @@ import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.EventListViewAdapter;
 import com.away_expat.away.adapters.TagActivityAdapter;
-import com.away_expat.away.adapters.TagActivityGridViewAdapter;
 import com.away_expat.away.classes.Activity;
 import com.away_expat.away.classes.Event;
-import com.away_expat.away.classes.User;
 import com.away_expat.away.dto.DetailedEventDto;
 import com.away_expat.away.services.EventApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
@@ -42,8 +39,6 @@ public class ActivityFragment extends ListFragment {
     private TextView activityName, activityAddress;
     private ImageView activityImage;
     private EventListViewAdapter eventAdapter;
-    private TagActivityGridViewAdapter tagAdapter;
-    private User connectedUser;
     private Activity activity;
 
     private List<Event> items = new ArrayList<>();
@@ -54,7 +49,6 @@ public class ActivityFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
-        connectedUser = (User) getActivity().getIntent().getSerializableExtra("connectedUser");
 
         activityName = (TextView) view.findViewById(R.id.event_name);
         activityName.setText(activity.getName());
@@ -103,7 +97,6 @@ public class ActivityFragment extends ListFragment {
 
                     setListAdapter(eventAdapter);
                 } else {
-                    Log.i("-------------->", response.message());
                     Toast.makeText(getActivity(), getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
                 }
             }

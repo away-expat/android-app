@@ -12,12 +12,7 @@ import android.widget.Toast;
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.CountryListViewAdapter;
-import com.away_expat.away.adapters.HomeListViewAdapter;
-import com.away_expat.away.classes.Event;
 import com.away_expat.away.classes.Info;
-import com.away_expat.away.classes.User;
-import com.away_expat.away.dto.DetailedEventDto;
-import com.away_expat.away.services.EventApiService;
 import com.away_expat.away.services.InfoApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 
@@ -31,7 +26,6 @@ import retrofit2.Response;
 public class CountryInformationFragment extends Fragment {
 
     private CountryListViewAdapter adapter;
-    private User connectedUser;
     private String token;
     private ListView listview;
     private TextView notFound;
@@ -39,14 +33,12 @@ public class CountryInformationFragment extends Fragment {
     private List<Info> items = new ArrayList<>();
 
     public CountryInformationFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_country_information, container, false);
         token = getActivity().getIntent().getStringExtra("token");
-        connectedUser = (User) getActivity().getIntent().getSerializableExtra("connectedUser");
 
         listview = (ListView) view.findViewById(R.id.list_view);
         notFound = (TextView) view.findViewById(R.id.not_found);

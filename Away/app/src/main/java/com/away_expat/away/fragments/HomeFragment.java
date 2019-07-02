@@ -1,13 +1,10 @@
 package com.away_expat.away.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,16 +13,12 @@ import android.widget.Toast;
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.HomeListViewAdapter;
-import com.away_expat.away.classes.Activity;
-import com.away_expat.away.classes.User;
 import com.away_expat.away.classes.Event;
 import com.away_expat.away.dto.DetailedEventDto;
 import com.away_expat.away.services.ActivityApiService;
 import com.away_expat.away.services.EventApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,7 +29,6 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
 
     private HomeListViewAdapter adapter;
-    private User connectedUser;
     private String token;
     private ListView listview;
     private ProgressBar progressBar;
@@ -49,7 +41,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         token = getActivity().getIntent().getStringExtra("token");
-        connectedUser = (User) getActivity().getIntent().getSerializableExtra("connectedUser");
 
         notFound = (TextView) view.findViewById(R.id.not_found);
         notFound.setVisibility(View.GONE);
@@ -117,6 +108,4 @@ public class HomeFragment extends Fragment {
         });
 
     }
-
-
 }

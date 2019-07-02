@@ -3,7 +3,6 @@ package com.away_expat.away.views;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,6 +53,5 @@ public class ListViewHomeView extends ConstraintLayout {
         } else {
             promotedIV.setVisibility(GONE);
         }
-        Log.i("----------------> ", event.getTitle()+" "+event.isPromoted());
     }
 }

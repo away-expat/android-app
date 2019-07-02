@@ -2,7 +2,6 @@ package com.away_expat.away.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.ActivityListViewAdapter;
-import com.away_expat.away.adapters.SearchActivityListViewAdapter;
 import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.dto.ActivityListDto;
@@ -40,7 +38,6 @@ public class DetailedTagSearchFragment extends Fragment {
     private ActivityListDto result;
 
     public DetailedTagSearchFragment() {
-        // Required empty public constructor
     }
 
     @Override

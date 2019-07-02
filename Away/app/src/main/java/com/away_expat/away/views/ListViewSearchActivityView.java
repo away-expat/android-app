@@ -3,14 +3,11 @@ package com.away_expat.away.views;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.away_expat.away.R;
 import com.away_expat.away.classes.Activity;
-import com.away_expat.away.classes.User;
-import com.away_expat.away.tools.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 public class ListViewSearchActivityView extends ConstraintLayout {

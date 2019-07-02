@@ -7,7 +7,6 @@ import android.widget.BaseAdapter;
 
 import com.away_expat.away.classes.Tag;
 import com.away_expat.away.views.GridViewDisplayTagView;
-import com.away_expat.away.views.ListViewTagActivityView;
 
 import java.util.ArrayList;
 import java.util.List;

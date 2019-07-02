@@ -1,7 +1,5 @@
 package com.away_expat.away.classes;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -111,17 +109,4 @@ public class User implements Serializable {
         return avatar;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", mail='" + mail + '\'' +
-                ", password='" + password + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", birth='" + birth + '\'' +
-                ", country='" + country + '\'' +
-                ", idCity='" + idCity + '\'' +
-                '}';
-    }
 }

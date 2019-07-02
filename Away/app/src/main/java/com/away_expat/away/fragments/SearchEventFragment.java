@@ -2,7 +2,6 @@ package com.away_expat.away.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +83,6 @@ public class SearchEventFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<DetailedEventDto> call, Throwable t) {
-                        Log.i("INFOFAIL", t.getMessage());
                         Toast.makeText(getActivity(), getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
                     }
                 });

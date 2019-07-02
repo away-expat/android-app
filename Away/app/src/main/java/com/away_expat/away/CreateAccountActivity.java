@@ -3,21 +3,16 @@ package com.away_expat.away;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.dto.TokenDto;
 import com.away_expat.away.fragments.UserCreationFragment;
 import com.away_expat.away.fragments.CityFragment;
 import com.away_expat.away.services.RetrofitServiceGenerator;
-import com.away_expat.away.services.TagApiService;
 import com.away_expat.away.services.UserApiService;
 import com.away_expat.away.tools.SaveSharedPreference;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -90,12 +85,10 @@ public class CreateAccountActivity extends FragmentActivity {
                     account.setIdCity(accCityFrag.checkAndGetCity().getId());
                     if (account.getIdCity() != -1) {
                         Call<TokenDto> call = RetrofitServiceGenerator.createService(UserApiService.class).createUser(account);
-                        Log.i("AWAYINFO", "Account " + account.toString());
 
                         call.enqueue(new Callback<TokenDto>() {
                             @Override
                             public void onResponse(Call<TokenDto> call, Response<TokenDto> response) {
-                                Log.i("AWAYINFO", "Acc creation success : " + response.isSuccessful());
                                 if (response.isSuccessful()) {
                                     String token = response.body().getToken();
                                     getIntent().putExtra("token", token);
@@ -103,14 +96,12 @@ public class CreateAccountActivity extends FragmentActivity {
 
                                     getConnectedUser(token);
                                 } else {
-                                    Log.i("AWAYINFO", response.message());
                                     Toast.makeText($this, getResources().getString(R.string.error_retry), Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<TokenDto> call, Throwable t) {
-                                Log.i("AWAYINFO", "-----------------> " + t.getMessage());
                                 Toast.makeText($this, getResources().getString(R.string.error_reload), Toast.LENGTH_SHORT).show();
                             }
                         });

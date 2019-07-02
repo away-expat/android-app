@@ -2,19 +2,14 @@ package com.away_expat.away.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.DisplayTagGridViewAdapter;
-import com.away_expat.away.adapters.TagActivityGridViewAdapter;
-import com.away_expat.away.adapters.TagSelectionGridViewAdapter;
 import com.away_expat.away.classes.Tag;
 import com.away_expat.away.classes.User;
 import com.away_expat.away.services.RetrofitServiceGenerator;

@@ -6,9 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.away_expat.away.classes.Activity;
-import com.away_expat.away.views.ListViewActivityView;
 import com.away_expat.away.views.ListViewSearchActivityView;
-import com.away_expat.away.views.ListViewTagActivityView;
 
 import java.util.ArrayList;
 import java.util.List;

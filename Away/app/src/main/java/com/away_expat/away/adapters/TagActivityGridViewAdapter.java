@@ -5,9 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.away_expat.away.classes.Tag;
-import com.away_expat.away.views.GridViewTagActivityView;
-import com.away_expat.away.views.GridViewTagSelectionView;
 import com.away_expat.away.views.ListViewTagActivityView;
 
 import java.util.ArrayList;

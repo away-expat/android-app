@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,11 @@ import android.widget.Toast;
 import com.away_expat.away.HomeActivity;
 import com.away_expat.away.R;
 import com.away_expat.away.adapters.SearchActivityListViewAdapter;
-import com.away_expat.away.classes.Activity;
 import com.away_expat.away.dto.ActivityListDto;
 import com.away_expat.away.services.ActivityApiService;
 import com.away_expat.away.services.RetrofitServiceGenerator;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,7 +62,6 @@ public class SelectActivityFragment extends Fragment {
         searchET.addTextChangedListener(new TextWatcher() {
 
             public void onTextChanged(CharSequence c, int start, int before, int count) {
-                Log.i("INFO", c.toString());
                 if (c.toString().length() >= 3) {
                     currentSearch = c.toString();
                     token = getActivity().getIntent().getStringExtra("token");

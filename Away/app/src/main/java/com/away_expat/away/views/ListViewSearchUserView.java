@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.away_expat.away.R;
 import com.away_expat.away.classes.User;
-import com.away_expat.away.tools.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 public class ListViewSearchUserView extends ConstraintLayout {
